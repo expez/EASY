@@ -1,6 +1,6 @@
 package edu.ntnu.EASY.individual;
 import edu.ntnu.EASY.genotype.BinaryGenotype;
-public class BitvectorIndividual extends Individual {
+public class BitvectorIndividual {
 
     private BinaryGenotype genotype;
     private int[] phenotype;
@@ -11,7 +11,7 @@ public class BitvectorIndividual extends Individual {
     }
 
     public int[] getPhenotype() {
-	return phoenotype;
+	return phenotype;
     } 
 
     private void growup() {

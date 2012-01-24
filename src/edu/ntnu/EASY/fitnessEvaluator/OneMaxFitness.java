@@ -1,6 +1,6 @@
 package edu.ntnu.EASY.fitnessEvaluator;
-
-public class OneMaxFitness implements FitnessEvaluator {
+import edu.ntnu.EASY.individual.*;
+public class OneMaxFitness{
 
     /**
        Fitness is equal to sum of 1s in the individual's phenotype.
@@ -12,8 +12,8 @@ public class OneMaxFitness implements FitnessEvaluator {
 
     public OneMaxFitness() {
     }
-    public double getFitness( Individual individual ) {
-	int[] phenotype = individual.getPhenotype();
+    public double getFitness( BitvectorIndividual bitvectorIndividual ) {
+	int[] phenotype = bitvectorIndividual.getPhenotype();
 	int fitness = 0;
 	for (int i = 0; i < phenotype.length ; i++) {
 	    if( phenotype[ i ] == 1 ) {
