@@ -16,4 +16,5 @@ public class TestMain {
     public final void testMain() {
 	assertEquals(true, Main.getTrue());
     }
+
 }
