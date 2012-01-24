@@ -30,20 +30,31 @@ public class BinaryGenotype {
        @param mutationRate probability that a single bit is
        flipped. Double in interval [0,1].
      */
-    public void mutate( double mutationRate ) throws InvalidArgumentExceptions {
-	if( !( 0 <= mutationRate <= 1) ) {
-	    throw new InvalidArgumentException( "MutationRate must be in interval [0,1]" );
+    public void mutate( double mutationRate ) throws RuntimeException {
+	//Make sure mutationRate is in interval [0,1]
+	if( !( 0 <= mutationRate && mutationRate <= 1) ) {
+	    throw new RuntimeException( "MutationRate must be in interval [0,1]" );
 	}
 	// For every bit in the genome.
 	for (int i = 0; i < length; i++) {
 	    // Randomly flip it.
-	    if( random.nextDouble <= mutationRate ) {
+	    if( random.nextDouble() <= mutationRate ) {
 		genome[ i ] = flipBit( genome[ i ] );
 	    }
 	}
     } 
-
-    private void flipBit( int bit) {
+    
+    /**
+       Prints each bit in the genome.
+     */
+    public String toString() {
+	String genomeString = "";
+	for (int i = 0; i < length; i++) {
+	    genomeString += genome[ i ];
+	}
+	return genomeString;
+    } 
+    private int flipBit( int bit) {
 	if( bit == 1) {
 	    return 0;
 	}
