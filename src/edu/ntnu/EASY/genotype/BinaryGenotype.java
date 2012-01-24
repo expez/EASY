@@ -60,4 +60,9 @@ public class BinaryGenotype {
 	}
 	return 1;
     }
+    
+    public int[] getGenome() {
+	return genome;
+    } 
+
 }
