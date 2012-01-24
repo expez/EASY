@@ -3,9 +3,9 @@ package edu.ntnu.EASY.genotype;
 import java.util.Random;
 public class BinaryGenotype {
     
-    int length;
-    int[] genome;
-    java.util.Random random;
+    private int length;
+    private int[] genome;
+    private java.util.Random random;
 
     /**
     Creates a new binary genotype with a genome of length length.
