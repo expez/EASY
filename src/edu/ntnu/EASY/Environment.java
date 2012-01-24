@@ -26,7 +26,7 @@ public class Environment {
      */
     public void evaluateFitness( Population population ) {
     
-	fitnessEvaluator.getFitness( population );
+	fitnessEvaluator.updateFitness( population );
     } 
     
     /**
@@ -62,7 +62,7 @@ public class Environment {
        the offspring.
      */
     public Individual getOffspring( Individual mom, Individual dad ) {
-	reproductionMechanism.getOffspring( mom, dad )
+	reproductionMechanism.getOffspring( mom, dad );
     } 
 }
 
