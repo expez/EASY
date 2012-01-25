@@ -5,7 +5,7 @@ public class BitvectorIndividual extends Individual{
     private BinaryGenotype genotype;
     private int[] phenotype;
         
-    public BitvectorIndividual( int length) {
+    public BitvectorIndividual( int length ) {
 	genotype = new BinaryGenotype( length );
 	phenotype = new int[length];
     }
