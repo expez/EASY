@@ -1,8 +1,10 @@
 package edu.ntnu.EASY.parentSelectionMechanism;
+
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.individual.Individual;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 public class Rank implements ParentSelectionMechanism {
 
     private int rank;
@@ -12,20 +14,23 @@ public class Rank implements ParentSelectionMechanism {
     }
 
     public Population getParents( Population population ) {
-	//Sort the population according to fitness.
-	ArrayList sortedPopulation =
-	    new ArrayList( Collections.sort( population.getIndividuals() ) );
-	
-	//Go through the list and drop unfit individuals.
-	for (Individual individual : Population) {
-	    
-	    //We're done when rank number of individuals remain.
-	    if( rank <= sortedPopulation.size() ) {
-		break;
-	    }
-	    
-	    population.remove( individual );
-	} 
-	return sortedPopulation;
+
+	//Copy the individuals
+	List<Individual> individuals = new ArrayList<Individual>( population.getIndividuals() );
+
+	//Sort the individuals according to fitness.
+	Collections.sort(individuals);
+ 	
+	int numToDrop = 0;
+
+	// Find number of individuals to drop from list.
+	// We only want rank number of individuals to remain.
+	while( numToDrop < individuals.size() - rank ) {
+	    numToDrop++;
+	}
+	// Return a new population from subset of individuals.
+	Population parents =  new Population( individuals.subList( numToDrop, individuals.size() ) );
+	return parents;
     }
 }
+

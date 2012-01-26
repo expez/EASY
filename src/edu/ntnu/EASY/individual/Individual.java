@@ -1,5 +1,5 @@
 package edu.ntnu.EASY.individual;
-public class Individual implements Comparable{
+public class Individual implements Comparable<Individual>{
 
     double fitness;
        
@@ -19,6 +19,9 @@ public class Individual implements Comparable{
 	if( this.fitness == individual.getFitness() ) {
 	    return 0;
 	}
-	this.fitness > individual.getFitness() ? return 1 : return 0;
+	else if( this.fitness > individual.getFitness() ) {
+	    return 1;
+	}
+	return -1;
     }
 }

@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class Population implements Iterable<Individual> {
 
-    private ArrayList<Individual> individuals;
+    private List<Individual> individuals;
 
      /**
      Creates a new population using a list of individuals.
@@ -14,7 +14,7 @@ public class Population implements Iterable<Individual> {
      @param individuals The list of individuals to enter the
      population.
      */
-    public Population( ArrayList<Individual> individuals ) {
+    public Population( List<Individual> individuals ) {
 	this.individuals = individuals;
     }
 
@@ -35,7 +35,7 @@ public class Population implements Iterable<Individual> {
 	return individuals.iterator();
     }
 
-    public List<Individuals> getIndividuals() {
+    public List<Individual> getIndividuals() {
 	return individuals;
     } 
 
