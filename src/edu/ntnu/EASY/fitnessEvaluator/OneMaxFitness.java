@@ -6,8 +6,6 @@ public class OneMaxFitness{
        Fitness is equal to sum of 1s in the individual's phenotype.
 
        @param individual to get the fitness for.
-
-       @return The fitness of the input individual.
      */
 
     public OneMaxFitness() {
