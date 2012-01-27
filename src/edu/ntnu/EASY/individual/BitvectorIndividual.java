@@ -18,4 +18,8 @@ public class BitvectorIndividual extends Individual{
     private void growup() {
 	phenotype = genotype.getGenome();
     }
+
+    public BinaryGenotype getGenotype() {
+	return genotype;
+    } 
 }
