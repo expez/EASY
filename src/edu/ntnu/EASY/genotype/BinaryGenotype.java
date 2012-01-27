@@ -65,4 +65,8 @@ public class BinaryGenotype {
 	return genome;
     } 
 
+    public void setGenome( int[] genome ) {
+	this.genome = genome;
+    } 
+
 }
