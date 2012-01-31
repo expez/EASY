@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RankSelection< T extends Comparable<T>> {
+public class RankSelection<T extends Comparable<? super T>> {
 
 	private int rank;
 
