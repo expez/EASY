@@ -15,11 +15,8 @@ General Public License for more details.
 You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
-import java.util.LinkedList;
 import java.util.List;
-
-import edu.ntnu.EASY.individual.BitvectorIndividual;
-public class FullGenerationalReplacement {
+public class FullGenerationalReplacement< T > {
     
     public FullGenerationalReplacement( ) {
 
@@ -35,7 +32,7 @@ public class FullGenerationalReplacement {
      
      @Return A list of individuals fit to enter the next generation.
      */
-    public LinkedList< BitvectorIndividual > getAdults( List<BitvectorIndividual> children, List<BitvectorIndividual> adults ) {
-    	return new LinkedList< BitvectorIndividual > (children);
+    public List< T > getAdults( List< T > children, List< T > adults ) {
+    	return children;
     }
 }
