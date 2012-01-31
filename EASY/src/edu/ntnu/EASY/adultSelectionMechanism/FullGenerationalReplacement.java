@@ -14,7 +14,7 @@ General Public License for more details.
  
 You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
-package edu.ntnu.EASY;
+package edu.ntnu.EASY.adultSelectionMechanism;
 import java.util.List;
 public class FullGenerationalReplacement< T > {
     

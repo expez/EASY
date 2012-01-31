@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
 import java.util.List;
+
+import edu.ntnu.EASY.adultSelectionMechanism.FullGenerationalReplacement;
 import edu.ntnu.EASY.individual.*;
 
 
