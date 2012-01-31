@@ -16,11 +16,11 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
 
-import edu.ntnu.EASY.individual.BitvectorIndividual;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-public class RankSelection {
+
+public class RankSelection< T extends Comparable<T>> {
 
 	private int rank;
 
@@ -32,10 +32,10 @@ public class RankSelection {
 	 * @param individuals List of individuals who are going to battle it out to become parents.
 	 * @return list of RankSelection.Rank individuals.
 	 */
-	public List<BitvectorIndividual> getParents( List<BitvectorIndividual> individuals ) {
+	public List<T> getParents( List< T > individuals ) {
 
 		//Copy the individuals
-		List<BitvectorIndividual> individualsCopy = new LinkedList<BitvectorIndividual>( individuals );
+		List< T > individualsCopy = new LinkedList< T >( individuals );
 
 		//Sort the individuals according to fitness.
 		Collections.sort(individualsCopy);
