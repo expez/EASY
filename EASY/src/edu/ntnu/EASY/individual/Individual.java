@@ -19,9 +19,7 @@ public abstract class Individual implements Comparable<Individual>{
 
 	private double fitness;
 
-	private void growup() {
-
-	}
+	private void growup() {};
 
 	public void setFitness( double fitness ) {
 		this.fitness = fitness;
