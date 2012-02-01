@@ -15,7 +15,7 @@ General Public License for more details.
 You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.individual;
-public class Individual implements Comparable<Individual>{
+public abstract class Individual implements Comparable<Individual>{
 
 	private double fitness;
 
