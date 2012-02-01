@@ -31,6 +31,9 @@ public class RouletteSelection< T extends Individual > {
 		//Sort the input list in ascending order.
 		Collections.sort( adults );
 		
+		//When the list is reversed the larger intervals will come first and lookup will go faster.
+		Collections.reverse(adults);
+		
 		//A list of intervals. [0, 1).
 		List< Double > intervals = new LinkedList< Double >();
 		double previousEndpoint = 0;
@@ -48,7 +51,6 @@ public class RouletteSelection< T extends Individual > {
 	}
 	
 	public List< T > getSigmaScaledParents( List< T > adults) {
-		List< T > parents = new LinkedList< T >();
 		double totalFitness = 0;
 		
 		for (T adult : adults) {
@@ -57,6 +59,9 @@ public class RouletteSelection< T extends Individual > {
 		
 		//Sort the input list in ascending order.
 		Collections.sort( adults );
+		
+		//When the list is reversed the larger intervals will come first and lookup will go faster.
+		Collections.reverse(adults);
 		
 		//A list of intervals. [0, 1).
 		List< Double > intervals = new LinkedList< Double >();
