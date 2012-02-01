@@ -19,6 +19,7 @@ import java.util.List;
 
 import edu.ntnu.EASY.adultSelectionMechanism.FullGenerationalReplacement;
 import edu.ntnu.EASY.individual.*;
+import edu.ntnu.EASY.parentSelectionMechanism.RankSelection;
 
 
 public class Main {
