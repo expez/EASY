@@ -27,7 +27,7 @@ public class Output {
 
 	private boolean isWriting;
 	private String filename;
-	private List< String > outputList;
+	private List< String > outputList;	      
 
 	public Output( String filename ) {
 		isWriting = true;
@@ -54,7 +54,7 @@ public class Output {
 	 * Writes the output buffer to file.
 	 */
 	public void writeToFile( ) {
-		//Do nothing if the write flag is false or file not set.
+		//Do nothing if the write flag is false.
 		if( !isWriting ) {
 			return;
 		}
@@ -99,5 +99,21 @@ public class Output {
 	 */
 	public void clear() {
 		outputList.clear();
+	}
+	
+	/**
+	 * Calls GNUPlot to plot the active data file.
+	 */
+	public void plot() {
+		String plotCommand = "gnuplot.exe -p -e \"plot " + "'" + filename + "' with linespoints\"";
+		try {
+			Process process = Runtime.getRuntime().exec( plotCommand );
+            process.waitFor();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
