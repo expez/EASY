@@ -14,30 +14,23 @@ General Public License for more details.
  
 You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
+
 package edu.ntnu.EASY.individual;
+
 import java.util.LinkedList;
 
-import edu.ntnu.EASY.BinaryGenotype;
-public class BitvectorIndividual extends Individual{
+public class BitvectorIndividual extends AbstractIndividual<int[],int[]>{
 
-    private BinaryGenotype genotype;
-    private int[] phenotype;
-        
-    public BitvectorIndividual( int length ) {
+    public BitvectorIndividual(int[] genome) {
+    	super(genome);
+    }
+
+    @Override
+    public void growUp() {
+    	phenome = new int[genome.length];
+    	System.arraycopy(genome,0,phenome,0,genome.length);
+    }
     
-    	genotype = new BinaryGenotype( length );
-    	phenotype = new int[length];
-    }
-
-    public int[] getPhenotype() {
-    	phenotype = genotype.getGenome();
-    	return phenotype;
-    } 
-
-    public BinaryGenotype getGenotype() {
-    	return genotype;
-    }
-
     /**
        Returns a list of bitvectorindividuals.
 
@@ -47,13 +40,13 @@ public class BitvectorIndividual extends Individual{
 
        @return a list of BitvectorIndividuals
      */
-    public static LinkedList<BitvectorIndividual> getIndividuals( int numIndividuals, int length ) {
+    public static LinkedList<BitvectorIndividual> getIndividuals( int numIndividuals, int[] genome) {
     	LinkedList< BitvectorIndividual > list = new LinkedList< BitvectorIndividual >();
 
     	for (int i = 0; i < numIndividuals; i++) {
-    		list.add( new BitvectorIndividual( length ) );
+    		list.add( new BitvectorIndividual(genome));
     	}
 
     	return list;
-    } 
+    }
 }
