@@ -1,7 +1,9 @@
 package edu.ntnu.EASY.individual;
 
-public interface Individual<GType,PType> {
+public interface Individual<GType,PType> extends Comparable<Individual<?, PType>>{
 
+	public double getFitness();
+	
 	public PType getPhenome();
 
 	public GType getGenome();

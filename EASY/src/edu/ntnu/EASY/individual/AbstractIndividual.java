@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 package edu.ntnu.EASY.individual;
 
 
-public abstract class AbstractIndividual<GType, PType> implements Individual<GType, PType>, Comparable<AbstractIndividual<?, PType>>{
+public abstract class AbstractIndividual<GType, PType> implements Individual<GType, PType>{
 
 	protected GType genome;
 	protected PType phenome;
@@ -47,11 +47,11 @@ public abstract class AbstractIndividual<GType, PType> implements Individual<GTy
 		return fitness = fitCalc.calculate(phenome);
 	}
 
-	public int compareTo(AbstractIndividual<?, PType> that) {
-		if( this.fitness == that.fitness) {
+	public int compareTo(Individual<?, PType> that) {
+		if( this.fitness == that.getFitness()) {
 			return 0;
 		}
-		else if( this.fitness > that.fitness) {
+		else if( this.fitness > that.getFitness()) {
 			return 1;
 		}
 		return -1;

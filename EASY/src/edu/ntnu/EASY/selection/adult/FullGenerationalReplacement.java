@@ -14,30 +14,25 @@ General Public License for more details.
  
 You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
-package edu.ntnu.EASY;
-import java.util.List;
+package edu.ntnu.EASY.selection.adult;
 
-import edu.ntnu.EASY.individual.*;
-import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
-import edu.ntnu.EASY.selection.parent.RankSelection;
+import edu.ntnu.EASY.Population;
 
-
-public class Main {
+public class FullGenerationalReplacement<PType> implements AdultSelector<PType> {
     
-	private	static int populationSize = 1000;
-	private	static int maxGenerations = 10000;
-	private	static double fitnessThreshold = 99;
-	private	static double mutationRate = 0.05;
-	private	static double crossoverRate = 0.05;
-	private	static int bits = 40;
-	private static int rank = 50;
-	private static boolean elitsm = true;
+    /**
+     Returns the combination of childrens and adults who may enter the
+     next generation.
 
-	public void runEvolution(List<Individual> population, ){
-		
-	}
+     @param Adults the adults from the previous generation.
+
+     @param Children the children created during the last generation.
+     
+     @Return A population of individuals fit to enter the next generation.
+     */
 	
-    public static void main(String[] args) {
-
-    }
+	@Override
+	public Population<?, PType> select(Population<?, PType> adults,Population<?, PType> children) {
+		return children;
+	}
 }
