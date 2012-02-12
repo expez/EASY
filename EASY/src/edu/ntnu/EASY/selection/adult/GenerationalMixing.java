@@ -30,19 +30,9 @@ public class GenerationalMixing<PType> implements AdultSelector<PType> {
 	public GenerationalMixing( int numAdults) {
 		this.numAdults = numAdults;
 	}
-
+	
 	@Override
-	public List<Individual<?, PType>> select(List<Individual<?, PType>> adults,	List<Individual<?, PType>> children) {
-		List<Individual<?, PType>> population = new LinkedList<Individual<?, PType>>();
-		population.addAll(children);
-		population.addAll(adults);
-		Collections.sort(population );
-		int numToDrop = population.size() - numAdults;
-		return population.subList(numToDrop, population.size());
-	}
-
-	@Override
-	public <GType> Population<?, PType> select(Population<GType, PType> adults,	Population<?, PType> children) {
+	public <GType> Population<GType, PType> select(Population<GType, PType> adults,	Population<GType, PType> children) {
 		adults.addAll(children);
 		adults.drop(adults.size() - numAdults); 
 		return adults;
