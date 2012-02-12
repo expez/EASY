@@ -16,12 +16,7 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.selection.adult;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 import edu.ntnu.EASY.Population;
-import edu.ntnu.EASY.individual.Individual;
 
 public class GenerationalMixing<PType> implements AdultSelector<PType> {
 	

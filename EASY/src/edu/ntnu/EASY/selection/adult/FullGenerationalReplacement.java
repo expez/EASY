@@ -32,7 +32,7 @@ public class FullGenerationalReplacement<PType> implements AdultSelector<PType> 
      */
 	
 	@Override
-	public Population<?, PType> select(Population<?, PType> adults,Population<?, PType> children) {
+	public <GType> Population<GType, PType> select(Population<GType, PType> adults, Population<GType, PType> children) {
 		return children;
 	}
 }

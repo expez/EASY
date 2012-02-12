@@ -16,10 +16,7 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.selection.adult;
 
-import java.util.Collections;
-import java.util.List;
-
-import edu.ntnu.EASY.individual.Individual;
+import edu.ntnu.EASY.Population;
 
 public class Overproduction<PType> implements AdultSelector<PType> {
 
@@ -27,8 +24,9 @@ public class Overproduction<PType> implements AdultSelector<PType> {
 	 * 
 	 * @param numAdults The number of individuals to return when getAdults(T a, T b) is called..
 	 */
-	
 	private int numAdults;
+	
+	
 	public Overproduction( int numAdults) {
 		this.numAdults = numAdults;
 	}
@@ -41,10 +39,8 @@ public class Overproduction<PType> implements AdultSelector<PType> {
 	 * @return A The list of individuals fit to enter the current generation.
 	 */
 	@Override
-	public List<Individual<?, PType>> select(List<Individual<?, PType>> adults, List<Individual<?, PType>> children) {
-		Collections.sort(children);
-		int numToDrop = children.size() - numAdults;
-		
-		return children.subList( numToDrop, children.size() );
+	public <GType> Population<GType, PType> select(Population<GType, PType> adults, Population<GType, PType> children) {
+		children.drop(children.size() - numAdults);
+		return children;
 	}
 }
