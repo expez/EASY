@@ -53,6 +53,10 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		}
 	}
 	
+	public void drop(Individual<GType, PType> ind) {
+		population.remove(ind);
+	}
+	
 	public void sort(){
 		sort(false);
 	}
@@ -66,5 +70,22 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 	public Population<GType, PType> copy() {
 		return new Population<GType, PType>(this.population);
 	}
+	
+	public void clear() {
+		population.clear();
+	}
+	
+	public void shuffle() {
+		Collections.shuffle(population);
+	}
+
+	public Population<GType, PType> getSubset(int size) {
+		Population<GType, PType> copy = copy();
+		while( size < copy.size() ) {
+			copy.population.remove(0);
+		}
+		return copy;
+	}
+	
 	
 }
