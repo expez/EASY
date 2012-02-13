@@ -17,9 +17,6 @@ You should have received a copy of the GNU General Public License
 package edu.ntnu.EASY.incubator;
 
 import static edu.ntnu.EASY.util.Util.RNG;
-
-import java.util.Arrays;
-
 import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.individual.BitvectorIndividual;
