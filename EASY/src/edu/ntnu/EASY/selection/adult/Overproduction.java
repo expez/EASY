@@ -16,19 +16,19 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.selection.adult;
 
+import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 
-public class Overproduction<PType> implements AdultSelector<PType> {
+public class Overproduction<PType> extends AdultSelector<PType> {
 
 	/**
 	 * 
 	 * @param numAdults The number of individuals to return when getAdults(T a, T b) is called..
 	 */
-	private int numAdults;
+	private Environment env;
 	
 	
-	public Overproduction( int numAdults) {
-		this.numAdults = numAdults;
+	public Overproduction() {
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class Overproduction<PType> implements AdultSelector<PType> {
 	 */
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults, Population<GType, PType> children) {
-		children.drop(children.size() - numAdults);
+		children.drop(children.size() - env.numAdults);
 		return children;
 	}
 }

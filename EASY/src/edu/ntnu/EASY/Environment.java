@@ -10,4 +10,5 @@ public class Environment {
 	public int numChildren;
 	public int numParents;
 	public int elitism;
+	public int numAdults;
 }

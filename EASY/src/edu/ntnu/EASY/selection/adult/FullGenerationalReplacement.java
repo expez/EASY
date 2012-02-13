@@ -16,12 +16,10 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.selection.adult;
 
-import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 
-public class FullGenerationalReplacement<PType> implements AdultSelector<PType> {
+public class FullGenerationalReplacement<PType> extends AdultSelector<PType> {
     
-	Environment env = null;
 	
     /**
      Returns the combination of childrens and adults who may enter the
@@ -42,10 +40,5 @@ public class FullGenerationalReplacement<PType> implements AdultSelector<PType> 
 			children.add(adults.get(i));
 		}
 		return children;
-	}
-
-	@Override
-	public void setEnvironment(Environment env) {
-		this.env = env;
 	}
 }
