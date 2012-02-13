@@ -16,39 +16,36 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.selection.parent;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import edu.ntnu.EASY.Population;
 
-public class TournamentSelection< T extends Comparable< ? super T > > {
-
-	private int tournamentSize;
-	private int numParents;
+public class TournamentSelection<PType> extends ParentSelector<PType>{
 
 	public TournamentSelection(int numParents, int tournamentSize ) {
-		this.tournamentSize = tournamentSize;
-		this.numParents = numParents;
+
 	}
 	
 	/**
-	 * Picks tournamentSize adults at random and pits them against eachother in a tournament. 
-	 * The winner enters the list of parents returned from this method. 
+	 * Picks tournamentSize adults at random and pits them against each other in a tournament. 
+	 * The winner enters the population of parents returned from this method. 
 	 * @param adults to participate in tournament selection in order to reproduce.
-	 * @return A list, of size numParents, of adults ready to become parents.
+	 * @return A population, of size numParents, of adults ready to become parents.
 	 */
-	public List< T > getParents( List< T > adults) {
-		List< T > adultsCopy = new LinkedList< T >( adults );
-		List< T > parents = new LinkedList< T >();
-		//Set of individuals to participate in a tournament. First prize is sex.
-		List< T > tournamentRoster = new LinkedList< T >();
+
+	@Override
+	public <GType> Population<GType, PType> select(Population<GType, PType> adults) {
+		Population<GType, PType> adultsCopy = adults.copy();
+		Population<GType, PType> tournamentRoster = new Population<GType, PType>();
+		Population<GType, PType> parents= new Population<GType, PType>();
 		
-		while( parents.size() < numParents ) {
+		while(parents.size() < env.numParents) {
 			tournamentRoster.clear();
-			Collections.shuffle( adultsCopy );
-			tournamentRoster.addAll( adultsCopy.subList( 0, tournamentSize ) );
-			Collections.sort( tournamentRoster );
-			parents.add( tournamentRoster.get( tournamentRoster.size() - 1) );
-			adultsCopy.remove( tournamentRoster.get( tournamentRoster.size() - 1) );
+			adultsCopy.shuffle();
+			//Add rank individuals to tournamentRoster.
+			tournamentRoster.addAll(adultsCopy.getSubset(env.rank));
+			//sort, descending order
+			tournamentRoster.sort(true);
+			parents.add(tournamentRoster.get(0));
+			adultsCopy.drop(tournamentRoster.get(0));
 		}
 		return parents;
 	}
