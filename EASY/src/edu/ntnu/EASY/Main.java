@@ -43,7 +43,7 @@ public class Main {
 	private static boolean elitsm = true;
 
     public static void main(String[] args) {
-    	FitnessCalculator<double[]> fitCalc = new BlottoFitnessCalculator(1.0,1.0);
+    	FitnessCalculator<double[]> fitCalc = new BlottoFitnessCalculator(0.5,0.5);
     	AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>();
     	ParentSelector<double[]> parentSelector = new FitnessProportionateSelection<double[]>();
     	Incubator<double[], double[]> incubator = new BlottoIncubator(new BlottoReplicator(10));	
