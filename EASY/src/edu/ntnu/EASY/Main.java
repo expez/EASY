@@ -15,16 +15,11 @@ General Public License for more details.
 You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
-import java.util.Arrays;
-
 import edu.ntnu.EASY.blotto.BlottoFitnessCalculator;
 import edu.ntnu.EASY.blotto.BlottoIncubator;
 import edu.ntnu.EASY.blotto.BlottoReplicator;
-import edu.ntnu.EASY.incubator.BitvectorIncubator;
-import edu.ntnu.EASY.incubator.BitvectorReplicator;
+import edu.ntnu.EASY.blotto.BlottoReport;
 import edu.ntnu.EASY.incubator.Incubator;
-import edu.ntnu.EASY.individual.BitvectorIndividual;
-import edu.ntnu.EASY.individual.Individual;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
 import edu.ntnu.EASY.selection.parent.FitnessProportionateSelection;
@@ -43,22 +38,23 @@ public class Main {
 	private static boolean elitsm = true;
 
     public static void main(String[] args) {
-    	FitnessCalculator<double[]> fitCalc = new BlottoFitnessCalculator(0.5,0.5);
+    	FitnessCalculator<double[]> fitCalc = new BlottoFitnessCalculator(1,1);
     	AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>();
     	ParentSelector<double[]> parentSelector = new FitnessProportionateSelection<double[]>();
-    	Incubator<double[], double[]> incubator = new BlottoIncubator(new BlottoReplicator(10));	
+    	Incubator<double[], double[]> incubator = new BlottoIncubator(new BlottoReplicator(20));	
     	Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
-
     	Environment env = new Environment();
-    	env.populationSize = 1000;
-    	env.maxGenerations = 100000;
+    	env.populationSize = 20;
+    	env.maxGenerations = 500;
     	env.fitnessThreshold = 35;
     	env.mutationRate = 0.005;
     	env.crossoverRate = 0.005;
-    	env.numChildren = 1000;
-    	env.numParents = 20;
+    	env.numChildren = 20;
+    	env.numParents = 10;
     	env.elitism = 10;
     	
-    	evo.runEvolution(env);
+    	Report<double[],double[]> report = new BlottoReport(env.maxGenerations);
+    	evo.runEvolution(env, report);
+    	report.writeToStream(System.out);
     }
 }

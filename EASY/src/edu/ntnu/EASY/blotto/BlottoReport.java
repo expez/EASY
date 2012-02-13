@@ -5,33 +5,67 @@ import java.util.Arrays;
 
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.Report;
+import edu.ntnu.EASY.individual.Individual;
+import edu.ntnu.EASY.util.Util;
 
 public class BlottoReport extends Report<double[],double[]>{
 
+	Entry[] entries;
+	
+	public BlottoReport(int generations){
+		entries = new Entry[generations + 1];
+	}
 	
 	@Override
 	public void log(int generation, Population<double[], double[]> population) {
-		double max = 0.0, average = 0.0, sd = 0.0;
-		for(Individual<PType,GType> individual : population){
-			
+		double max = 0.0, sd = 0.0;
+		double average = 0.0;
+		double entropy = 0.0;
+		double[] best = population.get(0).getPhenome();
+		for(Individual<double[],double[]> individual : population){
+			average += individual.getFitness();
+			entropy += calculateStrategyEntropy(individual.getPhenome());
+			if(individual.getFitness() > max){
+				max = individual.getFitness();
+				best = individual.getPhenome();
+			}
 		}
-		
+		average /= population.size();
+		sd = Math.sqrt(Util.getFitnessVariance(population, average));
+		entropy /= population.size();
+		entries[generation] = new Entry(max,average,sd,entropy,best);
 	}
 	
+	private double calculateStrategyEntropy(double[] p) {
+		double h = 0.0;
+		for(int i = 0; i < p.length; i++){
+			if(0 < p[i])
+				h -= (p[i] * Util.log2(p[i]));
+		}
+		return h;
+	}
 
 	@Override
 	public void writeToStream(PrintStream out) {
-		// TODO Auto-generated method stub
-		
+		for(int i = 1; i < entries.length; i++)
+			out.printf("%4d: %s%n",i,entries[i]);
 	}
 	
-	
 	static class Entry {
+		
 		private double maxFitness;
 		private double averageFitness;
 		private double standardDeviation;
 		private double averageStrategyEntropy;
 		private double[] bestPhenom;
+		
+		public Entry(double maxFitness,	double averageFitness,double standardDeviation, double averageStrategyEntropy, double[] bestPhenom){
+			this.maxFitness = maxFitness;
+			this.averageFitness = averageFitness;
+			this.standardDeviation = standardDeviation;
+			this.averageStrategyEntropy = averageStrategyEntropy;
+			this.bestPhenom = bestPhenom;
+		}
 		
 		public String toString(){
 			return String.format("|%.4f|%.4f|%.4f|%.4f| - %s",maxFitness,averageFitness,standardDeviation,averageStrategyEntropy,Arrays.toString(bestPhenom));

@@ -10,7 +10,11 @@ public class Util {
 
 	public static final Random RNG = new Random();
 	
-	private <GType,PType> double getFitnessVariance(Population<GType,PType> individuals, double mean) {
+	public static double log2(double x){
+		return Math.log(x) / Math.log(2.0);
+	}
+	
+	public static <GType,PType> double getFitnessVariance(Population<GType,PType> individuals, double mean) {
 	double variance = 0;	
 	for (Individual<GType, PType> individual : individuals) {
 		variance += ( individual.getFitness() - mean) * ( individual.getFitness() - mean);

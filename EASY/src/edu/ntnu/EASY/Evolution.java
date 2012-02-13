@@ -22,7 +22,7 @@ public class Evolution<GType, PType> {
 		this.incubator = incubator;
 	}
 	
-	public void runEvolution(Environment env){
+	public void runEvolution(Environment env, Report<GType, PType> report){
 		
 		adultSelector.setEnvironment(env);
 		parentSelector.setEnvironment(env);
@@ -41,8 +41,8 @@ public class Evolution<GType, PType> {
 		for(int generation = 1; generation <= env.maxGenerations && maxFitness < env.fitnessThreshold; generation++){
 			population.updateFitness();
 			
-			population.sort(true);
-			System.out.printf("Gen: %d, Fitness: %.2f, %s%n",generation,population.get(0).getFitness(), Arrays.toString((double[])population.get(0).getPhenome()));
+			report.log(generation,population);
+			System.out.printf("%d/%d - %d%n",generation,env.maxGenerations,population.size());
 			
 			parents = parentSelector.select(population);
 
