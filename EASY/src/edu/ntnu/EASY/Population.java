@@ -56,4 +56,5 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		if(desc)
 			Collections.reverse(population);
 	}
+	
 }

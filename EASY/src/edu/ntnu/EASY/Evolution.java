@@ -53,10 +53,6 @@ public class Evolution<GType, PType> {
 				child.updateFitness(fitCalc);
 			}
 			population = adultSelector.select(population,children);
-			
-			
-			
-			
 		}
 	}
 }
