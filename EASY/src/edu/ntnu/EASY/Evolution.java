@@ -1,5 +1,7 @@
 package edu.ntnu.EASY;
 
+import java.util.Arrays;
+
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.individual.Individual;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
@@ -26,37 +28,29 @@ public class Evolution<GType, PType> {
 		parentSelector.setEnvironment(env);
 		incubator.setEnvironment(env);
 		
-		Population<GType,PType> population = new Population<GType,PType>();
+		Population<GType,PType> population = new Population<GType,PType>(fitCalc);
 		for(int i = 0; i < env.populationSize; i++){
 			Individual<GType,PType> ind = incubator.randomIndividual();
 			ind.growUp();
 			population.add(ind);
 		}
-		Population<GType,PType> children = new Population<GType,PType>();
-		Population<GType,PType> parents = new Population<GType,PType>();
+		Population<GType,PType> children = new Population<GType,PType>(fitCalc);
+		Population<GType,PType> parents = new Population<GType,PType>(fitCalc);
 		
 		double maxFitness = 0.0;
 		for(int generation = 1; generation <= env.maxGenerations && maxFitness < env.fitnessThreshold; generation++){
-			fitCalc.setPopulation(population);
-			for(Individual<GType,PType> individual : population){
-				individual.updateFitness(fitCalc);
-			}
+			population.updateFitness();
+			
 			population.sort(true);
-			System.out.printf("Gen: %d, Fitness: %.2f%n",generation,population.get(0).getFitness());
+			System.out.printf("Gen: %d, Fitness: %.2f, %s%n",generation,population.get(0).getFitness(), Arrays.toString((double[])population.get(0).getPhenome()));
 			
 			parents = parentSelector.select(population);
 
 			children = incubator.makeChildren(parents);
-			fitCalc.setPopulation(children);
 			for(Individual<GType,PType> child : children){
 				child.growUp();
-				child.updateFitness(fitCalc);
 			}
 			population = adultSelector.select(population,children);
-			
-			
-			
-			
 		}
 	}
 }

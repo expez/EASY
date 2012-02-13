@@ -20,9 +20,6 @@ import edu.ntnu.EASY.Population;
 
 public class GenerationalMixing<PType> extends AdultSelector<PType> {
 
-	public GenerationalMixing() {
-	}
-	
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults,	Population<GType, PType> children) {
 		adults.addAll(children);

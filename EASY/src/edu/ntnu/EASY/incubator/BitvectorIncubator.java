@@ -49,7 +49,7 @@ public class BitvectorIncubator implements Incubator<int[],int[]>{
      */
     @Override
     public Population<int[], int[]> makeChildren(Population<int[], int[]> parents) {
-    	Population<int[],int[]> children = new Population<int[],int[]>();
+    	Population<int[],int[]> children = new Population<int[],int[]>(parents.getFitnessCalculator());
     	int momIndex;
     	int dadIndex;
     	while(children.size() < env.numChildren) {

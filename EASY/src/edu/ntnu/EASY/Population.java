@@ -10,16 +10,20 @@ import edu.ntnu.EASY.individual.Individual;
 
 public class Population<GType, PType> implements Iterable<Individual<GType, PType>>{
 	
+	private FitnessCalculator<PType> fitCalc;
 	private List<Individual<GType, PType>> population;
 	
-	public Population() {
+	public Population(FitnessCalculator<PType> fitCalc) {
+		this.fitCalc = fitCalc;
 		this.population = new LinkedList<Individual<GType, PType>>();
 	}
 	
 	public Population(Population<GType, PType> population) {
+		this.fitCalc = population.fitCalc;
 		for (Individual<GType, PType> individual : population) {
 			this.population.add(individual);
 		}
+<<<<<<< HEAD
 	}
 	
 	public static <GType, PType> Population<GType, PType> getRandomPopulation(Incubator<GType, PType> incubator,
@@ -34,6 +38,8 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 	
 	public Population(List<Individual<GType,PType>> individuals) {
 		this.population = new LinkedList<Individual<GType, PType>>(individuals);
+=======
+>>>>>>> branch 'master' of git+ssh://git@github.com/Expez/EASY.git
 	}
 	
 	public void add(Individual<GType, PType> individual ){
@@ -79,7 +85,7 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 	}
 	
 	public Population<GType, PType> copy() {
-		return new Population<GType, PType>(this.population);
+		return new Population<GType, PType>(this);
 	}
 	
 	public void clear() {
@@ -98,5 +104,14 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		return copy;
 	}
 	
-	
+	public void updateFitness(){
+		fitCalc.setPopulation(this);
+		for(Individual<GType,PType> individual : population){
+			individual.updateFitness(fitCalc);
+		}
+	}
+
+	public FitnessCalculator<PType> getFitnessCalculator() {
+		return fitCalc;
+	}
 }

@@ -17,6 +17,9 @@ You should have received a copy of the GNU General Public License
 package edu.ntnu.EASY;
 import java.util.Arrays;
 
+import edu.ntnu.EASY.blotto.BlottoFitnessCalculator;
+import edu.ntnu.EASY.blotto.BlottoIncubator;
+import edu.ntnu.EASY.blotto.BlottoReplicator;
 import edu.ntnu.EASY.incubator.BitvectorIncubator;
 import edu.ntnu.EASY.incubator.BitvectorReplicator;
 import edu.ntnu.EASY.incubator.Incubator;
@@ -40,11 +43,11 @@ public class Main {
 	private static boolean elitsm = true;
 
     public static void main(String[] args) {
-    	FitnessCalculator<int[]> fitCalc = IntegerArrayFitnessCalculators.ONE_MAX_FITNESS;
-    	AdultSelector<int[]> adultSelector = new FullGenerationalReplacement<int[]>();
-    	ParentSelector<int[]> parentSelector = new FitnessProportionateSelection<int[]>();
-    	Incubator<int[], int[]> incubator = new BitvectorIncubator(new BitvectorReplicator(100));	
-    	Evolution<int[],int[]> evo = new Evolution<int[], int[]>(fitCalc, adultSelector, parentSelector, incubator);
+    	FitnessCalculator<double[]> fitCalc = new BlottoFitnessCalculator(1.0,1.0);
+    	AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>();
+    	ParentSelector<double[]> parentSelector = new FitnessProportionateSelection<double[]>();
+    	Incubator<double[], double[]> incubator = new BlottoIncubator(new BlottoReplicator(10));	
+    	Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
     	Environment env = new Environment();
     	env.populationSize = 1000;
@@ -58,34 +61,4 @@ public class Main {
     	
     	evo.runEvolution(env);
     }
-    
-    public static void foo(){
-    	int[] best = {1,1,1,1};
-    	int[] bad = {0,0,0,0};
-    	int[] better = {1,0,0,1};
-    	Population<int[],int[]> pop = new Population<int[],int[]>();
-    	pop.add(new BitvectorIndividual(bad));
-    	pop.add(new BitvectorIndividual(better));
-    	pop.add(new BitvectorIndividual(best));
-    	
-    	FitnessCalculator<int[]> fitCalc = IntegerArrayFitnessCalculators.ONE_MAX_FITNESS;
-    	
-    	fitCalc.setPopulation(pop);
-    	pop.sort(false);
-    	for(Individual<int[],int[]> ind : pop){
-    		ind.growUp();
-    		ind.updateFitness(fitCalc);
-    		System.out.printf("%s%n",Arrays.toString(ind.getGenome()));
-    	}    	
-    	
-    	System.out.println("---");
-    	
-    	pop.sort(true);
-    	for(Individual<int[],int[]> ind : pop){
-    		ind.updateFitness(fitCalc);
-    		System.out.printf("%s%n",Arrays.toString(ind.getGenome()));
-    	}    	
-    	
-		
-	}
 }
