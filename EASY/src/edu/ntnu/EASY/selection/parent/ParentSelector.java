@@ -3,10 +3,14 @@ package edu.ntnu.EASY.selection.parent;
 import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 
-public interface ParentSelector<PType> {
+public abstract class ParentSelector<PType> {
 
-	public void setEnvironment(Environment env);
+	protected Environment env = null;
+
+	public void setEnvironment(Environment env) {
+		this.env = env;
+	}
 	
-	public <GType> Population<GType,PType> select(Population<GType, PType> population);
+	public abstract <GType> Population<GType,PType> select(Population<GType, PType> population);
 	
 }
