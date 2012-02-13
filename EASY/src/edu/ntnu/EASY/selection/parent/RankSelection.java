@@ -16,38 +16,24 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.selection.parent;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import edu.ntnu.EASY.Population;
 
-public class RankSelection<T extends Comparable<? super T>> {
+public class RankSelection<PType> extends ParentSelector<PType>{
 
-	private int rank;
-
-	public RankSelection( int rank ) {
-		this.rank = rank;
+	public RankSelection() {
 	}
 
 	/**
-	 * @param individuals List of individuals who are going to battle it out to become parents.
-	 * @return list of RankSelection.Rank individuals.
+	 * @param adults individuals who are going to battle it out to become parents.
+	 * @return A population of adults fit to become parents.
 	 */
-	public List<T> getParents( List< T > individuals ) {
 
-		//Copy the individuals
-		List< T > individualsCopy = new LinkedList< T >( individuals );
-
-		//Sort the individuals according to fitness.
-		Collections.sort(individualsCopy);
-
-		int numToDrop = 0;
-
-		// Find number of individuals to drop from list.
-		// We only want rank number of individuals to remain.
-		while( numToDrop < individualsCopy.size() - rank ) {
-			numToDrop++;
-		}
-		return individualsCopy.subList(numToDrop, individualsCopy.size());
+	@Override
+	public <GType> Population<GType, PType> select(Population<GType, PType> adults) {
+		Population<GType, PType> populationCopy = adults.copy();
+		
+		populationCopy.drop(env.rank);
+		return populationCopy;
 	}
 }
 

@@ -15,6 +15,12 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		this.population = new LinkedList<Individual<GType, PType>>();
 	}
 	
+	public Population(Population<GType, PType> population) {
+		for (Individual<GType, PType> individual : population) {
+			this.population.add(individual);
+		}
+	}
+	
 	public Population(List<Individual<GType,PType>> individuals) {
 		this.population = new LinkedList<Individual<GType, PType>>(individuals);
 	}
@@ -47,6 +53,10 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		}
 	}
 	
+	public void drop(Individual<GType, PType> ind) {
+		population.remove(ind);
+	}
+	
 	public void sort(){
 		sort(false);
 	}
@@ -57,4 +67,28 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 			Collections.reverse(population);
 	}
 	
+<<<<<<< HEAD
+=======
+	public Population<GType, PType> copy() {
+		return new Population<GType, PType>(this.population);
+	}
+	
+	public void clear() {
+		population.clear();
+	}
+	
+	public void shuffle() {
+		Collections.shuffle(population);
+	}
+
+	public Population<GType, PType> getSubset(int size) {
+		Population<GType, PType> copy = copy();
+		while( size < copy.size() ) {
+			copy.population.remove(0);
+		}
+		return copy;
+	}
+	
+	
+>>>>>>> branch 'master' of git@github.com:Expez/EASY
 }

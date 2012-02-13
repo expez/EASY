@@ -22,7 +22,7 @@ import edu.ntnu.EASY.individual.Individual;
 
 import static edu.ntnu.EASY.util.Util.RNG;
 
-public class FitnessProportionateSelection<PType> implements ParentSelector<PType> {
+public class FitnessProportionateSelection<PType> extends ParentSelector<PType> {
 
 	private Environment env;
 
@@ -79,10 +79,5 @@ public class FitnessProportionateSelection<PType> implements ParentSelector<PTyp
 			}
 		}
 		return parents;
-	}
-
-	@Override
-	public void setEnvironment(Environment env) {
-		this.env = env;		
 	}
 }

@@ -11,4 +11,6 @@ public class Environment {
 	public int numParents;
 	public int elitism;
 	public int numAdults;
+	public int rank;
+	public int tournamentSize;
 }
