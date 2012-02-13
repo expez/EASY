@@ -23,6 +23,7 @@ public class GenerationalMixing<PType> extends AdultSelector<PType> {
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults,	Population<GType, PType> children) {
 		adults.addAll(children);
+		adults.updateFitness();
 		adults.drop(adults.size() - env.numAdults); 
 		return adults;
 	}
