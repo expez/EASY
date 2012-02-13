@@ -23,7 +23,6 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		for (Individual<GType, PType> individual : population) {
 			this.population.add(individual);
 		}
-<<<<<<< HEAD
 	}
 	
 	public static <GType, PType> Population<GType, PType> getRandomPopulation(Incubator<GType, PType> incubator,
@@ -38,8 +37,6 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 	
 	public Population(List<Individual<GType,PType>> individuals) {
 		this.population = new LinkedList<Individual<GType, PType>>(individuals);
-=======
->>>>>>> branch 'master' of git+ssh://git@github.com/Expez/EASY.git
 	}
 	
 	public void add(Individual<GType, PType> individual ){
