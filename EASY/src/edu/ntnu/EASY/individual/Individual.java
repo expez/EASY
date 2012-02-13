@@ -1,5 +1,7 @@
 package edu.ntnu.EASY.individual;
 
+import edu.ntnu.EASY.FitnessCalculator;
+
 public interface Individual<GType,PType> extends Comparable<Individual<?, PType>>{
 
 	public double getFitness();
@@ -10,5 +12,5 @@ public interface Individual<GType,PType> extends Comparable<Individual<?, PType>
 	
 	public void growUp();
 	
-	public double calculateFitness(FitnessCalculator<PType> fitCalc);
+	public double updateFitness(FitnessCalculator<PType> fitCalc);
 }

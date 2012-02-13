@@ -1,7 +1,6 @@
-package edu.ntnu.EASY.individual;
+package edu.ntnu.EASY;
 
 
-import edu.ntnu.EASY.Population;
 
 public interface FitnessCalculator<PType> {
 	

@@ -17,6 +17,9 @@ You should have received a copy of the GNU General Public License
 package edu.ntnu.EASY.incubator;
 
 import static edu.ntnu.EASY.util.Util.RNG;
+
+import java.util.Arrays;
+
 import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.individual.BitvectorIndividual;
@@ -37,7 +40,6 @@ public class BitvectorIncubator implements Incubator<int[],int[]>{
     	int[] childsGenome;
     	childsGenome = replicator.combine(mom.getGenome(), dad.getGenome());
     	childsGenome = replicator.mutate(childsGenome);
-
     	BitvectorIndividual child = new BitvectorIndividual(childsGenome);
     	
     	return child;
@@ -68,6 +70,7 @@ public class BitvectorIncubator implements Incubator<int[],int[]>{
 
 	@Override
 	public void setEnvironment(Environment env) {
+		replicator.setEnvironment(env);
 		this.env = env;
 	}
 }

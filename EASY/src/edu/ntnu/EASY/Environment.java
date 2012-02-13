@@ -9,5 +9,5 @@ public class Environment {
 	public double crossoverRate;
 	public int numChildren;
 	public int numParents;
-	
+	public int elitism;
 }

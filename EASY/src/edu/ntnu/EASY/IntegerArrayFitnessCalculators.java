@@ -34,14 +34,14 @@ public class IntegerArrayFitnessCalculators {
        	 *	@param individual to get the fitness for.
        	 *	@return A double, in the interval [0,1], representing the fitness. 
     	 */
-    	public double calculate(int[] phenom) {
+    	public double calculate(int[] phenome) {
     		double fitness = 0.0;	
-    		for (int i = 0; i < phenom.length; i++) {
-    			if( phenom[ i ] == 1 ) {
+    		for (int i = 0; i < phenome.length; i++) {
+    			if( phenome[ i ] == 1 ) {
     				fitness++;
     			}
     		}
-    		return fitness;
+    		return fitness / phenome.length;
     	}
     };
 }

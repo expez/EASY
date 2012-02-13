@@ -34,7 +34,7 @@ public class FitnessProportionateSelection<PType> implements ParentSelector<PTyp
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> population) {
 		double totalFitness = 0;
-		for (Individual<?, PType> individual : population) {
+		for (Individual<GType, PType> individual : population) {
 			totalFitness += individual.getFitness();
 		}
 		

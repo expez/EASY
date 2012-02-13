@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.individual;
 
+import edu.ntnu.EASY.FitnessCalculator;
+
 
 public abstract class AbstractIndividual<GType, PType> implements Individual<GType, PType>{
 
@@ -36,24 +38,21 @@ public abstract class AbstractIndividual<GType, PType> implements Individual<GTy
 		return phenome;
 	}
 	
-	
 	public abstract void growUp();
 
 	public double getFitness() {
 		return fitness;
 	}
 	
-	public double calculateFitness(FitnessCalculator<PType> fitCalc){
+	public double updateFitness(FitnessCalculator<PType> fitCalc){
 		return fitness = fitCalc.calculate(phenome);
 	}
 
 	public int compareTo(Individual<?, PType> that) {
-		if( this.fitness == that.getFitness()) {
-			return 0;
-		}
-		else if( this.fitness > that.getFitness()) {
+		if(this.fitness > that.getFitness())
 			return 1;
-		}
-		return -1;
+		if(this.fitness < that.getFitness())
+			return -1;
+		return 0;
 	}
 }

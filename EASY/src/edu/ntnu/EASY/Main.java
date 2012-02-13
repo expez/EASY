@@ -15,17 +15,17 @@ General Public License for more details.
 You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
-import java.util.List;
+import java.util.Arrays;
 
 import edu.ntnu.EASY.incubator.BitvectorIncubator;
 import edu.ntnu.EASY.incubator.BitvectorReplicator;
 import edu.ntnu.EASY.incubator.Incubator;
-import edu.ntnu.EASY.individual.*;
+import edu.ntnu.EASY.individual.BitvectorIndividual;
+import edu.ntnu.EASY.individual.Individual;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
 import edu.ntnu.EASY.selection.parent.FitnessProportionateSelection;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
-import edu.ntnu.EASY.selection.parent.RankSelection;
 
 
 public class Main {
@@ -39,15 +39,52 @@ public class Main {
 	private static int rank = 50;
 	private static boolean elitsm = true;
 
-	public void runEvolution(){
-		FitnessCalculator<int[]> fitCalc = IntegerArrayFitnessCalculators.ONE_MAX_FITNESS;
-		AdultSelector<int[]> adultSelector = new FullGenerationalReplacement<int[]>();
-		ParentSelector<int[]> parentSelector = new FitnessProportionateSelection<int[]>(0);
-		Incubator<int[], int[]> incubator = new BitvectorIncubator(0, new BitvectorReplicator(0));	
-		Evolution<int[],int[]> evo = new Evolution(fitCalc, adultSelector, parentSelector, incubator);
-	}
-	
     public static void main(String[] args) {
+    	FitnessCalculator<int[]> fitCalc = IntegerArrayFitnessCalculators.ONE_MAX_FITNESS;
+    	AdultSelector<int[]> adultSelector = new FullGenerationalReplacement<int[]>();
+    	ParentSelector<int[]> parentSelector = new FitnessProportionateSelection<int[]>();
+    	Incubator<int[], int[]> incubator = new BitvectorIncubator(new BitvectorReplicator(100));	
+    	Evolution<int[],int[]> evo = new Evolution<int[], int[]>(fitCalc, adultSelector, parentSelector, incubator);
 
+    	Environment env = new Environment();
+    	env.populationSize = 1000;
+    	env.maxGenerations = 100000;
+    	env.fitnessThreshold = 35;
+    	env.mutationRate = 0.005;
+    	env.crossoverRate = 0.005;
+    	env.numChildren = 1000;
+    	env.numParents = 20;
+    	
+    	evo.runEvolution(env);
     }
+    
+    public static void foo(){
+    	int[] best = {1,1,1,1};
+    	int[] bad = {0,0,0,0};
+    	int[] better = {1,0,0,1};
+    	Population<int[],int[]> pop = new Population<int[],int[]>();
+    	pop.add(new BitvectorIndividual(bad));
+    	pop.add(new BitvectorIndividual(better));
+    	pop.add(new BitvectorIndividual(best));
+    	
+    	FitnessCalculator<int[]> fitCalc = IntegerArrayFitnessCalculators.ONE_MAX_FITNESS;
+    	
+    	fitCalc.setPopulation(pop);
+    	pop.sort(false);
+    	for(Individual<int[],int[]> ind : pop){
+    		ind.growUp();
+    		ind.updateFitness(fitCalc);
+    		System.out.printf("%s%n",Arrays.toString(ind.getGenome()));
+    	}    	
+    	
+    	System.out.println("---");
+    	
+    	pop.sort(true);
+    	for(Individual<int[],int[]> ind : pop){
+    		ind.updateFitness(fitCalc);
+    		System.out.printf("%s%n",Arrays.toString(ind.getGenome()));
+    	}    	
+    	
+		
+	}
 }
