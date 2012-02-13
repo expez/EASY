@@ -15,6 +15,12 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		this.population = new LinkedList<Individual<GType, PType>>();
 	}
 	
+	public Population(Population<GType, PType> population) {
+		for (Individual<GType, PType> individual : population) {
+			this.population.add(individual);
+		}
+	}
+	
 	public Population(List<Individual<GType,PType>> individuals) {
 		this.population = new LinkedList<Individual<GType, PType>>(individuals);
 	}
@@ -56,4 +62,9 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		if(desc)
 			Collections.reverse(population);
 	}
+	
+	public Population<GType, PType> copy() {
+		return new Population<GType, PType>(this.population);
+	}
+	
 }
