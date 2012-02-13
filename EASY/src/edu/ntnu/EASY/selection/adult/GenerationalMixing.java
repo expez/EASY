@@ -20,8 +20,6 @@ import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 
 public class GenerationalMixing<PType> extends AdultSelector<PType> {
-	
-	private Environment env = null;
 
 	public GenerationalMixing() {
 	}
