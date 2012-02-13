@@ -18,9 +18,9 @@ package edu.ntnu.EASY.selection.parent;
 
 import edu.ntnu.EASY.Population;
 
-public class RankSelection<PType> extends ParentSelector<PType>{
+public class RankSelector<PType> extends ParentSelector<PType>{
 
-	public RankSelection() {
+	public RankSelector() {
 	}
 
 	/**

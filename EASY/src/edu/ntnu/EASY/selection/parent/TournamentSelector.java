@@ -18,9 +18,9 @@ package edu.ntnu.EASY.selection.parent;
 
 import edu.ntnu.EASY.Population;
 
-public class TournamentSelection<PType> extends ParentSelector<PType>{
+public class TournamentSelector<PType> extends ParentSelector<PType>{
 
-	public TournamentSelection(int numParents, int tournamentSize ) {
+	public TournamentSelector() {
 
 	}
 	

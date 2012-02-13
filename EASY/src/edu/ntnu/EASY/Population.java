@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.individual.Individual;
 
 public class Population<GType, PType> implements Iterable<Individual<GType, PType>>{
@@ -19,6 +20,16 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		for (Individual<GType, PType> individual : population) {
 			this.population.add(individual);
 		}
+	}
+	
+	public static <GType, PType> Population<GType, PType> getRandomPopulation(Incubator<GType, PType> incubator,
+				FitnessCalculator<PType> fitCalc, 
+				int numIndividuals) {
+		Population<GType, PType> population= new Population<GType, PType>(fitCalc);
+			while(population.size() < numIndividuals) {
+				population.add(incubator.randomIndividual());
+		}
+		return population;
 	}
 	
 	public Population(List<Individual<GType,PType>> individuals) {
