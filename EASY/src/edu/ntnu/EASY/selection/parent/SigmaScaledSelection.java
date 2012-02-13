@@ -33,7 +33,7 @@ public class SigmaScaledSelection< T extends Individual > {
 		double previousEndpoint = 0;
 		double fitness;
 		double meanFitness = totalFitness / adults.size();
-		double fitnessVariance = FitnessProportionateSelection.getFitnessVariance(adults, meanFitness);
+		double fitnessVariance = FitnessProportionateSelector.getFitnessVariance(adults, meanFitness);
 		double sigmaFitness;
 		
 		//Put each endpoint into a linked list.
@@ -50,7 +50,7 @@ public class SigmaScaledSelection< T extends Individual > {
 			interval /= previousEndpoint;
 		}
 		
-		return FitnessProportionateSelection.getParentList( adults, intervals, numParents );
+		return FitnessProportionateSelector.getParentList( adults, intervals, numParents );
 	}
 
 }

@@ -22,7 +22,7 @@ import edu.ntnu.EASY.individual.Individual;
 
 import static edu.ntnu.EASY.util.Util.RNG;
 
-public class FitnessProportionateSelection<PType> extends ParentSelector<PType> {
+public class FitnessProportionateSelector<PType> extends ParentSelector<PType> {
 
 	/**
 	 * Fitness proportional selection of parents.

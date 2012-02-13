@@ -27,7 +27,7 @@ import edu.ntnu.EASY.individual.BitvectorIndividual;
 import edu.ntnu.EASY.individual.Individual;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
-import edu.ntnu.EASY.selection.parent.FitnessProportionateSelection;
+import edu.ntnu.EASY.selection.parent.FitnessProportionateSelector;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
 
 
@@ -45,7 +45,7 @@ public class Main {
     public static void main(String[] args) {
     	FitnessCalculator<double[]> fitCalc = new BlottoFitnessCalculator(1.0,1.0);
     	AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>();
-    	ParentSelector<double[]> parentSelector = new FitnessProportionateSelection<double[]>();
+    	ParentSelector<double[]> parentSelector = new FitnessProportionateSelector<double[]>();
     	Incubator<double[], double[]> incubator = new BlottoIncubator(new BlottoReplicator(10));	
     	Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
