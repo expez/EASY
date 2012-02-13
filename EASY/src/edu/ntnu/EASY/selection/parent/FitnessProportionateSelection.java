@@ -24,8 +24,6 @@ import static edu.ntnu.EASY.util.Util.RNG;
 
 public class FitnessProportionateSelection<PType> extends ParentSelector<PType> {
 
-	private Environment env;
-
 	/**
 	 * Fitness proportional selection of parents.
 	 * @param population a list to pick parents from.
@@ -66,7 +64,7 @@ public class FitnessProportionateSelection<PType> extends ParentSelector<PType> 
 //	}
 	
 	private <GType> Population<GType,PType> getParentList(Population<GType, PType> population, double[] intervals) {
-		Population<GType,PType> parents = new Population<GType, PType>();
+		Population<GType,PType> parents = new Population<GType, PType>(population.getFitnessCalculator());
 		while(parents.size() < env.numParents) {
 			double parentIndex = RNG.nextDouble();
 			//Compare with the end points to pick a parent at random. The intervals are listed in ascending order and don't overlap.

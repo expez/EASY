@@ -20,11 +20,12 @@ public class BlottoIncubator implements Incubator<double[],double[]> {
 	@Override
 	public void setEnvironment(Environment env) {
 		this.env = env;
+		replicator.setEnvironment(env);
 	}
 
 	@Override
 	public Population<double[], double[]> makeChildren(Population<double[], double[]> parents) {
-    	Population<double[],double[]> children = new Population<double[],double[]>();
+    	Population<double[],double[]> children = new Population<double[],double[]>(parents.getFitnessCalculator());
     	int momIndex;
     	int dadIndex;
     	while(children.size() < env.numChildren) {

@@ -23,6 +23,8 @@ public class BlottoReplicator implements Replicator<double[]> {
 		for (int i = 0; i < genome.length; i++) {
 			if(RNG.nextDouble() <= env.mutationRate) {
 				genome[i] += RNG.nextBoolean() ? -0.05 : 0.05;
+				if(genome[i] < 0) 
+					genome[i] = 0;
 			}
 		}
 		normalize(genome);
