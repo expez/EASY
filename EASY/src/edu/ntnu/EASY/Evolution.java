@@ -39,11 +39,11 @@ public class Evolution<GType, PType> {
 				individual.calculateFitness(fitCalc);
 			}
 			
-			parents = (Population<GType, PType>) parentSelector.select(population);
+			parents = parentSelector.select(population);
 
 			children = incubator.makeChildren(parents);
 
-			population = (Population<GType, PType>) adultSelector.select(population,children);
+			population = adultSelector.select(population,children);
 		}
 	}
 }

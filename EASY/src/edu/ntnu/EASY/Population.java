@@ -8,6 +8,7 @@ import java.util.List;
 import edu.ntnu.EASY.individual.Individual;
 
 public class Population<GType, PType> implements Iterable<Individual<GType, PType>>{
+	
 	private List<Individual<GType, PType>> population;
 	
 	public Population() {
@@ -44,5 +45,15 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		for(int i = 0; i < n; i++){
 			population.remove(0);
 		}
+	}
+	
+	public void sort(){
+		sort(false);
+	}
+	
+	public void sort(boolean desc){
+		Collections.sort(population);
+		if(desc)
+			Collections.reverse(population);
 	}
 }

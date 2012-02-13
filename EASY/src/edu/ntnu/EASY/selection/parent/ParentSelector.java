@@ -8,6 +8,6 @@ import edu.ntnu.EASY.individual.Individual;
 public interface ParentSelector<PType> {
 
 
-	public Population<?,PType> select(Population<?, PType> population);
+	public <GType> Population<GType,PType> select(Population<GType, PType> population);
 	
 }
