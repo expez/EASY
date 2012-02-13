@@ -19,7 +19,7 @@ package edu.ntnu.EASY.selection.adult;
 import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 
-public class FullGenerationalReplacement<PType> implements AdultSelector<PType> {
+public class FullGenerationalReplacement<PType> extends AdultSelector<PType> {
     
 	Environment env = null;
 	
@@ -42,10 +42,5 @@ public class FullGenerationalReplacement<PType> implements AdultSelector<PType> 
 			children.add(adults.get(i));
 		}
 		return children;
-	}
-
-	@Override
-	public void setEnvironment(Environment env) {
-		this.env = env;
 	}
 }

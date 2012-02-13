@@ -16,20 +16,21 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.selection.adult;
 
+import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 
-public class GenerationalMixing<PType> implements AdultSelector<PType> {
+public class GenerationalMixing<PType> extends AdultSelector<PType> {
 	
-	private int numAdults;
+	private Environment env = null;
 
-	public GenerationalMixing( int numAdults) {
-		this.numAdults = numAdults;
+	public GenerationalMixing() {
 	}
 	
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults,	Population<GType, PType> children) {
 		adults.addAll(children);
-		adults.drop(adults.size() - numAdults); 
+		adults.drop(adults.size() - env.numAdults); 
 		return adults;
 	}
+
 }
