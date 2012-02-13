@@ -54,6 +54,7 @@ public class Main {
     	env.crossoverRate = 0.005;
     	env.numChildren = 1000;
     	env.numParents = 20;
+    	env.elitism = 10;
     	
     	evo.runEvolution(env);
     }
