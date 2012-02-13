@@ -2,8 +2,12 @@ package edu.ntnu.EASY.incubator;
 
 import java.util.Random;
 
+import edu.ntnu.EASY.Environment;
+
 public interface Replicator<GType> {
 
+	public void setEnvironment(Environment env);
+	
 	public static final Random RNG = new Random();
 	
 	public GType mutate(GType genome);

@@ -15,8 +15,9 @@ General Public License for more details.
 You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.incubator;
-import java.util.Random;
 
+import static edu.ntnu.EASY.util.Util.RNG;
+import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.individual.BitvectorIndividual;
 import edu.ntnu.EASY.individual.Individual;
@@ -24,12 +25,10 @@ import edu.ntnu.EASY.individual.Individual;
 
 public class BitvectorIncubator implements Incubator<int[],int[]>{
 
-    private int numChildren;
-
+	Environment env;
 	private Replicator<int[]> replicator;
 	
-    public BitvectorIncubator(int numChildren, Replicator<int[]> replicator) {
-    	this.numChildren = numChildren;
+    public BitvectorIncubator(Replicator<int[]> replicator) {
     	this.replicator = replicator;
     }
     
@@ -52,14 +51,23 @@ public class BitvectorIncubator implements Incubator<int[],int[]>{
     @Override
     public Population<int[], int[]> makeChildren(Population<int[], int[]> parents) {
     	Population<int[],int[]> children = new Population<int[],int[]>();
-    	Random random = new Random();
     	int momIndex;
     	int dadIndex;
-    	while(children.size() < numChildren) {
-    		momIndex = random.nextInt(parents.size());
-    		dadIndex = random.nextInt(parents.size());
+    	while(children.size() < env.numChildren) {
+    		momIndex = RNG.nextInt(parents.size());
+    		dadIndex = RNG.nextInt(parents.size());
     		children.add(makeChild(parents.get(momIndex),parents.get(dadIndex)));
     	}
     	return children;
     }
+
+	@Override
+	public Individual<int[], int[]> randomIndividual() {
+		return new BitvectorIndividual(replicator.randomGenome());
+	}
+
+	@Override
+	public void setEnvironment(Environment env) {
+		this.env = env;
+	}
 }

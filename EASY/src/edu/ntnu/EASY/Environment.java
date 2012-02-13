@@ -2,13 +2,12 @@ package edu.ntnu.EASY;
 
 public class Environment {
 
-	public final int populationSize;
-	public final int maxGenerations;
-	public final double fitnessThreshold;
+	public int populationSize;
+	public int maxGenerations;
+	public double fitnessThreshold;
+	public double mutationRate;
+	public double crossoverRate;
+	public int numChildren;
+	public int numParents;
 	
-	private Environment(int populationSize, int maxGenerations, double fitnessThreshold){
-		this.populationSize = populationSize;
-		this.maxGenerations = maxGenerations;
-		this.fitnessThreshold = fitnessThreshold;
-	}
 }

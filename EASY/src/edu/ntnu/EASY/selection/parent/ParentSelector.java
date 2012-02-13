@@ -1,13 +1,12 @@
 package edu.ntnu.EASY.selection.parent;
 
-import java.util.List;
-
+import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
-import edu.ntnu.EASY.individual.Individual;
 
 public interface ParentSelector<PType> {
 
-
+	public void setEnvironment(Environment env);
+	
 	public <GType> Population<GType,PType> select(Population<GType, PType> population);
 	
 }

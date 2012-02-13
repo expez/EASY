@@ -16,19 +16,16 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.selection.parent;
 
+import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.individual.Individual;
 
 import static edu.ntnu.EASY.util.Util.RNG;
 
-public class FitnessProportionalSelection<PType> implements ParentSelector<PType> {
+public class FitnessProportionateSelection<PType> implements ParentSelector<PType> {
 
-	private int numParents;
+	private Environment env;
 
-	public FitnessProportionalSelection(int numParents) {
-		this.numParents = numParents;
-	}
-	
 	/**
 	 * Fitness proportional selection of parents.
 	 * @param population a list to pick parents from.
@@ -70,7 +67,7 @@ public class FitnessProportionalSelection<PType> implements ParentSelector<PType
 	
 	private <GType> Population<GType,PType> getParentList(Population<GType, PType> population, double[] intervals) {
 		Population<GType,PType> parents = new Population<GType, PType>();
-		while(parents.size() < numParents) {
+		while(parents.size() < env.numParents) {
 			double parentIndex = RNG.nextDouble();
 			//Compare with the end points to pick a parent at random. The intervals are listed in ascending order and don't overlap.
 			for (int i = 0; i < intervals.length; i++) {
@@ -82,5 +79,10 @@ public class FitnessProportionalSelection<PType> implements ParentSelector<PType
 			}
 		}
 		return parents;
+	}
+
+	@Override
+	public void setEnvironment(Environment env) {
+		this.env = env;		
 	}
 }

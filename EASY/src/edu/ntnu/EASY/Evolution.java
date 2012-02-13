@@ -8,29 +8,28 @@ import edu.ntnu.EASY.selection.parent.ParentSelector;
 
 public class Evolution<GType, PType> {
 
-	Population<GType, PType> population;
 	FitnessCalculator<PType> fitCalc;
 	AdultSelector<PType> adultSelector;
 	ParentSelector<PType> parentSelector;
 	Incubator<GType, PType> incubator;	
 
-	Environment env;
 	
-	public Evolution(Population<GType, PType> population, FitnessCalculator<PType> fitCalc, AdultSelector<PType> adultSelector, ParentSelector<PType> parentSelector, Incubator<GType,PType> incubator){
-		this.population = population;
+	public Evolution(FitnessCalculator<PType> fitCalc, AdultSelector<PType> adultSelector, ParentSelector<PType> parentSelector, Incubator<GType,PType> incubator){
 		this.fitCalc = fitCalc;
 		this.adultSelector = adultSelector;
 		this.parentSelector = parentSelector;
 		this.incubator = incubator;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void runEvolution(){
+	public void runEvolution(Environment env){
 		
-
+		adultSelector.setEnvironment(env);
+		parentSelector.setEnvironment(env);
+		incubator.setEnvironment(env);
+		
+		Population<GType,PType> population = new Population<GType,PType>();
 		Population<GType,PType> children = new Population<GType,PType>();
 		Population<GType,PType> parents = new Population<GType,PType>();
-		
 		
 		double maxFitness = 0.0;
 		for(int generation = 1; generation <= env.maxGenerations && maxFitness < env.fitnessThreshold; generation++){

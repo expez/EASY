@@ -17,8 +17,14 @@ You should have received a copy of the GNU General Public License
 package edu.ntnu.EASY;
 import java.util.List;
 
+import edu.ntnu.EASY.incubator.BitvectorIncubator;
+import edu.ntnu.EASY.incubator.BitvectorReplicator;
+import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.individual.*;
+import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
+import edu.ntnu.EASY.selection.parent.FitnessProportionateSelection;
+import edu.ntnu.EASY.selection.parent.ParentSelector;
 import edu.ntnu.EASY.selection.parent.RankSelection;
 
 
@@ -33,8 +39,12 @@ public class Main {
 	private static int rank = 50;
 	private static boolean elitsm = true;
 
-	public void runEvolution(List<Individual> population, ){
-		
+	public void runEvolution(){
+		FitnessCalculator<int[]> fitCalc = IntegerArrayFitnessCalculators.ONE_MAX_FITNESS;
+		AdultSelector<int[]> adultSelector = new FullGenerationalReplacement<int[]>();
+		ParentSelector<int[]> parentSelector = new FitnessProportionateSelection<int[]>(0);
+		Incubator<int[], int[]> incubator = new BitvectorIncubator(0, new BitvectorReplicator(0));	
+		Evolution<int[],int[]> evo = new Evolution(fitCalc, adultSelector, parentSelector, incubator);
 	}
 	
     public static void main(String[] args) {
