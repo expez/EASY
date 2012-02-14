@@ -20,7 +20,7 @@ public class Blotto {
 		env = new Environment();
 		env.populationSize = 20;
 		env.maxGenerations = 500;
-		env.fitnessThreshold = 35;
+		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.005;
 		env.crossoverRate = 0.005;
 		env.numChildren = 20;
