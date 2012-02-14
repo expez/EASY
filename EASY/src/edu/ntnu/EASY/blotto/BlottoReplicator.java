@@ -10,8 +10,10 @@ public class BlottoReplicator implements Replicator<double[]> {
 	private double mutationRate;
 	private double crossoverRate;
 	
-	public BlottoReplicator(int genomeLength){
+	public BlottoReplicator(int genomeLength, double mutationRate, double crossoverRate){
 		this.genomeLength = genomeLength;
+		this.mutationRate = mutationRate;
+		this.crossoverRate = crossoverRate;
 	}
 	
 	@Override

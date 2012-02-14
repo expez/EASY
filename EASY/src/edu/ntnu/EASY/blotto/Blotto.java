@@ -29,7 +29,7 @@ public class Blotto {
 		FitnessCalculator<double[]> fitCalc = new BlottoFitnessCalculator(Rf,Lf);
 		AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
 		ParentSelector<double[]> parentSelector = new FitnessProportionateSelector<double[]>(env.numParents);
-		Incubator<double[], double[]> incubator = new BlottoIncubator(new BlottoReplicator(B), env.numChildren);	
+		Incubator<double[], double[]> incubator = new BlottoIncubator(new BlottoReplicator(B,env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
 	
