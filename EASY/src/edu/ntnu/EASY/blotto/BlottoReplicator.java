@@ -20,7 +20,7 @@ public class BlottoReplicator implements Replicator<double[]> {
 	public double[] mutate(double[] genome) {
 		for (int i = 0; i < genome.length; i++) {
 			if(RNG.nextDouble() <= mutationRate) {
-				genome[i] += RNG.nextGaussian();
+				genome[i] += 0.05*RNG.nextGaussian();
 				if(genome[i] < 0) 
 					genome[i] = 0;
 			}
