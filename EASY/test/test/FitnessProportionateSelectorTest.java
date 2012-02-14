@@ -34,16 +34,12 @@ public class FitnessProportionateSelectorTest {
 		env.populationSize = 100;
 		env.rank = 15;
 		genomeSize = 40;
-		selector = new FitnessProportionateSelector<int[]>();
-		BitvectorReplicator replicator = new BitvectorReplicator(genomeSize);
-		replicator.setEnvironment(env);
-		BitvectorIncubator incubator = new BitvectorIncubator(replicator);
-		incubator.setEnvironment(env);
+		selector = new FitnessProportionateSelector<int[]>( env.numParents);
+		BitvectorReplicator replicator = new BitvectorReplicator(genomeSize, 0.5, 0.5);
+		BitvectorIncubator incubator = new BitvectorIncubator(replicator, env.numChildren);
 		fitCalc = IntegerArrayFitnessCalculators.ONE_MAX_FITNESS;
 		population = Population.getRandomPopulation(incubator, fitCalc, env.populationSize);
-		selector.setEnvironment(env);
 		population.updateFitness();
-		selector.setEnvironment(env);
 		parents = selector.select(population);
 		parents.updateFitness();
 	}

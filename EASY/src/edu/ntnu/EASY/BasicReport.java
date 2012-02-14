@@ -6,6 +6,11 @@ import java.util.Arrays;
 import edu.ntnu.EASY.individual.Individual;
 
 public class BasicReport implements Report<int[], int[]> {
+	Output output;
+	public BasicReport() {
+		this.output = new Output("oneMaxOut");
+	}
+	
 
 	@Override
 	public void log(int generation, Population<int[], int[]> population) {
@@ -18,7 +23,10 @@ public class BasicReport implements Report<int[], int[]> {
 			}
 		}
 		System.out.printf("%4d: %.2f, %s%n",generation,bestFitness,Arrays.toString(bestPhenome));
-	}
+		output.appendLine(generation + " " + bestFitness);
+		if(generation == 100)
+			output.plot();
+	}	
 
 	@Override
 	public void writeToStream(PrintStream out) {

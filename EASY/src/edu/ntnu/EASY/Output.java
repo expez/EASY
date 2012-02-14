@@ -16,9 +16,13 @@
 //    along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,13 +30,14 @@ import java.util.List;
 public class Output {
 
 	private boolean isWriting;
-	private String filename;
-	private List< String > outputList;	      
+	private List< String > outputList;
+	private File file;
+
 
 	public Output( String filename ) {
 		isWriting = true;
-		this.filename = filename;
 		outputList = new LinkedList< String >();
+		file = new File( filename );
 	}
 	
 	/**
@@ -60,7 +65,7 @@ public class Output {
 		}
 		
 		try {
-			PrintWriter writer = new PrintWriter( new FileWriter( new File( filename), true ) );
+			PrintWriter writer = new PrintWriter( new FileWriter( file, false ) );
 			
 			for (String string : outputList) {
 				writer.println( string );
@@ -105,10 +110,31 @@ public class Output {
 	 * Calls GNUPlot to plot the active data file.
 	 */
 	public void plot() {
-		String plotCommand = "gnuplot.exe -p -e \"plot " + "'" + filename + "' with linespoints\"";
+		writeToFile();
+		InputStream stderr = null;
+		InputStream stdout = null;
+		String line;
+		String plotCommand = "gnuplot -p -e \"plot '" + file.getAbsolutePath() + "'  with linespoints\"";
 		try {
 			Process process = Runtime.getRuntime().exec( plotCommand );
+			stderr = process.getErrorStream ();
+			stdout = process.getInputStream ();
             process.waitFor();
+            // clean up if any output in stdout
+            BufferedReader brCleanUp =
+              new BufferedReader (new InputStreamReader (stdout));
+            while ((line = brCleanUp.readLine ()) != null) {
+              System.out.println ("[Stdout] " + line);
+            }
+            brCleanUp.close();
+
+            // clean up if any output in stderr
+            brCleanUp =
+              new BufferedReader (new InputStreamReader (stderr));
+            while ((line = brCleanUp.readLine ()) != null) {
+              System.out.println ("[Stderr] " + line);
+            }
+            brCleanUp.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

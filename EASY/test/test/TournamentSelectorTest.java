@@ -30,16 +30,12 @@ public class TournamentSelectorTest {
 		env.populationSize = 100;
 		env.rank = 15;
 		genomeSize = 40;
-		tournamentSelector = new TournamentSelector<int[]>();
-		BitvectorReplicator replicator = new BitvectorReplicator(genomeSize);
-		replicator.setEnvironment(env);
-		BitvectorIncubator incubator = new BitvectorIncubator(replicator);
-		incubator.setEnvironment(env);
+		tournamentSelector = new TournamentSelector<int[]>(env.rank, env.numParents);
+		BitvectorReplicator replicator = new BitvectorReplicator(genomeSize, 0.5, 0.5);
+		BitvectorIncubator incubator = new BitvectorIncubator(replicator, env.numChildren);
 		fitCalc = IntegerArrayFitnessCalculators.ONE_MAX_FITNESS;
 		population = Population.getRandomPopulation(incubator, fitCalc, env.populationSize);
-		tournamentSelector.setEnvironment(env);
 		population.updateFitness();
-		tournamentSelector.setEnvironment(env);
 		parents = tournamentSelector.select(population);
 		parents.updateFitness();
 		
