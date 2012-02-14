@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
@@ -114,9 +115,14 @@ public class Output {
 		InputStream stderr = null;
 		InputStream stdout = null;
 		String line;
-		String plotCommand = "gnuplot -p -e \"plot '" + file.getAbsolutePath() + "'  with linespoints\"";
+		String plotCommand = "plot '" + file.getAbsolutePath() + "'  with linespoints\"";
+		System.out.println(plotCommand);
 		try {
-			Process process = Runtime.getRuntime().exec( plotCommand );
+			Process process = Runtime.getRuntime().exec("gnome-terminal -x /usr/bin/gnuplot");
+			OutputStream stdin = process.getOutputStream();
+			PrintStream ps = new PrintStream(stdin);
+			ps.print(plotCommand);
+			
 			stderr = process.getErrorStream ();
 			stdout = process.getInputStream ();
             process.waitFor();

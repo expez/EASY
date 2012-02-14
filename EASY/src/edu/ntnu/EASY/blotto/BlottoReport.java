@@ -50,7 +50,7 @@ public class BlottoReport implements Report<double[],double[]>{
 			plot.printf("%d %f %f %f%n",i,entries[i].maxFitness,entries[i].averageFitness,entries[i].standardDeviation);
 	}
 	
-	public void writeEntrotyPlot(PrintStream plot){
+	public void writeEntropyPlot(PrintStream plot) {
 		for(int i = 1; i < entries.length; i++)
 			plot.printf("%d %f%n",i,entries[i].averageStrategyEntropy);
 	}
@@ -85,4 +85,6 @@ public class BlottoReport implements Report<double[],double[]>{
 			return String.format("|%.4f|%.4f|%.4f|%.4f| - %s",maxFitness,averageFitness,standardDeviation,averageStrategyEntropy,Util.arrayToString("%.3f",bestPhenom));
 		}
 	}
+
+
 }
