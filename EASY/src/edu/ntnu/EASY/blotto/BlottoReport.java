@@ -7,7 +7,7 @@ import edu.ntnu.EASY.Report;
 import edu.ntnu.EASY.individual.Individual;
 import edu.ntnu.EASY.util.Util;
 
-public class BlottoReport extends Report<double[],double[]>{
+public class BlottoReport implements Report<double[],double[]>{
 
 	Entry[] entries;
 	
@@ -33,6 +33,7 @@ public class BlottoReport extends Report<double[],double[]>{
 		sd = Math.sqrt(Util.getFitnessVariance(population, average));
 		entropy /= population.size();
 		entries[generation] = new Entry(max,average,sd,entropy,best);
+		System.out.printf("%d/%d - %d%n",generation,entries.length - 1,population.size());
 	}
 	
 	private double calculateStrategyEntropy(double[] p) {
@@ -44,6 +45,16 @@ public class BlottoReport extends Report<double[],double[]>{
 		return h;
 	}
 
+	public void writeFitnessPlot(PrintStream plot) {
+		for(int i = 1; i < entries.length; i++)
+			plot.printf("%d %f %f %f%n",i,entries[i].maxFitness,entries[i].averageFitness,entries[i].standardDeviation);
+	}
+	
+	public void writeEntrotyPlot(PrintStream plot){
+		for(int i = 1; i < entries.length; i++)
+			plot.printf("%d %f%n",i,entries[i].averageStrategyEntropy);
+	}
+	
 	@Override
 	public void writeToStream(PrintStream out) {
 		out.println("+-----+------+------+------+------+ ");

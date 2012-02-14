@@ -3,7 +3,6 @@ package edu.ntnu.EASY.blotto;
 import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Evolution;
 import edu.ntnu.EASY.FitnessCalculator;
-import edu.ntnu.EASY.Report;
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
@@ -26,7 +25,7 @@ public class Blotto {
 		env.elitism = 10;
 	}
 	
-	public Report<double[],double[]> runBlottoEvolution(int B, double Rf, double Lf) {
+	public BlottoReport runBlottoEvolution(int B, double Rf, double Lf) {
 		FitnessCalculator<double[]> fitCalc = new BlottoFitnessCalculator(Rf,Lf);
 		AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
 		ParentSelector<double[]> parentSelector = new FitnessProportionateSelector<double[]>(env.numParents);
@@ -34,7 +33,7 @@ public class Blotto {
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
 	
-		Report<double[],double[]> report = new BlottoReport(env.maxGenerations);
+		BlottoReport report = new BlottoReport(env.maxGenerations);
 		evo.runEvolution(env, report);
 		return report;
 	}

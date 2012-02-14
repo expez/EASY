@@ -37,7 +37,6 @@ public class Evolution<GType, PType> {
 			population.updateFitness();
 			
 			report.log(generation,population);
-			System.out.printf("%d/%d - %d%n",generation,env.maxGenerations,population.size());
 			
 			parents = parentSelector.select(population);
 
