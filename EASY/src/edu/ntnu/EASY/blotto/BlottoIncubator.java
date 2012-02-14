@@ -1,7 +1,6 @@
 package edu.ntnu.EASY.blotto;
 
 import static edu.ntnu.EASY.util.Util.RNG;
-import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.incubator.Replicator;
@@ -9,18 +8,12 @@ import edu.ntnu.EASY.individual.Individual;
 
 public class BlottoIncubator implements Incubator<double[],double[]> {
 
-	Environment env;
-	
 	Replicator<double[]> replicator;
+	private int numChildren;
 	
-	public BlottoIncubator(Replicator<double[]> replicator){
+	public BlottoIncubator(Replicator<double[]> replicator, int numChildren){
 		this.replicator = replicator;
-	}
-	
-	@Override
-	public void setEnvironment(Environment env) {
-		this.env = env;
-		replicator.setEnvironment(env);
+		this.numChildren = numChildren;
 	}
 
 	@Override
@@ -28,7 +21,7 @@ public class BlottoIncubator implements Incubator<double[],double[]> {
     	Population<double[],double[]> children = new Population<double[],double[]>(parents.getFitnessCalculator());
     	int momIndex;
     	int dadIndex;
-    	while(children.size() < env.numChildren) {
+    	while(children.size() < numChildren) {
     		momIndex = RNG.nextInt(parents.size());
     		dadIndex = RNG.nextInt(parents.size());
     		children.add(makeChild(parents.get(momIndex),parents.get(dadIndex)));
@@ -47,7 +40,5 @@ public class BlottoIncubator implements Incubator<double[],double[]> {
 		childsGenome = replicator.mutate(childsGenome);
 		BlottoIndividual child = new BlottoIndividual(childsGenome);
 		return child;
-		
 	}
-	
 }

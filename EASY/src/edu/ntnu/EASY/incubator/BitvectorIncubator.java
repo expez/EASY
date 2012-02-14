@@ -17,7 +17,6 @@ You should have received a copy of the GNU General Public License
 package edu.ntnu.EASY.incubator;
 
 import static edu.ntnu.EASY.util.Util.RNG;
-import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.individual.BitvectorIndividual;
 import edu.ntnu.EASY.individual.Individual;
@@ -25,11 +24,12 @@ import edu.ntnu.EASY.individual.Individual;
 
 public class BitvectorIncubator implements Incubator<int[],int[]>{
 
-	Environment env;
 	private Replicator<int[]> replicator;
+	private int numChildren;
 	
-    public BitvectorIncubator(Replicator<int[]> replicator) {
+    public BitvectorIncubator(Replicator<int[]> replicator, int numChildren) {
     	this.replicator = replicator;
+    	this.numChildren = numChildren;
     }
     
     BitvectorIndividual makeChild(Individual<int[],int[]> mom, Individual<int[],int[]> dad) {
@@ -52,7 +52,7 @@ public class BitvectorIncubator implements Incubator<int[],int[]>{
     	Population<int[],int[]> children = new Population<int[],int[]>(parents.getFitnessCalculator());
     	int momIndex;
     	int dadIndex;
-    	while(children.size() < env.numChildren) {
+    	while(children.size() < numChildren) {
     		momIndex = RNG.nextInt(parents.size());
     		dadIndex = RNG.nextInt(parents.size());
     		children.add(makeChild(parents.get(momIndex),parents.get(dadIndex)));
@@ -63,11 +63,5 @@ public class BitvectorIncubator implements Incubator<int[],int[]>{
 	@Override
 	public Individual<int[], int[]> randomIndividual() {
 		return new BitvectorIndividual(replicator.randomGenome());
-	}
-
-	@Override
-	public void setEnvironment(Environment env) {
-		replicator.setEnvironment(env);
-		this.env = env;
 	}
 }

@@ -1,15 +1,18 @@
 package edu.ntnu.EASY.incubator;
 
-import edu.ntnu.EASY.Environment;
 import static edu.ntnu.EASY.util.Util.RNG;
 
 public class BitvectorReplicator implements Replicator<int[]>{
 
 	private int genomeLength;
-	private Environment env; 
+	private double mutationRate;
+	private double crossoverRate;
+
 	
-	public BitvectorReplicator(int genomeLength){
+	public BitvectorReplicator(int genomeLength, double mutationRate, double crossoverRate){
 		this.genomeLength = genomeLength;
+		this.mutationRate = mutationRate;
+		this.crossoverRate = crossoverRate;
 	}
 		
 	
@@ -24,7 +27,7 @@ public class BitvectorReplicator implements Replicator<int[]>{
 		// For every bit in the genome.
 		for (int i = 0; i < genomeLength; i++) {
 			// Randomly flip it.
-			if(RNG.nextDouble() <= env.mutationRate) {
+			if(RNG.nextDouble() <= mutationRate) {
 				genome[i] = genome[i] == 0 ? 1 : 0;
 			}
 		}
@@ -37,8 +40,8 @@ public class BitvectorReplicator implements Replicator<int[]>{
     	int[] child = new int[genomeLength];
     	System.arraycopy(g1,0,child,0,genomeLength);
 
-    	// Randomly crossover.
-    	if(RNG.nextDouble() <= env.crossoverRate) {
+		// Randomly crossover.
+    	if(RNG.nextDouble() <= crossoverRate) {
     		int cross = RNG.nextInt(genomeLength);
     		System.arraycopy(g2,cross + 1,child,cross + 1,genomeLength - cross - 1);
     	}
@@ -53,11 +56,4 @@ public class BitvectorReplicator implements Replicator<int[]>{
 		}
 		return genome;
 	}
-
-
-	@Override
-	public void setEnvironment(Environment env) {
-		this.env = env;
-	}
-
 }
