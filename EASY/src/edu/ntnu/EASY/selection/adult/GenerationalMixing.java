@@ -18,13 +18,19 @@ package edu.ntnu.EASY.selection.adult;
 
 import edu.ntnu.EASY.Population;
 
-public class GenerationalMixing<PType> extends AdultSelector<PType> {
+public class GenerationalMixing<PType> implements AdultSelector<PType> {
+
+	private int numAdults;
+	
+	public GenerationalMixing(int numAdults){
+		this.numAdults = numAdults;
+	}
 
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults,	Population<GType, PType> children) {
 		adults.addAll(children);
 		adults.updateFitness();
-		adults.drop(adults.size() - env.numAdults); 
+		adults.drop(adults.size() - numAdults); 
 		return adults;
 	}
 }

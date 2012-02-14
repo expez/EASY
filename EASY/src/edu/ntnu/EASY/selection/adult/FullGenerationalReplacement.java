@@ -18,10 +18,16 @@ package edu.ntnu.EASY.selection.adult;
 
 import edu.ntnu.EASY.Population;
 
-public class FullGenerationalReplacement<PType> extends AdultSelector<PType> {
+public class FullGenerationalReplacement<PType> implements AdultSelector<PType> {
     
 	
-    /**
+    private int elitism;
+    
+    public FullGenerationalReplacement(int elitism){
+    	this.elitism = elitism;
+    }
+
+	/**
      Returns the combination of childrens and adults who may enter the
      next generation.
 
@@ -35,8 +41,8 @@ public class FullGenerationalReplacement<PType> extends AdultSelector<PType> {
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults, Population<GType, PType> children) {
 		adults.sort(true);
 		children.sort();
-		children.drop(env.elitism);
-		for(int i = 0; i < env.elitism; i++){
+		children.drop(elitism);
+		for(int i = 0; i < elitism; i++){
 			children.add(adults.get(i));
 		}
 		return children;
