@@ -38,9 +38,9 @@ public class SigmaScaledSelector<PType> implements ParentSelector<PType> {
 		}
 		
 		//Normalize the sigma values so the intervals are in the range [0,1]
-		for (Double interval : intervals) {
+		for(int i = 0; i < intervals.length; i++){
 			//The value of the last end point is the sum of all the sigmaFitness values.
-			interval /= previousEndpoint;
+			intervals[i] /= previousEndpoint;
 		}
 		return FitnessProportionateSelector.getParentList(population, intervals, numParents);
 	}
