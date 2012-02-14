@@ -1,14 +1,13 @@
 package edu.ntnu.EASY.selection.parent;
 
 import edu.ntnu.EASY.Population;
-import edu.ntnu.EASY.individual.Individual;
 
-public class BoltzmanSelection<PType> implements ParentSelector<PType>{
+public class BoltzmanSelector<PType> implements ParentSelector<PType>{
 	
-	private int numParents;
-	private FitnessProportionateSelector< ? extends Individual > rouletteSelection;
+//	private int numParents;
+//	private FitnessProportionateSelector<PType> rouletteSelection;
 
-	public BoltzmanSelection( int numParents ) {
+	public BoltzmanSelector( int numParents ) {
 		throw new RuntimeException("Not implemented.");
 //		this.numParents = numParents;
 //		rouletteSelection = new FitnessProportionateSelector<Individual>( numParents);
