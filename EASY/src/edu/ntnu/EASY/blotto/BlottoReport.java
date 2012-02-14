@@ -68,7 +68,7 @@ public class BlottoReport extends Report<double[],double[]>{
 		}
 		
 		public String toString(){
-			return String.format("|%.4f|%.4f|%.4f|%.4f| - %s",maxFitness,averageFitness,standardDeviation,averageStrategyEntropy,Arrays.toString(bestPhenom));
+			return String.format("|%.4f|%.4f|%.4f|%.4f| - %s",maxFitness,averageFitness,standardDeviation,averageStrategyEntropy,Util.arrayToString("%.3f",bestPhenom));
 		}
 	}
 }

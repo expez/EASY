@@ -16,11 +16,9 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.selection.parent;
 
-import edu.ntnu.EASY.Environment;
+import static edu.ntnu.EASY.util.Util.RNG;
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.individual.Individual;
-
-import static edu.ntnu.EASY.util.Util.RNG;
 
 public class FitnessProportionateSelection<PType> extends ParentSelector<PType> {
 
@@ -53,15 +51,6 @@ public class FitnessProportionateSelection<PType> extends ParentSelector<PType> 
 		}
 		return getParentList(population, intervals);
 	}
-	
-//	private double getFitnessVariance(List<Individual<?, PType>> individuals, double mean) {
-//		double variance = 0;	
-//		for (Individual<?, PType> individual : individuals) {
-//			variance += ( individual.getFitness() - mean) * ( individual.getFitness() - mean);
-//		}
-//		variance /= individuals.size();
-//		return variance;
-//	}
 	
 	private <GType> Population<GType,PType> getParentList(Population<GType, PType> population, double[] intervals) {
 		Population<GType,PType> parents = new Population<GType, PType>(population.getFitnessCalculator());

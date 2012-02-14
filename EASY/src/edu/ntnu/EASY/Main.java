@@ -15,46 +15,40 @@ General Public License for more details.
 You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
-import edu.ntnu.EASY.blotto.BlottoFitnessCalculator;
-import edu.ntnu.EASY.blotto.BlottoIncubator;
-import edu.ntnu.EASY.blotto.BlottoReplicator;
-import edu.ntnu.EASY.blotto.BlottoReport;
-import edu.ntnu.EASY.incubator.Incubator;
-import edu.ntnu.EASY.selection.adult.AdultSelector;
-import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
-import edu.ntnu.EASY.selection.parent.FitnessProportionateSelection;
-import edu.ntnu.EASY.selection.parent.ParentSelector;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
+import edu.ntnu.EASY.blotto.Blotto;
 
 public class Main {
     
-	private	static int populationSize = 1000;
-	private	static int maxGenerations = 10000;
-	private	static double fitnessThreshold = 99;
-	private	static double mutationRate = 0.05;
-	private	static double crossoverRate = 0.05;
-	private	static int bits = 40;
-	private static int rank = 50;
-	private static boolean elitsm = true;
-
     public static void main(String[] args) {
-    	FitnessCalculator<double[]> fitCalc = new BlottoFitnessCalculator(1,1);
-    	AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>();
-    	ParentSelector<double[]> parentSelector = new FitnessProportionateSelection<double[]>();
-    	Incubator<double[], double[]> incubator = new BlottoIncubator(new BlottoReplicator(20));	
-    	Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
-    	Environment env = new Environment();
-    	env.populationSize = 20;
-    	env.maxGenerations = 500;
-    	env.fitnessThreshold = 35;
-    	env.mutationRate = 0.005;
-    	env.crossoverRate = 0.005;
-    	env.numChildren = 20;
-    	env.numParents = 10;
-    	env.elitism = 10;
+//    	int[] Bs = {5,10,20};
+//    	double[] Rfs = {1.0,0.5,0.0};
+//    	double[] Lfs = {1.0,0.5,0.0};
     	
-    	Report<double[],double[]> report = new BlottoReport(env.maxGenerations);
-    	evo.runEvolution(env, report);
-    	report.writeToStream(System.out);
+    	int[] Bs = {5,20};
+    	double[] Rfs = {1.0,0.0};
+    	double[] Lfs = {1.0,0.0};
+    	
+    	
+    	Blotto blotto = new Blotto();
+    	
+    	for(int B : Bs){
+    		for(double Rf : Rfs){
+    			for(double Lf : Lfs){
+    				Report<double[],double[]> report = blotto.runBlottoEvolution(B,Rf,Lf);
+    				String filename = String.format("blotto-%d-%.2f-%.2f.txt",B,Rf,Lf);
+    				try {
+						PrintStream out = new PrintStream(new FileOutputStream(filename));
+						report.writeToStream(out);
+					} catch (FileNotFoundException e) {
+						System.err.printf("File not found: %s%n",filename);
+					}
+    			}
+    		}
+    	}
     }
 }
