@@ -13,14 +13,14 @@ public class Bitvector {
 	
 	public Bitvector(){
 		env = new Environment();
-		env.populationSize = 20;
-		env.maxGenerations = 500;
+		env.populationSize = 60;
+		env.maxGenerations = 100;
 		env.fitnessThreshold = 2.0;
-		env.mutationRate = 0.005;
-		env.crossoverRate = 0.005;
-		env.numChildren = 20;
-		env.numParents = 10;
-		env.elitism = 10;
+		env.mutationRate = 0.01;
+		env.crossoverRate = 0.01;
+		env.numChildren = 57;
+		env.numParents = 29;
+		env.elitism = 3;
 	}
 	
 	public Report<int[],int[]> runBitvectorEvolution(int bits) {
