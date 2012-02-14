@@ -19,6 +19,7 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 	}
 	
 	public Population(Population<GType, PType> population) {
+		this.population = new LinkedList<Individual<GType, PType>>();
 		this.fitCalc = population.fitCalc;
 		for (Individual<GType, PType> individual : population) {
 			this.population.add(individual);

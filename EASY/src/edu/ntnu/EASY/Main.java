@@ -16,10 +16,19 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-
+import edu.ntnu.EASY.blotto.BlottoFitnessCalculator;
+import edu.ntnu.EASY.blotto.BlottoIncubator;
+import edu.ntnu.EASY.blotto.BlottoReplicator;
+import edu.ntnu.EASY.incubator.BitvectorIncubator;
+import edu.ntnu.EASY.incubator.BitvectorReplicator;
+import edu.ntnu.EASY.incubator.Incubator;
+import edu.ntnu.EASY.individual.BitvectorIndividual;
+import edu.ntnu.EASY.individual.Individual;
+import edu.ntnu.EASY.selection.adult.AdultSelector;
+import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
+import edu.ntnu.EASY.selection.parent.FitnessProportionateSelector;
+import edu.ntnu.EASY.selection.parent.ParentSelector;
+d
 import edu.ntnu.EASY.blotto.Blotto;
 
 public class Main {
@@ -28,7 +37,7 @@ public class Main {
 //    	int[] Bs = {5,10,20};
 //    	double[] Rfs = {1.0,0.5,0.0};
 //    	double[] Lfs = {1.0,0.5,0.0};
-    	
+
     	int[] Bs = {5,20};
     	double[] Rfs = {1.0,0.0};
     	double[] Lfs = {1.0,0.0};

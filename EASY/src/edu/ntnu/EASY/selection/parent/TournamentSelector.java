@@ -34,8 +34,8 @@ public class TournamentSelector<PType> extends ParentSelector<PType>{
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults) {
 		Population<GType, PType> adultsCopy = adults.copy();
-		Population<GType, PType> tournamentRoster = new Population<GType, PType>();
-		Population<GType, PType> parents= new Population<GType, PType>();
+		Population<GType, PType> tournamentRoster = new Population<GType, PType>(adults.getFitnessCalculator());
+		Population<GType, PType> parents = new Population<GType, PType>(adults.getFitnessCalculator());
 		
 		while(parents.size() < env.numParents) {
 			tournamentRoster.clear();

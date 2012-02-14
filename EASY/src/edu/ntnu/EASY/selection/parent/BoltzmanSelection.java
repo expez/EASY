@@ -9,11 +9,11 @@ import edu.ntnu.EASY.individual.Individual;
 public class BoltzmanSelection< T extends Comparable< ? super Individual > > {
 	
 	private int numParents;
-	private FitnessProportionateSelection< ? extends Individual > rouletteSelection;
+	private FitnessProportionateSelector< ? extends Individual > rouletteSelection;
 
 	public BoltzmanSelection( int numParents ) {
 		this.numParents = numParents;
-		rouletteSelection = new FitnessProportionateSelection<Individual>( numParents);
+		rouletteSelection = new FitnessProportionateSelector<Individual>( numParents);
 	}
 	
 	

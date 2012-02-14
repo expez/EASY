@@ -45,6 +45,9 @@ public abstract class AbstractIndividual<GType, PType> implements Individual<GTy
 	}
 	
 	public double updateFitness(FitnessCalculator<PType> fitCalc){
+		if(phenome == null) {
+			growUp();
+		}
 		return fitness = fitCalc.calculate(phenome);
 	}
 

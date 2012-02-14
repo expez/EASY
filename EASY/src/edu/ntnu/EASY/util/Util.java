@@ -17,6 +17,12 @@ public class Util {
 	}
 	
 	public static <GType,PType> double getFitnessVariance(Population<GType,PType> individuals, double mean) {
+	double variance = 0;	
+	for (Individual<GType, PType> individual : individuals) {
+		variance += ( individual.getFitness() - mean) * ( individual.getFitness() - mean);
+	}
+	
+	public static <GType,PType> double getFitnessVariance(Population<GType,PType> individuals, double mean) {
 		double variance = 0;	
 		for (Individual<GType, PType> individual : individuals) {
 			variance += ( individual.getFitness() - mean) * ( individual.getFitness() - mean);
