@@ -40,6 +40,7 @@ public class FullGenerationalReplacement<PType> implements AdultSelector<PType> 
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults, Population<GType, PType> children) {
 		adults.sort(true);
+		children.updateFitness();
 		children.sort();
 		children.drop(elitism);
 		for(int i = 0; i < elitism; i++){
