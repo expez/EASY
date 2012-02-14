@@ -67,10 +67,6 @@ public class Main {
 	}
 	
     public static void main(String[] args) {
-<
-
-    	Bitvector bitv = new Bitvector();
-    	bitv.runBitvectorEvolution(40);
 
     	CommandLine cl = null;
     	CommandLineParser clp = new BasicParser();
