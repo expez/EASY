@@ -15,14 +15,14 @@ public class Blotto {
 	
 	public Blotto(){
 		env = new Environment();
-		env.populationSize = 100;
+		env.populationSize = 20;
 		env.maxGenerations = 500;
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.01;
 		env.crossoverRate = 0.01;
-		env.numChildren = 90;
-		env.numParents = 30;
-		env.elitism = 10;
+		env.numChildren = 19;
+		env.numParents = 10;
+		env.elitism = 1;
 	}
 	
 	public BlottoReport runBlottoEvolution(int B, double Rf, double Lf) {
