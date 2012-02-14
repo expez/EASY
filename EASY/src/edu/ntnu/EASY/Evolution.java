@@ -1,7 +1,5 @@
 package edu.ntnu.EASY;
 
-import java.util.Arrays;
-
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.individual.Individual;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
@@ -24,16 +22,13 @@ public class Evolution<GType, PType> {
 	
 	public void runEvolution(Environment env, Report<GType, PType> report){
 		
-		adultSelector.setEnvironment(env);
-		parentSelector.setEnvironment(env);
-		incubator.setEnvironment(env);
-		
 		Population<GType,PType> population = new Population<GType,PType>(fitCalc);
 		for(int i = 0; i < env.populationSize; i++){
 			Individual<GType,PType> ind = incubator.randomIndividual();
 			ind.growUp();
 			population.add(ind);
 		}
+		
 		Population<GType,PType> children = new Population<GType,PType>(fitCalc);
 		Population<GType,PType> parents = new Population<GType,PType>(fitCalc);
 		

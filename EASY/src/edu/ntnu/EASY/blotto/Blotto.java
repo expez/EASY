@@ -1,7 +1,5 @@
 package edu.ntnu.EASY.blotto;
 
-import java.io.FileNotFoundException;
-
 import edu.ntnu.EASY.Environment;
 import edu.ntnu.EASY.Evolution;
 import edu.ntnu.EASY.FitnessCalculator;
@@ -9,7 +7,7 @@ import edu.ntnu.EASY.Report;
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
-import edu.ntnu.EASY.selection.parent.FitnessProportionateSelection;
+import edu.ntnu.EASY.selection.parent.FitnessProportionateSelector;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
 
 public class Blotto {
@@ -30,9 +28,9 @@ public class Blotto {
 	
 	public Report<double[],double[]> runBlottoEvolution(int B, double Rf, double Lf) {
 		FitnessCalculator<double[]> fitCalc = new BlottoFitnessCalculator(Rf,Lf);
-		AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>();
-		ParentSelector<double[]> parentSelector = new FitnessProportionateSelection<double[]>();
-		Incubator<double[], double[]> incubator = new BlottoIncubator(new BlottoReplicator(B));	
+		AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
+		ParentSelector<double[]> parentSelector = new FitnessProportionateSelector<double[]>(env.numParents);
+		Incubator<double[], double[]> incubator = new BlottoIncubator(new BlottoReplicator(B), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
 	
