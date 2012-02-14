@@ -20,8 +20,14 @@ import static edu.ntnu.EASY.util.Util.RNG;
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.individual.Individual;
 
-public class FitnessProportionateSelector<PType> extends ParentSelector<PType> {
+public class FitnessProportionateSelector<PType> implements ParentSelector<PType> {
 
+	private int numParents;
+
+	public FitnessProportionateSelector(int numParents){
+		this.numParents = numParents;
+	}
+	
 	/**
 	 * Fitness proportional selection of parents.
 	 * @param population a list to pick parents from.
@@ -49,7 +55,7 @@ public class FitnessProportionateSelector<PType> extends ParentSelector<PType> {
 			intervals[adultIndex] = (normalizedFitness + previousEndpoint);
 			previousEndpoint += normalizedFitness;
 		}
-		return getParentList(population, intervals, env.numParents);
+		return getParentList(population, intervals, numParents);
 	}
 	
 	 static <GType, PType> Population<GType,PType> getParentList(Population<GType, PType> population, double[] intervals, int numParents) {

@@ -18,10 +18,14 @@ package edu.ntnu.EASY.selection.parent;
 
 import edu.ntnu.EASY.Population;
 
-public class TournamentSelector<PType> extends ParentSelector<PType>{
+public class TournamentSelector<PType> implements ParentSelector<PType>{
 
-	public TournamentSelector() {
+	private int rank;
+	private int numParents;
 
+	public TournamentSelector(int rank, int numParents) {
+		this.rank = rank;
+		this.numParents = numParents;
 	}
 	
 	/**
@@ -37,11 +41,11 @@ public class TournamentSelector<PType> extends ParentSelector<PType>{
 		Population<GType, PType> tournamentRoster = new Population<GType, PType>(adults.getFitnessCalculator());
 		Population<GType, PType> parents = new Population<GType, PType>(adults.getFitnessCalculator());
 		
-		while(parents.size() < env.numParents) {
+		while(parents.size() < numParents) {
 			tournamentRoster.clear();
 			adultsCopy.shuffle();
 			//Add rank individuals to tournamentRoster.
-			tournamentRoster.addAll(adultsCopy.getSubset(env.rank));
+			tournamentRoster.addAll(adultsCopy.getSubset(rank));
 			//sort, descending order
 			tournamentRoster.sort(true);
 			parents.add(tournamentRoster.get(0));

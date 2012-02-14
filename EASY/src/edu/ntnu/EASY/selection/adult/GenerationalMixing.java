@@ -27,5 +27,4 @@ public class GenerationalMixing<PType> extends AdultSelector<PType> {
 		adults.drop(adults.size() - env.numAdults); 
 		return adults;
 	}
-
 }

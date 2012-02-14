@@ -18,21 +18,23 @@ package edu.ntnu.EASY.selection.parent;
 
 import edu.ntnu.EASY.Population;
 
-public class RankSelector<PType> extends ParentSelector<PType>{
+public class RankSelector<PType> implements ParentSelector<PType>{
 
-	public RankSelector() {
+	private int rank;
+	
+	public RankSelector(int rank) {
+		this.rank = rank;
 	}
 
 	/**
 	 * @param adults individuals who are going to battle it out to become parents.
 	 * @return A population of adults fit to become parents.
 	 */
-
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults) {
 		Population<GType, PType> populationCopy = adults.copy();
 		
-		populationCopy.drop(env.rank);
+		populationCopy.drop(rank);
 		return populationCopy;
 	}
 }
