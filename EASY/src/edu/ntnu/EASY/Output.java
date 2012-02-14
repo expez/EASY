@@ -118,15 +118,16 @@ public class Output {
 		String setTitle = "set title \"Fitness plots for One Max\";";
 		String setXlabel = "set xlabel \"Generations\";";
 		String setYlabel = "set ylabel \"Fitness\";";
-		String using = "using 1:2 title \"Max fitness\" 1:2 1:3 title \"Average fitness\" 1:4 title\"Standard deviation\"";
-		
+		String using1 = "'"+ file.getAbsolutePath()+"'" + " using 1:2 title \"Max fitness\","; 
+		String using2 = "'"+ file.getAbsolutePath()+"'"  + " using 1:3 title \"Average fitness\",";
+		String using3 = "'"+ file.getAbsolutePath()+"'"  + " using 1:4 title\"Standard deviation\"";
 		//String plotCommand = "plot '" + file.getAbsolutePath() + "'  with linespoints\"";
 		String tot ="HAHa" ;
 //		String[] plotCommand = {"/usr/bin/gnuplot",
 //	              "-e",
 //	              "set term jpeg large size 800,600;set autoscale; set grid;set format y \"%0.f\";set output \"plot.jpg\";set xdata time;set timefmt \"%Y-%m-%d-%H:%M:%S\";set xlabel \"Dates\";set ylabel \"Data transferred (bytes)\";plot \""+ file.getAbsolutePath()+"\" using 1:2 title \"Total:"+tot+"\" with linespoints;"
 //	             };
-		String[] plotCommand = {"/usr/local/bin/gnuplot", "-p", "-e", setTitle + setXlabel + setYlabel + "plot '" + file.getAbsolutePath() + "' "+ using + " with linespoints"};
+		String[] plotCommand = {"/usr/local/bin/gnuplot", "-p", "-e", setTitle + setXlabel + setYlabel + "plot "+ using1 + using2 +using3+" with linespoints;"};
 		System.out.println(plotCommand);
 		try {
 			Process process = Runtime.getRuntime().exec(plotCommand);
