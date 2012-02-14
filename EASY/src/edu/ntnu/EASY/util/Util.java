@@ -17,12 +17,6 @@ public class Util {
 	}
 	
 	public static <GType,PType> double getFitnessVariance(Population<GType,PType> individuals, double mean) {
-	double variance = 0;	
-	for (Individual<GType, PType> individual : individuals) {
-		variance += ( individual.getFitness() - mean) * ( individual.getFitness() - mean);
-	}
-	
-	public static <GType,PType> double getFitnessVariance(Population<GType,PType> individuals, double mean) {
 		double variance = 0;	
 		for (Individual<GType, PType> individual : individuals) {
 			variance += ( individual.getFitness() - mean) * ( individual.getFitness() - mean);
@@ -44,5 +38,14 @@ public class Util {
 		return sw.toString();
 	}
 
+	public static void normalize(double[] a){
+		double total = 0.0;
+		for(double d : a){
+			total += d;
+		}
+		for (int i = 0; i < a.length; i++) {
+			a[i] /= total;
+		}
+	}
 	
 }
