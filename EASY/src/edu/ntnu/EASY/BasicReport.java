@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.Arrays;
 
 import edu.ntnu.EASY.individual.Individual;
+import edu.ntnu.EASY.util.Util;
 
 public class BasicReport implements Report<int[], int[]> {
 	
@@ -25,8 +26,9 @@ public class BasicReport implements Report<int[], int[]> {
 			average += ind.getFitness();
 		}
 		average /= population.size();
+		double sd = Math.sqrt(Util.getFitnessVariance(population, average));
 		System.out.printf("%4d: %.2f, %s%n",generation,bestFitness,Arrays.toString(bestPhenome));
-		output.appendLine(generation + " " + bestFitness + " " + average);
+		output.appendLine(generation + " " + bestFitness + " " + average + " " + sd);
 		if(generation == 100)
 			output.plot();
 	}	
