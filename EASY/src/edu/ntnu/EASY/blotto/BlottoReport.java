@@ -1,7 +1,6 @@
 package edu.ntnu.EASY.blotto;
 
 import java.io.PrintStream;
-import java.util.Arrays;
 
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.Report;
@@ -47,8 +46,12 @@ public class BlottoReport extends Report<double[],double[]>{
 
 	@Override
 	public void writeToStream(PrintStream out) {
+		out.println("+-----+------+------+------+------+ ");
+		out.println("| gen | best | mean |  sd  | avgH | best strategy");
+		out.println("+-----+------+------+------+------+ ");
 		for(int i = 1; i < entries.length; i++)
-			out.printf("%4d: %s%n",i,entries[i]);
+			out.printf("| %4d%s%n",i,entries[i]);
+		out.println("+-----+------+------+------+------+ ");
 	}
 	
 	static class Entry {
