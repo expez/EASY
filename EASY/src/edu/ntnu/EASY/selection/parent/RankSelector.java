@@ -34,7 +34,8 @@ public class RankSelector<PType> implements ParentSelector<PType>{
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults) {
 		Population<GType, PType> populationCopy = adults.copy();
 		
-		populationCopy.drop(rank);
+		populationCopy.sort();
+		populationCopy.drop(adults.size() - rank);
 		return populationCopy;
 	}
 }
