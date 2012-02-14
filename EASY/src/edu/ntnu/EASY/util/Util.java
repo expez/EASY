@@ -48,4 +48,8 @@ public class Util {
 		}
 	}
 	
+	public static void plot(double[][] values){
+		
+	}
+	
 }

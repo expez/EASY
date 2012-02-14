@@ -20,6 +20,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
+import org.jfree.chart.plot.XYPlot;
+
 import edu.ntnu.EASY.blotto.Blotto;
 import edu.ntnu.EASY.blotto.BlottoReport;
 
@@ -27,35 +29,37 @@ public class Main {
     
     public static void main(String[] args) {
     	
-    	Bitvector bitv = new Bitvector();
-    	bitv.runBitvectorEvolution(40);
+    	XYPlot plot = new XYPlot();
     	
+//    	Bitvector bitv = new Bitvector();
+//    	bitv.runBitvectorEvolution(40);
+//    	
     	int[] Bs = {5,10,20};
     	double[] Rfs = {1.0,0.5,0.0};
     	double[] Lfs = {1.0,0.5,0.0};
     	
-    	//Blotto blotto = new Blotto();
-//    	
-//    	for(int B : Bs){
-//    		for(double Rf : Rfs){
-//    			for(double Lf : Lfs){
-//    				double start = System.currentTimeMillis();
-//    				BlottoReport report = blotto.runBlottoEvolution(B,Rf,Lf);
-//    				double stop = System.currentTimeMillis();
-//    				String filename = String.format("log/blotto-%d-%.1f-%.1f",B,Rf,Lf);
-//    				try {
-//						PrintStream log = new PrintStream(new FileOutputStream(filename + ".log"));
-//						log.printf("# Blotto run, B: %d, Rf: %.2f, Lf: %.2f - %.2f sec %n",B,Rf,Lf,(stop-start)/1000);
-//						report.writeToStream(log);
-//						PrintStream fitPlot = new PrintStream(new FileOutputStream(filename + "-fit.plot"));
-//						report.writeFitnessPlot(fitPlot);
-//						PrintStream entropyPlot = new PrintStream(new FileOutputStream(filename + "-entropy.plot"));
-//						report.writeFitnessPlot(entropyPlot);
-//    				} catch (FileNotFoundException e) {
-//						System.err.printf("File not found: %s%n",filename);
-//					}
-//    			}
-//    		}
-//    	}
-   }
+    	Blotto blotto = new Blotto();
+    	
+    	for(int B : Bs){
+    		for(double Rf : Rfs){
+    			for(double Lf : Lfs){
+    				double start = System.currentTimeMillis();
+    				BlottoReport report = blotto.runBlottoEvolution(B,Rf,Lf);
+    				double stop = System.currentTimeMillis();
+    				String filename = String.format("log/blotto-%d-%.1f-%.1f",B,Rf,Lf);
+    				try {
+    					PrintStream log = new PrintStream(new FileOutputStream(filename + ".log"));
+    					log.printf("# Blotto run, B: %d, Rf: %.2f, Lf: %.2f - %.2f sec %n",B,Rf,Lf,(stop-start)/1000);
+    					report.writeToStream(log);
+    					PrintStream fitPlot = new PrintStream(new FileOutputStream(filename + "-fit.plot"));
+    					report.writeFitnessPlot(fitPlot);
+    					PrintStream entropyPlot = new PrintStream(new FileOutputStream(filename + "-entropy.plot"));
+    					report.writeEntropyPlot(entropyPlot);
+    				} catch (FileNotFoundException e) {
+    					System.err.printf("File not found: %s%n",filename);
+    				}
+    			}
+    		}
+    	}
+    }
 }
