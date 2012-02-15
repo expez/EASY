@@ -67,7 +67,8 @@ public class Main {
 				.addOption("?",false,"Print help")
 				.addOption("h","help",false,"Print help")
 				.addOption("B","blotto",false,"Run blotto, no other options needed :I")
-				.addOption("o","output-file",true,"Name of the outputfile");
+				.addOption("o","output-file",true,"Name of the outputfile")
+				.addOption("r","rank",true,"The rank used is selection.");
 	}
 	
     public static void main(String[] args) {
@@ -102,6 +103,7 @@ public class Main {
 		env.crossoverRate = Double.parseDouble(cl.getOptionValue('c',"0.01"));
 		env.numChildren = Integer.parseInt(cl.getOptionValue('b',"57"));
 		env.numParents = Integer.parseInt(cl.getOptionValue('f',"29"));
+		env.rank = Integer.parseInt(cl.getOptionValue('r',"10"));
 		env.elitism = Integer.parseInt(cl.getOptionValue('e',"3"));
     	
 		int length = Integer.parseInt(cl.getOptionValue('l',"40"));
