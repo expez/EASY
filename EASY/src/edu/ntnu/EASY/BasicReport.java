@@ -25,8 +25,8 @@ import edu.ntnu.EASY.util.Util;
 public class BasicReport implements Report<int[], int[]> {
 	
 	Output output;
-	public BasicReport() {
-		this.output = new Output("oneMaxOut");
+	public BasicReport(String filename) {
+		this.output = new Output(filename);
 	}
 
 	@Override

@@ -116,11 +116,11 @@ public class Output {
 		String setXlabel = "set xlabel \"Generations\";";
 		String setYlabel = "set ylabel \"Fitness\";";
 		String setTerm =  "set term png large size 800,600;";
-		String setOutput = "set output \"OneMax6.png\";";
+		String setOutput = "set output \"" + file.getAbsolutePath() + ".png\";";
 		String using1 = "'"+ file.getAbsolutePath()+"'" + " using 1:2 title \"Max fitness\" with linespoints,"; 
 		String using2 = "'"+ file.getAbsolutePath()+"'"  + " using 1:3 title \"Average fitness\" with linespoints,";
 		String using3 = "'"+ file.getAbsolutePath()+"'"  + " using 1:4 title\"Standard deviation\" with linespoints";
-		String[] plotCommand = {"/usr/local/bin/gnuplot","-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1 + using2 +using3};
+		String[] plotCommand = {"/usr/bin/gnuplot","-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1 + using2 +using3};
 		System.out.println(plotCommand);
 		plot(plotCommand);
 	}
@@ -135,14 +135,14 @@ public class Output {
 		String using1 = "'"+ file.getAbsolutePath()+"'" + " using 1:2 title \"Max fitness\" with linespoints,"; 
 		String using2 = "'"+ file.getAbsolutePath()+"'"  + " using 1:3 title \"Average fitness\" with linespoints,";
 		String using3 = "'"+ file.getAbsolutePath()+"'"  + " using 1:4 title\"Standard deviation\" with linespoints";
-		String[] plotFitness = {"/usr/local/bin/gnuplot", "-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1 + using2 +using3};
+		String[] plotFitness = {"/usr/bin/gnuplot", "-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1 + using2 +using3};
 		plot(plotFitness);
 
 		setTitle = String.format("set title \"Average entropy plot [%2d,%.1f,%.1f]\";",B,Rf,Lf);
 		setYlabel = "set ylabel \"Entropy\";";
 		setOutput = "set output \"" + file.getAbsolutePath()+ "-entropy.png\";";
 		using1 = "'"+ file.getAbsolutePath()+"'" + " using 1:5 title \"Average entropy\" with linespoints"; 
-		String[] plotEntropy = {"/usr/local/bin/gnuplot", "-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1};
+		String[] plotEntropy = {"/usr/bin/gnuplot", "-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1};
 		plot(plotEntropy);
 	}
 
