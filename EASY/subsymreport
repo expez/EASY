@@ -1,6 +1,6 @@
-This report will contain an overview of EASY, Evolutionary Algorithm SYstem.  EASY is written in
+This report contains an overview of EASY, Evolutionary Algorithm SYstem.  EASY is written in
 Java, with extensive use of generics to create a system which is applicable to as many types of
-problems as possible. EASY is then used to solve the One Max Fitness problem and the Blotto problem.
+problems as possible. We then use EASY to solve the One Max Fitness problem and the Blotto problem.
 
 System Overview
 
@@ -15,7 +15,7 @@ these individuals are bitvectors.
 
 Individual<GType, PType> is actually an interface, which all problem specific individuals must
 adhere to. E.g the BitvectorIndividual<int[], int[]> class used to solve the one-max fitness
-problem.  Adhering to the Individual interface means implementing the following methods:
+problem. Adhering to the Individual interface means implementing the following methods:
 getFitness(), getGenome(), getPhenome(), updateFitness(FitnessCalculator fitCalc) and growUp().
 
 The first three are self-explanatory, the return information from these function calls is used to
@@ -146,30 +146,31 @@ sub-solutions from the best individuals are traded, but at the end we've accumul
 the one-max genomes and crossover a large part of the genome might mean flipping a single bit.
 
 We ran several runs with different values for crossover and the effect it has on the one max problem
-seems limited. The effects of changing the mutation rate, on the other hand, were quickly noticed.
-It's hard to say exactly which value for mutation rate is the best one, but the area around 0.01
-seems most promising.
+seems limited, but positive. The effects of changing the mutation rate, on the other hand, were
+quickly noticed.  It's hard to say exactly which value for mutation rate is the best one, but the
+area around 0.01 seems most promising.
 
 The impact of parent selection mechanism
 
 PIC: Onemax4 shows rank based selection.
 
-qRank based selection performed quite a bit better than the fitness proportionate selection. The rank
+Rank based selection performed quite a bit better than the fitness proportionate selection. The rank
 parameter used was equal to half the population size. In other words half of the adults are allowed
 to procreate. Fitness proportionate selection managed to arrive at the solution in 73 generations,
-whereas rank based selection needed only 43. This is quite the improvement! Rank based selection
+whereas rank based selection needed only 31. This is quite the improvement! Rank based selection
 amounts to higher selection pressure, the worst individuals are completely excluded from reproducing. On the other hand, the exploration added, by only removing half of the population seems to have increased performance by a noticable amount. The likelihood of selecting an individual with truly abysmal fitness can be very small when using fitness proportionate selection, but using rank based selection individuals with low fitness still get to reproduce. Because we don't exclude already selected individuals from entering the parent list again, fitness proportionate selection probably doesn't do much exploration at all.
 
 PIC: Onemax5 shows tournament based selection.
 
-Tournament selection, with a tournament size of 5. We created a number of parents equal to approximately half the population. The results is a very similar performance as what was
-found with rank based selection. The explanation is also the same. This run shows a solution found
-in 37 generations. 
+Tournament selection, with a tournament size of 5. We created a number of parents equal to
+approximately half the population. The results is a very similar performance as what was found with
+rank based selection. The explanation is also the same. This run shows a solution found in 43
+generations.
 
 
 PIC: Onemax6 shows sigmascaled selection
 
-Clearly we have our winner! This performance is pretty outrageous compared to what we got initially. Again we're creating a number of adults equal to approximately half the population size. The solution is found in only 17 generations. The sigma scaled selection amounts to even more exploration, compared to the rank based selection. This is because the scaled fitness values reduces the difference between the likelihood of reproduction for individuals with very low and very high fitness. 
+Clearly we have our winner! This performance is pretty outrageous compared to what we got initially. Again we're creating a number of adults equal to approximately half the population size. The solution is found in only 15 generations. The sigma scaled selection amounts to even more exploration, compared to the rank based selection. This is because the scaled fitness values reduces the difference between the likelihood of reproduction for individuals with very low and very high fitness. 
 
 Modification of the target string
 
@@ -213,3 +214,45 @@ when the rival strategies have very high entropy a good counter strategy will be
 comparatively low entropy, and vice versa. In more concrete terms we can say that a low entropy
 strategy spends a lot of resources on a few battles, whereas a low entropy strategy spreads its
 resources (perhaps too thinly!) among all battles.
+
+The three signature cases
+
+B = 20 ,Rf = 0.5, Lf = 0.5
+
+PIC: 20-0.5-0.5-fitness
+PIC: 20-0.5-0.5-entropy
+
+This case is interesting because we can see that the entropy is clearly oscillating. Some unbalanced
+strategy will emerge (low entopy), and win a few key battles while neglecting the rest, and then a
+more balanced counter-strategy (with high entropy) will emerge to beat it. The max fitness plot is
+also oscillating wildly, showing that new winning strategies are constantly re-appearing and being
+countered. Notice how the average fitness always stays the same in all the plots for the Blotto
+problem. This is because we're dealing with a zero-sum game: a battle won for one strategy always
+means a battle lost for another strategy.
+
+B = 5, Rf = 0.5, Lf = 0.
+
+PIC: 5-0.5-0.0-fitness
+PIC: 5-0.5-0.0-entropy
+
+For this case we see a huge drop-off in entropy down to nearly zero, then the system stays there for
+some time while this strategy dominates. I checked the log and this strategy is, naturally, [0.998, 0.000, 0.000, 0.002, 0.000]. The benefit of being able to redeploy soldiers plays a huge role here.
+The following section in the entropy graph is also quite interesting. The obvious counter strategy to a strategy with no troops deployed to fight most of the battles is to send a single unit there to win the battle unopposed. Here is the winning strategy at generation 445: [0.903, 0.000, 0.000, 0.097, 0.000]. Redeployment ensures that a small fraction is sent to fight in battles 2 and 3, what is probably two units is deployed to battle 4 and a single unit is redeployed to battle 5. This is pretty
+cool! 
+
+B = 20, Rf = 1.0, Lf = 1.0.
+
+PIC: 20-1.0-1.0-fitness
+PIC: 20-1.0-1.0-entropy
+
+This case is interesting because it clearly shows the behaviour we get at the extreme. A high value
+for Rf and a high value for Lf both favor strategies where a lot of resources are diverted to the
+early battles. This explains the sudden drop-off in entropy; we're producing strategies with some
+high value for the first battle, and perhaps the second one, and then all zeroes. The reason the
+entropy stays at zero, and never oscillates up, is because Lf is 1. If you lose the first battle,
+you will lose all your remaining battles because all your troops will defect! Clearly, very high
+values for Lf will produce somewhat uninteresting cases.
+
+Co-evolution
+
+Co-evolution is interesting because of the oscillating patterns seen in the fitness plots and in the entropy plots. Because the fitness of each individual depends on what the other individuals are doing we will always see new strategies appear and disappear. The only exception here is if impose some parameters which forces some, often obvious, strategies to appear. An example we saw of this is when Lf was is to 1. The winningest strategy in this case is to use all the resources to win the first battle.
