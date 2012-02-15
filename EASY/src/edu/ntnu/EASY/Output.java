@@ -112,19 +112,44 @@ public class Output {
 	 */
 	public void plot() {
 		writeToFile();
-		InputStream stderr = null;
-		InputStream stdout = null;
-		String line;
 		String setTitle = "set title \"Fitness plots for One Max\";";
 		String setXlabel = "set xlabel \"Generations\";";
 		String setYlabel = "set ylabel \"Fitness\";";
-		//String setTerm =  "set term png large size 800,600;";
-		String setOutput = "set output \"~/docs/OneMax6.png\";";
+		String setTerm =  "set term png large size 800,600;";
+		String setOutput = "set output \"OneMax6.png\";";
 		String using1 = "'"+ file.getAbsolutePath()+"'" + " using 1:2 title \"Max fitness\" with linespoints,"; 
 		String using2 = "'"+ file.getAbsolutePath()+"'"  + " using 1:3 title \"Average fitness\" with linespoints,";
 		String using3 = "'"+ file.getAbsolutePath()+"'"  + " using 1:4 title\"Standard deviation\" with linespoints";
-		String[] plotCommand = {"/usr/local/bin/gnuplot", "-p", "-e", setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1 + using2 +using3};
+		String[] plotCommand = {"/usr/local/bin/gnuplot","-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1 + using2 +using3};
 		System.out.println(plotCommand);
+		plot(plotCommand);
+	}
+	
+	public static void plotBlotto(File file, int B, double Rf, double Lf) {
+		
+		String setTitle = String.format("set title \"Fitness plots [%2d,%.1f,%.1f]\";",B,Rf,Lf);
+		String setXlabel = "set xlabel \"Generations\";";
+		String setYlabel = "set ylabel \"Fitness\";";
+		String setTerm =  "set term png large size 800,600;";
+		String setOutput = "set output \"" + file.getAbsolutePath() + "-fitness.png\";";
+		String using1 = "'"+ file.getAbsolutePath()+"'" + " using 1:2 title \"Max fitness\" with linespoints,"; 
+		String using2 = "'"+ file.getAbsolutePath()+"'"  + " using 1:3 title \"Average fitness\" with linespoints,";
+		String using3 = "'"+ file.getAbsolutePath()+"'"  + " using 1:4 title\"Standard deviation\" with linespoints";
+		String[] plotFitness = {"/usr/local/bin/gnuplot", "-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1 + using2 +using3};
+		plot(plotFitness);
+
+		setTitle = String.format("set title \"Average entropy plot [%2d,%.1f,%.1f]\";",B,Rf,Lf);
+		setYlabel = "set ylabel \"Entropy\";";
+		setOutput = "set output \"" + file.getAbsolutePath()+ "-entropy.png\";";
+		using1 = "'"+ file.getAbsolutePath()+"'" + " using 1:5 title \"Average entropy\" with linespoints"; 
+		String[] plotEntropy = {"/usr/local/bin/gnuplot", "-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1};
+		plot(plotEntropy);
+	}
+
+	private static void plot(String[] plotCommand) {
+		String line;
+		InputStream stderr = null;
+		InputStream stdout = null;
 		try {
 			Process process = Runtime.getRuntime().exec(plotCommand);
 			OutputStream stdin = process.getOutputStream();

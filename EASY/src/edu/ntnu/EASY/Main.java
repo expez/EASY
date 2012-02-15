@@ -27,6 +27,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import java.io.File;
+
 import edu.ntnu.EASY.blotto.Blotto;
 import edu.ntnu.EASY.blotto.BlottoReport;
 import edu.ntnu.EASY.incubator.BitvectorIncubator;
@@ -63,7 +65,8 @@ public class Main {
 				.addOption("P","parent-select",true,"Which parent selection strategy to use.")
 				.addOption("A","adult-select",true,"Which adult selection strategy to use.")
 				.addOption("?",false,"Print help")
-				.addOption("h","help",false,"Print help");
+				.addOption("h","help",false,"Print help")
+				.addOption("B","blotto",false,"Run blotto, no other options needed :I");
 	}
 	
     public static void main(String[] args) {
@@ -81,7 +84,12 @@ public class Main {
 
     	if(cl.hasOption('h') || cl.hasOption('?')){
     		hf.printHelp(USAGE,options);
-    		System.exit(1);
+    		System.exit(0);
+    	}
+    	
+    	if(cl.hasOption('B')){
+    		blotto();
+    		System.exit(0);
     	}
     	
     	Environment env = new Environment();
@@ -142,7 +150,7 @@ public class Main {
     public static void blotto(){
     	Blotto blotto = new Blotto();
     	
-    	int[] Bs = {5,10,20};
+    	int[] Bs = {5,20};
     	double[] Rfs = {1.0,0.5,0.0};
     	double[] Lfs = {1.0,0.5,0.0};
 
@@ -157,10 +165,10 @@ public class Main {
     					PrintStream log = new PrintStream(new FileOutputStream(filename + ".log"));
     					log.printf("# Blotto run, B: %d, Rf: %.2f, Lf: %.2f - %.2f sec %n",B,Rf,Lf,(stop-start)/1000);
     					report.writeToStream(log);
-    					PrintStream fitPlot = new PrintStream(new FileOutputStream(filename + "-fit.plot"));
-    					report.writeFitnessPlot(fitPlot);
-    					PrintStream entropyPlot = new PrintStream(new FileOutputStream(filename + "-entropy.plot"));
-    					report.writeEntropyPlot(entropyPlot);
+    					File plotfile = new File(filename + ".plot");
+    					PrintStream plotStream = new PrintStream(new FileOutputStream(plotfile));
+    					report.writePlot(plotStream);
+    					Output.plotBlotto(plotfile,B,Rf,Lf);
     				} catch (FileNotFoundException e) {
     					System.err.printf("File not found: %s%n",filename);
     				}

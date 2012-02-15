@@ -29,6 +29,7 @@ public class BlottoReport implements Report<double[],double[]>{
 	
 	public BlottoReport(int generations){
 		entries = new Entry[generations + 1];
+
 	}
 	
 	@Override
@@ -61,14 +62,9 @@ public class BlottoReport implements Report<double[],double[]>{
 		return h;
 	}
 
-	public void writeFitnessPlot(PrintStream plot) {
+	public void writePlot(PrintStream plot) {
 		for(int i = 1; i < entries.length; i++)
-			plot.printf("%d %f %f %f%n",i,entries[i].maxFitness,entries[i].averageFitness,entries[i].standardDeviation);
-	}
-	
-	public void writeEntropyPlot(PrintStream plot) {
-		for(int i = 1; i < entries.length; i++)
-			plot.printf("%d %f%n",i,entries[i].averageStrategyEntropy);
+			plot.printf("%d %f %f %f %f %n",i,entries[i].maxFitness,entries[i].averageFitness,entries[i].standardDeviation,entries[i].averageStrategyEntropy);
 	}
 	
 	@Override
