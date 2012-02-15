@@ -66,7 +66,8 @@ public class Main {
 				.addOption("A","adult-select",true,"Which adult selection strategy to use.")
 				.addOption("?",false,"Print help")
 				.addOption("h","help",false,"Print help")
-				.addOption("B","blotto",false,"Run blotto, no other options needed :I");
+				.addOption("B","blotto",false,"Run blotto, no other options needed :I")
+				.addOption("o","output-file",true,"Name of the outputfile");
 	}
 	
     public static void main(String[] args) {
@@ -142,8 +143,9 @@ public class Main {
 		Incubator<int[],int[]> incubator = new BitvectorIncubator(new BitvectorReplicator(length, env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<int[],int[]> evo = new Evolution<int[], int[]>(fitCalc, adultSelector, parentSelector, incubator);
 		
-	
-		Report<int[],int[]> report = new BasicReport();
+		String filename = cl.getOptionValue('o',"one-max.plot");
+		
+		Report<int[],int[]> report = new BasicReport(filename);
 		evo.runEvolution(env, report);
     }
     
