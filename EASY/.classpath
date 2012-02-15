@@ -2,11 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/development/java-api-docs/api/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/JavaPlot.jar">
 		<attributes>
@@ -18,5 +13,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/EASY/lib/commons-cli-1.2-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
