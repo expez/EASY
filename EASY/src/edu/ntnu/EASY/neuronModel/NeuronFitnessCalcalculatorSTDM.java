@@ -27,12 +27,12 @@ public class NeuronFitnessCalcalculatorSTDM implements FitnessCalculator<double[
 
 	@Override
 	public double calculate(double[] phenome) {
-		List<Integer> spikeTimes = spikeTimes(phenome);
-		List<Integer> targetSpikeTimes = spikeTimes(target);
-		return 1 / ( 1 + calculateDistance(spikeTimes, targetSpikeTimes ) );		
+		List<Integer> spikeTimes = getSpikeTimes(phenome);
+		List<Integer> targetSpikeTimes = getSpikeTimes(target);
+		return 1 / ( 1 + calculateDistance(spikeTimes, targetSpikeTimes ) - calculatePenalty(spikeTimes.size(), targetSpikeTimes.size(), phenome.length));		
 	}
 	
-	private List<Integer> spikeTimes( double[] phenome) {
+	private List<Integer> getSpikeTimes( double[] phenome) {
 		List<Integer> spikeTimes = new LinkedList<Integer>();
 		//Check for spikes in a window of size k. 
 		//Define a single spike to be the maximum value in this window.
@@ -65,4 +65,16 @@ public class NeuronFitnessCalcalculatorSTDM implements FitnessCalculator<double[
 		sum /= shortestListLength;
 		return sum;
 	}
+	//TODO: Add this to the fitness calculator.
+	//Calculate a penalty proportional to the difference in number of spikes.
+	private double calculatePenalty(int spikes1, int spikes2, int L) {
+		int N = Math.max(spikes1,spikes2);
+		double M = Math.min(spikes1,spikes2);
+		if( M == 0) {
+			M = 0.001;
+		}
+		return ((N - M) * L )/ (2.0 * M);
+	}
+	
+	
 }
