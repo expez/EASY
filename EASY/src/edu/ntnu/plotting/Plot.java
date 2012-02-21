@@ -20,6 +20,8 @@ import com.panayotis.gnuplot.JavaPlot;
 import com.panayotis.gnuplot.plot.DataSetPlot;
 import com.panayotis.gnuplot.style.PlotStyle;
 import com.panayotis.gnuplot.style.Style;
+import com.panayotis.gnuplot.terminal.FileTerminal;
+import com.panayotis.gnuplot.terminal.GNUPlotTerminal;
 
 /**
  * on NetBeans add library -> jar -> 
@@ -32,7 +34,7 @@ import com.panayotis.gnuplot.style.Style;
  * @author mkwest
  *
  */
-public class JavaPlotTest {
+public class Plot {
 
     /**
      * @param args the command line arguments
@@ -59,14 +61,35 @@ public class JavaPlotTest {
         tab2[2][1] = 2.0000;
         tab2[3][0] = 3.0000;
         tab2[3][1] = 4.0000;
-        tab2[4][0] = 4.0000;
+        tab2[4][0] = 100.0000;
         tab2[4][1] = 11.0000;
 
-        JavaPlotTest.newPlot().with("s1",tab1).with("s2",tab2).plot();
+        Plot plot = Plot.newPlot("Plot").setAxis("x","Gens").setAxis("y","wee").with("s1",tab1).with("s2",tab2).make();
+        plot.writeToFile("lol");
+        plot.plot();
     }
     
-    public static PlotBuilder newPlot(){
-    	return new PlotBuilder();
+    JavaPlot plot;
+    
+    private Plot(JavaPlot plot){
+    	this.plot = plot;
+    }
+    
+	public void plot(){
+		plot.plot();
+	}
+	
+	public void writeToFile(String filename){
+		GNUPlotTerminal old = plot.getTerminal();
+		FileTerminal terminal = new FileTerminal("png",filename + ".png");
+		terminal.set("size","800, 600");
+		plot.setTerminal(terminal);
+		plot.plot();
+		plot.setTerminal(old);
+	}
+    
+    public static PlotBuilder newPlot(String title){
+    	return new PlotBuilder(title);
     }
     
     public static class PlotBuilder{
@@ -78,12 +101,22 @@ public class JavaPlotTest {
     		plotStyle.setLineWidth(1);
     	}
     	
-    	
     	JavaPlot plot;
     	
-    	private PlotBuilder(){
+    	private PlotBuilder(String title){
     		plot = new JavaPlot();
+    		plot.setTitle(title);
     	}
+    	
+    	public Plot make() {
+    		return new Plot(plot);
+    	}
+
+		public PlotBuilder setAxis(String axis, String label){
+    		plot.getAxis(axis).setLabel(label);
+    		return this;
+    	}
+    	
     	
     	public PlotBuilder with(String title, double[][] dataset){
             DataSetPlot ds = new DataSetPlot(dataset);
@@ -92,12 +125,5 @@ public class JavaPlotTest {
             plot.addPlot(ds);
             return this;
     	}
-    	
-    	public JavaPlot plot(){
-            plot.newGraph();
-    		plot.plot();
-    		return plot;
-    	}
-    	
     }
 }
