@@ -30,11 +30,18 @@ public class NeuronReplicator implements Replicator<double[]>{
 													/*d ∈*/{  0.100, 10.000},
 													/*k ∈*/{  0.010,  1.000},
 												};
+	private double mutationRate;
+	private double crossoverRate;
+	
+	public NeuronReplicator(double mutationRate,double crossoverRate){
+		this.mutationRate = mutationRate;
+		this.crossoverRate = crossoverRate;
+	}
 	
 	@Override
 	public double[] mutate(double[] genome) {
 		for(int i = 0; i < GENOME_LENGTH; i++){
-			genome[i] += 0.05*RNG.nextGaussian();
+			genome[i] += mutationRate > RNG.nextDouble() ? 0.05*RNG.nextGaussian() : 0;
 			genome[i] = Math.max(genome[i],PARAMETERS[i][MIN]);
 			genome[i] = Math.min(genome[i],PARAMETERS[i][MAX]);
 		}
@@ -45,7 +52,7 @@ public class NeuronReplicator implements Replicator<double[]>{
 	public double[] combine(double[] g1, double[] g2) {
 		double[] genome = new double[GENOME_LENGTH];
 		for(int i = 0; i < GENOME_LENGTH; i++){
-			genome[i] = RNG.nextBoolean() ? g1[i] : g2[i];
+			genome[i] = crossoverRate > RNG.nextDouble()  ? g1[i] : g2[i];
 		}
 		return null;
 	}
