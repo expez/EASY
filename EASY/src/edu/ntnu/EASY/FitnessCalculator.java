@@ -22,6 +22,6 @@ public interface FitnessCalculator<PType> {
 	
 	public void setPopulation(Population<?,PType> population);
 	
-	public double calculate(PType phenom);
+	public double calculate(PType phenome);
 
 }

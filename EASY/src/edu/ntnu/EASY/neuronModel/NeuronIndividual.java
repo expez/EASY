@@ -26,7 +26,7 @@ public class NeuronIndividual extends AbstractIndividual<double[], double[]>{
 	private final static int I = 10;
 	private final static double INITIAL_VOLTAGE = -60; 
 	private final static double INITIAL_RECOVERY_RATE = 0;
-	private final static double SPIKE_THRESHOLD = 35;
+	public final static double SPIKE_THRESHOLD = 35;
 	private double a;
 	private double b;
 	private double c;
