@@ -16,6 +16,9 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.util;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Random;
@@ -68,4 +71,14 @@ public class Util {
 		
 	}
 	
+	public static double[] readTargetSpikeTrain( String filename ) throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(filename));
+		String trainingData = reader.readLine();
+		String[] tokens = trainingData.split("\\s+");
+		double[] spikeTrain = new double[tokens.length];
+		for (int i = 0; i < tokens.length; i++) {
+			spikeTrain[i] = Double.valueOf(tokens[i]);
+		}
+		return spikeTrain;
+	}
 }
