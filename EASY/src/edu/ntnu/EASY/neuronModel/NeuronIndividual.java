@@ -1,4 +1,6 @@
-package edu.ntnu.EASY.individual;
+package edu.ntnu.EASY.neuronModel;
+
+import edu.ntnu.EASY.individual.AbstractIndividual;
 
 /**
  * This class implements the Izhikevich Neuron Model.
