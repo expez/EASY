@@ -8,9 +8,9 @@ import edu.ntnu.EASY.Population;
  * Fitness calculator using the Spike Interval Distance Metric to calculate fitness. 
  * A spike interval is simply the gaps between successive spike times.
  */
-public class NeuronFitnessCalculatorsSIDM extends AbstractNeuronFitnessCalculator{
+public class NeuronFitnessCalculatorSIDM extends AbstractNeuronFitnessCalculator{
 
-	public NeuronFitnessCalculatorsSIDM(double[] target) {
+	public NeuronFitnessCalculatorSIDM(double[] target) {
 		super(target);
 	}
 
