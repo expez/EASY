@@ -1,24 +1,29 @@
-//*Copyright (C) 2012 Lars Andersen, Tormund S. Haus.
-//larsan@stud.ntnu.no
-//tormunds@ntnu.no
-//
-//EASY is free software: you can redistribute it and/or modify it
-//under the terms of the GNU General Public License as published by
-//the Free Software Foundation, either version 3 of the License, or
-//(at your option) any later version.
-// 
-//EASY is distributed in the hope that it will be useful, but
-//WITHOUT ANY WARRANTY; without even the implied warranty of
-//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//General Public License for more details.
-// 
-//You should have received a copy of the GNU General Public License
-//    along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
+/*Copyright (C) 2012 Lars Andersen, Tormund S. Haus.
+larsan@stud.ntnu.no
+tormunds@stud.ntnu.no
+
+EASY is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+ 
+EASY is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+ 
+You should have received a copy of the GNU General Public License
+    along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,13 +31,14 @@ import java.util.List;
 public class Output {
 
 	private boolean isWriting;
-	private String filename;
-	private List< String > outputList;	      
+	private List< String > outputList;
+	private File file;
+
 
 	public Output( String filename ) {
 		isWriting = true;
-		this.filename = filename;
 		outputList = new LinkedList< String >();
+		file = new File( filename );
 	}
 	
 	/**
@@ -60,7 +66,7 @@ public class Output {
 		}
 		
 		try {
-			PrintWriter writer = new PrintWriter( new FileWriter( new File( filename), true ) );
+			PrintWriter writer = new PrintWriter( new FileWriter( file, false ) );
 			
 			for (String string : outputList) {
 				writer.println( string );
@@ -105,10 +111,69 @@ public class Output {
 	 * Calls GNUPlot to plot the active data file.
 	 */
 	public void plot() {
-		String plotCommand = "gnuplot.exe -p -e \"plot " + "'" + filename + "' with linespoints\"";
+		writeToFile();
+		String setTitle = "set title \"Fitness plots for One Max\";";
+		String setXlabel = "set xlabel \"Generations\";";
+		String setYlabel = "set ylabel \"Fitness\";";
+		String setTerm =  "set term png large size 800,600;";
+		String setOutput = "set output \"" + file.getAbsolutePath() + ".png\";";
+		String using1 = "'"+ file.getAbsolutePath()+"'" + " using 1:2 title \"Max fitness\" with linespoints,"; 
+		String using2 = "'"+ file.getAbsolutePath()+"'"  + " using 1:3 title \"Average fitness\" with linespoints,";
+		String using3 = "'"+ file.getAbsolutePath()+"'"  + " using 1:4 title\"Standard deviation\" with linespoints";
+		String[] plotCommand = {"/usr/bin/gnuplot","-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1 + using2 +using3};
+		System.out.println(plotCommand);
+		plot(plotCommand);
+	}
+	
+	public static void plotBlotto(File file, int B, double Rf, double Lf) {
+		
+		String setTitle = String.format("set title \"Fitness plots [%2d,%.1f,%.1f]\";",B,Rf,Lf);
+		String setXlabel = "set xlabel \"Generations\";";
+		String setYlabel = "set ylabel \"Fitness\";";
+		String setTerm =  "set term png large size 800,600;";
+		String setOutput = "set output \"" + file.getAbsolutePath() + "-fitness.png\";";
+		String using1 = "'"+ file.getAbsolutePath()+"'" + " using 1:2 title \"Max fitness\" with linespoints,"; 
+		String using2 = "'"+ file.getAbsolutePath()+"'"  + " using 1:3 title \"Average fitness\" with linespoints,";
+		String using3 = "'"+ file.getAbsolutePath()+"'"  + " using 1:4 title\"Standard deviation\" with linespoints";
+		String[] plotFitness = {"/usr/bin/gnuplot", "-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1 + using2 +using3};
+		plot(plotFitness);
+
+		setTitle = String.format("set title \"Average entropy plot [%2d,%.1f,%.1f]\";",B,Rf,Lf);
+		setYlabel = "set ylabel \"Entropy\";";
+		setOutput = "set output \"" + file.getAbsolutePath()+ "-entropy.png\";";
+		using1 = "'"+ file.getAbsolutePath()+"'" + " using 1:5 title \"Average entropy\" with linespoints"; 
+		String[] plotEntropy = {"/usr/bin/gnuplot", "-e", setTerm+setOutput+setTitle + setXlabel + setYlabel + "plot "+ using1};
+		plot(plotEntropy);
+	}
+
+	private static void plot(String[] plotCommand) {
+		String line;
+		InputStream stderr = null;
+		InputStream stdout = null;
 		try {
-			Process process = Runtime.getRuntime().exec( plotCommand );
+			Process process = Runtime.getRuntime().exec(plotCommand);
+			OutputStream stdin = process.getOutputStream();
+			PrintStream ps = new PrintStream(stdin);
+			ps.print(plotCommand);
+			
+			stderr = process.getErrorStream ();
+			stdout = process.getInputStream ();
             process.waitFor();
+            // clean up if any output in stdout
+            BufferedReader brCleanUp =
+              new BufferedReader (new InputStreamReader (stdout));
+            while ((line = brCleanUp.readLine ()) != null) {
+              System.out.println ("[Stdout] " + line);
+            }
+            brCleanUp.close();
+
+            // clean up if any output in stderr
+            brCleanUp =
+              new BufferedReader (new InputStreamReader (stderr));
+            while ((line = brCleanUp.readLine ()) != null) {
+              System.out.println ("[Stderr] " + line);
+            }
+            brCleanUp.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

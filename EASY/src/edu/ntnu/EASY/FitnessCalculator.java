@@ -14,19 +14,14 @@ General Public License for more details.
  
 You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
-package edu.ntnu.EASY.individual;
+package edu.ntnu.EASY;
 
-import edu.ntnu.EASY.FitnessCalculator;
 
-public interface Individual<GType,PType> extends Comparable<Individual<?, PType>>{
 
-	public double getFitness();
+public interface FitnessCalculator<PType> {
 	
-	public PType getPhenome();
+	public void setPopulation(Population<?,PType> population);
+	
+	public double calculate(PType phenome);
 
-	public GType getGenome();
-	
-	public void growUp();
-	
-	public double updateFitness(FitnessCalculator<PType> fitCalc);
 }
