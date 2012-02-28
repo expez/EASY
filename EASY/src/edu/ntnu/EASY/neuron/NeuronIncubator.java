@@ -1,6 +1,6 @@
 package edu.ntnu.EASY.neuron;
 
-import edu.ntnu.EASY.blotto.AbstractIncubator;
+import edu.ntnu.EASY.incubator.AbstractIncubator;
 import edu.ntnu.EASY.incubator.Replicator;
 import edu.ntnu.EASY.individual.Individual;
 
