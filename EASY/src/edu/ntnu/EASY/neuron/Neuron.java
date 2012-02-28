@@ -26,10 +26,6 @@ import edu.ntnu.EASY.FitnessCalculator;
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
-import edu.ntnu.EASY.selection.adult.Overproduction;
-import edu.ntnu.EASY.selection.parent.FitnessProportionateSelector;
-import edu.ntnu.EASY.selection.parent.ParentSelector;
-import edu.ntnu.EASY.selection.parent.SigmaScaledSelector;
 import edu.ntnu.EASY.selection.parent.TournamentSelector;
 import edu.ntnu.EASY.util.Util;
 import edu.ntnu.plotting.Plot;
@@ -43,12 +39,12 @@ public class Neuron {
 		env.populationSize = 1000;
 		env.maxGenerations = 10000;
 		env.fitnessThreshold = 2.0;
-		env.mutationRate = 0.05;
-		env.crossoverRate = 0.05;
-		env.numChildren = 5000;
-		env.numParents = 50;
+		env.mutationRate = 0.01;
+		env.crossoverRate = 0.01;
+		env.numChildren = 100;
+		env.numParents = 20;
+		env.elitism = 5;
 		env.rank = 5;
-		env.elitism = 3;
 	}
 	
 	public NeuronReport runNeuronEvolution(double[] target) {

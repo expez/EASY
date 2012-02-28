@@ -17,6 +17,7 @@ public class SpikeTimeFitnessCalculator extends DistanceMetricCalculator{
 	@Override
 	public double calculate(double[] phenome) {
 		List<Integer> spikeTimes = getSpikeTimes(phenome);
+
 		double distance = calculateDistance(spikeTimes, targetSpikeTimes);
 		distance += calculatePenalty(spikeTimes.size(), phenome.length); 
 		return 1 / (1 + distance);		
@@ -26,9 +27,6 @@ public class SpikeTimeFitnessCalculator extends DistanceMetricCalculator{
 		
 		//We have to find the shortest list to iterate over.
 		int shortestListLength= Math.min(spikeList.size(),targetSpikeTimes.length);
-		
-		if(shortestListLength == 0)
-			shortestListLength = 1;
 		
 		double distance = 0;
 		for (int spikeTime = 1; spikeTime < shortestListLength; spikeTime++) {
