@@ -25,7 +25,8 @@ import edu.ntnu.EASY.Evolution;
 import edu.ntnu.EASY.FitnessCalculator;
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
-import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
+import edu.ntnu.EASY.selection.adult.Overproduction;
+import edu.ntnu.EASY.selection.parent.ParentSelector;
 import edu.ntnu.EASY.selection.parent.TournamentSelector;
 import edu.ntnu.EASY.util.Util;
 import edu.ntnu.plotting.Plot;
@@ -63,13 +64,9 @@ public class Neuron {
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
 		double[] target = Util.readTargetSpikeTrain("training/izzy-train2.dat");
-<<<<<<< HEAD
-		double[] bestPhenome = neuron.runNeuronEvolution(target).getBestPhenome();
-=======
 		PrintStream ps = new PrintStream(new FileOutputStream("out.file"));
 		NeuronReport neuronReport = neuron.runNeuronEvolution(target); 
 		double[] bestPhenome = neuronReport.getBestPhenome();
->>>>>>> branch 'master' of git@github.com:Expez/EASY
 		Plot.newPlot("Neuron")
 			.setAxis("x","ms")
 			.setAxis("y","activation")
