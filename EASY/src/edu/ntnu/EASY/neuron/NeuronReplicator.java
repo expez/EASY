@@ -54,7 +54,7 @@ public class NeuronReplicator implements Replicator<double[]>{
 		for(int i = 0; i < GENOME_LENGTH; i++){
 			genome[i] = crossoverRate > RNG.nextDouble()  ? g1[i] : g2[i];
 		}
-		return null;
+		return genome;
 	}
 
 	@Override

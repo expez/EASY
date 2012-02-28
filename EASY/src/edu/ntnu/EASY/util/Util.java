@@ -67,10 +67,6 @@ public class Util {
 		}
 	}
 	
-	public static void plot(double[][] values){
-		
-	}
-	
 	public static double[] readTargetSpikeTrain( String filename ) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(filename));
 		String trainingData = reader.readLine();
