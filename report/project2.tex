@@ -1,4 +1,5 @@
 \documentclass[a4paper]{article}
+\usepackage{amsmath}
 \begin{titlepage}
   \title{Report project 2 IT3708}
   \author{Lars Andersen \\
@@ -16,9 +17,9 @@ In this report we will detail the changes we made to our evolutionary algorithm 
 
 We will then show how we used EASY to solve the second assignment. Specifically, we will take a close look at the genotype selection and the fitness functions.
 
-12 test cases were provided with assignment two and we'll see how close EASY is able to get to the target spike trains. This will will include some gritty details about the evolutionary algorithm, EA, parameters used.
+12 test cases were provided with assignment two and we'll see how close EASY is able to get to the target spike trains. This will include some gritty details about the evolutionary algorithm, EA, parameters used.
 
-Finally, there will a discussion about the phenotype to genotype mapping, the practical implications of this tool and of other domains where a more general version of this tool might be put to use.
+Finally, there will a discussion about the genotype to phenotype mapping, the practical implications of this tool and of other domains where a more general version of this tool might be put to use.
 
 \section{System overview}
 \label{sec:system_overview}
@@ -33,4 +34,29 @@ We went to great lengths--nearly choking on generics--in order to make EASY as g
 \end{itemize}
 
 This might sound like a lot of code, but it really isn't. The individual class was able to inherit almost all of its functionality from AbstractIndividual. We also pushed quite a bit of code up to a newly created AbstractIncubator class. The effect was that the new NeuronIncubator class, the class responsible for making new Individuals, was only some ten lines of code long!
+
+GNUPlot is pretty great, but it can be a bit of a pain to call it from a Java program. To make this easier someone has written an interface to GNUPlot called JavaPlot. We're going to make use of this library for this assignment in order to make it easier for ourselves to create plots.
+
+Otherwise, we've made quite a few bugfixes as well. These bugs weren't apparent with the previous input data, but caused the system to halt when we first attempted to use it on the new data. The system should be a bit more robust now, and our defensive programming skills improved.
+
+\subsection{Genotype}
+\label{sec:genotype}
+
+We're using the same type of genotype as we used to solve the Blotto problem: a vector of doubles. In this case the vector has a length of 5 and contains all the parameters for the Itzhikevich neuron model.
+
+We're using a random sample from a gaussian of mean 0 in order to mutate the values. Because the parameters for the neuron model have different ranges we're scaling the amplitude of the Gaussian distribution to match this. We're also limiting the amplitude of the changes to 5\%. The end result is that each model parameter can change by a factor of 5\%, maximally, per generation.
+
+We're using Random.nextGaussian(), from the Java standard library to do this. This function doesn't allow you to set the variance. Being unable to set the variance caused us some problems because values near $\pm$1 are too likely to occur. Our solution to limit the amplitude of the Gaussian is satisfactory, but it would've been prettier if we implemented our own Gaussian and set the variance ourselves.
+
+\subsection{Fitness functions}
+\label{sec:fitfuncs}
+
+The different fitness functions are:
+
+\begin{equation}
+  \label{eq:1}
+  F_m = \frac{1}{1+d_m}
+\end{equation}
+
+\noindent where $F_m$ is the fitness value using distance measure $m$ to produce distance $d_m$. Using \eqref{eq:1} is a natural way to map a distance measure to a fitness value in the interval $[0,1]$. When we're using the spike interval distance measure and spike time distance measure, to calculate distance, we're also applying the recommended penalty, comparing the number of spikes in the two spike trains. This penalty is added to the distance, prior to normalization.
 \end{document}
