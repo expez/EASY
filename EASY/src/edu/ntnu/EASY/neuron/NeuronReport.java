@@ -30,7 +30,7 @@ public final class NeuronReport implements Report<double[],double[]>{
 			}
 		}
 		System.out.printf("%d/%d - %f%n",generation,entries.length,bestFitness);
-		entries[generation] = new Entry(bestGenome,bestPhenome,average / population.size());		
+		entries[generation] = new Entry(bestGenome,bestPhenome,bestFitness,average / population.size());		
 	}
 
 	@Override
@@ -43,21 +43,41 @@ public final class NeuronReport implements Report<double[],double[]>{
 	public double[] getBestPhenome() {
 		return entries[entries.length - 1].bestPhenome;
 	}
+
+
+	public double[] getAverageFitness() {
+		double[] tab = new double[entries.length];
+		for(int i = 1; i < tab.length; i++){
+			tab[i] = entries[i].averageFitness;
+		}
+		System.out.println("average leave");
+		return tab;
+	}
+
+	public double[] getBestFitness() {
+		double[] tab = new double[entries.length];
+		for(int i = 1; i < tab.length; i++){
+			tab[i] = entries[i].bestFitness;
+		}
+		System.out.println("best leave");
+		return tab;
+	}
 	
 	public static class Entry {
 		
 		private double[] bestGenome;
 		private double[] bestPhenome;
+		private double bestFitness;
 		private double averageFitness;
 		
-		Entry(double[] bestGenome,double[] bestPhenome, double averageFitness){
+		Entry(double[] bestGenome,double[] bestPhenome, double bestFitness, double averageFitness){
+			this.bestFitness = bestFitness;
+			this.averageFitness = averageFitness;
 			this.bestGenome = bestGenome;
 			this.bestPhenome = bestPhenome;
-			this.averageFitness = averageFitness;
 		}
 		
 	}
-
 
 
 }

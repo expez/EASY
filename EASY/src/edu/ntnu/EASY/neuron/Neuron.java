@@ -26,8 +26,11 @@ import edu.ntnu.EASY.FitnessCalculator;
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
+import edu.ntnu.EASY.selection.adult.Overproduction;
 import edu.ntnu.EASY.selection.parent.FitnessProportionateSelector;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
+import edu.ntnu.EASY.selection.parent.SigmaScaledSelector;
+import edu.ntnu.EASY.selection.parent.TournamentSelector;
 import edu.ntnu.EASY.util.Util;
 import edu.ntnu.plotting.Plot;
 
@@ -37,20 +40,21 @@ public class Neuron {
 	
 	public Neuron(){
 		env = new Environment();
-		env.populationSize = 100;
+		env.populationSize = 1000;
 		env.maxGenerations = 10000;
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.05;
-		env.crossoverRate = 0.01;
-		env.numChildren = 100;
-		env.numParents = 20;
+		env.crossoverRate = 0.05;
+		env.numChildren = 5000;
+		env.numParents = 50;
+		env.rank = 5;
 		env.elitism = 3;
 	}
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
-		FitnessCalculator<double[]> fitCalc = new WaveformFitnessCalculator(target);
-		AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
-		ParentSelector<double[]> parentSelector = new FitnessProportionateSelector<double[]>(env.numParents);
+		FitnessCalculator<double[]> fitCalc = new SpikeIntervalFitnessCalculator(target);
+		AdultSelector<double[]> adultSelector = new Overproduction<double[]>(env.populationSize);
+		ParentSelector<double[]> parentSelector = new TournamentSelector<double[]>(env.rank, env.numParents);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
@@ -64,12 +68,23 @@ public class Neuron {
 		Neuron neuron = new Neuron();
 		double[] target = Util.readTargetSpikeTrain("training/izzy-train2.dat");
 		PrintStream ps = new PrintStream(new FileOutputStream("out.file"));
-		double[] bestPhenome = neuron.runNeuronEvolution(target).getBestPhenome();
+		NeuronReport neuronReport = neuron.runNeuronEvolution(target); 
+		double[] bestPhenome = neuronReport.getBestPhenome();
 		Plot.newPlot("Neuron")
 			.setAxis("x","ms")
 			.setAxis("y","activation")
 			.with("bestPhenome",bestPhenome)
 			.with("target",target)
+			.make().plot();
+		
+		double[] averageFitness = neuronReport.getAverageFitness();
+		double[] bestFitness = neuronReport.getBestFitness();
+
+		Plot.newPlot("Fitness")
+			.setAxis("x","generation")
+			.setAxis("y","fitness")
+			.with("average",averageFitness)
+			.with("best",bestFitness)
 			.make().plot();
 	}
 }

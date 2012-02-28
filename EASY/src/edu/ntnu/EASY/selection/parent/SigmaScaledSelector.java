@@ -54,7 +54,6 @@ public class SigmaScaledSelector<PType> implements ParentSelector<PType> {
 			sigmaFitness = 1 + ( ( fitness - meanFitness ) / ( 2 * fitnessVariance) ); 
 			intervals[adultIndex] = sigmaFitness + previousEndpoint;
 			previousEndpoint += sigmaFitness;
-			System.out.println(sigmaFitness);
 		}
 		
 		//Normalize the sigma values so the intervals are in the range [0,1]
