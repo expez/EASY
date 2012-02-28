@@ -1,0 +1,36 @@
+\documentclass[a4paper]{article}
+\begin{titlepage}
+  \title{Report project 2 IT3708}
+  \author{Lars Andersen \\
+    Tormund S. Haus}
+  \date{\today}
+\end{titlepage}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+In this report we will detail the changes we made to our evolutionary algorithm system, EASY, to solve the second assignment.
+
+We will then show how we used EASY to solve the second assignment. Specifically, we will take a close look at the genotype selection and the fitness functions.
+
+12 test cases were provided with assignment two and we'll see how close EASY is able to get to the target spike trains. This will will include some gritty details about the evolutionary algorithm, EA, parameters used.
+
+Finally, there will a discussion about the phenotype to genotype mapping, the practical implications of this tool and of other domains where a more general version of this tool might be put to use.
+
+\section{System overview}
+\label{sec:system_overview}
+
+We went to great lengths--nearly choking on generics--in order to make EASY as general as humanly possible. Because of our previous efforts it was very straight forward to use the system in order to solve a new problem. All we had to do was:
+
+\begin{itemize}
+\item Add a new neuron individual.
+\item Add classes for the different fitness metrics.
+\item Create a new Report class.
+\item Make new Replicator and Incubator class.
+\end{itemize}
+
+This might sound like a lot of code, but it really isn't. The individual class was able to inherit almost all of its functionality from AbstractIndividual. We also pushed quite a bit of code up to a newly created AbstractIncubator class. The effect was that the new NeuronIncubator class, the class responsible for making new Individuals, was only some ten lines of code long!
+\end{document}
