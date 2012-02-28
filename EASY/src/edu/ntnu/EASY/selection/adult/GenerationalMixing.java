@@ -30,6 +30,7 @@ public class GenerationalMixing<PType> implements AdultSelector<PType> {
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults,	Population<GType, PType> children) {
 		adults.addAll(children);
 		adults.updateFitness();
+		adults.sort();
 		adults.drop(adults.size() - numAdults); 
 		return adults;
 	}
