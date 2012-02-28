@@ -18,7 +18,11 @@ public class SpikeTimeFitnessCalculator extends DistanceMetricCalculator{
 	public double calculate(double[] phenome) {
 		List<Integer> spikeTimes = getSpikeTimes(phenome);
 		double distance = calculateDistance(spikeTimes, targetSpikeTimes);
+<<<<<<< HEAD
 		distance += calculatePenalty(spikeTimes.size(), phenome.length); 
+=======
+		distance -= calculatePenalty(spikeTimes.size(), phenome.length); 
+>>>>>>> branch 'master' of git@github.com:Expez/EASY
 		return 1 / (1 + distance);		
 	}
 	
@@ -36,6 +40,10 @@ public class SpikeTimeFitnessCalculator extends DistanceMetricCalculator{
 		}
 		distance = Math.sqrt(distance) / shortestListLength;
 		
+<<<<<<< HEAD
 		return distance;
+=======
+		return 1 / (1 + distance);
+>>>>>>> branch 'master' of git@github.com:Expez/EASY
 	}
 }
