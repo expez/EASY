@@ -5,11 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ntnu.EASY.individual.AbstractIndividual;
 import edu.ntnu.EASY.neuron.NeuronIndividual;
 
 public class NeuronIndividualTest {
 
-	private static NeuronIndividual individual;
+	private static AbstractIndividual<double[], double[]> individual;
 	
 	@Before
 	public void setup() {

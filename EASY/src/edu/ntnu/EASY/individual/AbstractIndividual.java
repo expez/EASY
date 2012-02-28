@@ -25,9 +25,11 @@ public abstract class AbstractIndividual<GType, PType> implements Individual<GTy
 	protected PType phenome;
 	
 	private double fitness;
+	int age;
 
 	public AbstractIndividual(GType genome){
 		this.genome = genome;
+		this.age = 0;
 	}
 
 	public GType getGenome(){
@@ -57,5 +59,14 @@ public abstract class AbstractIndividual<GType, PType> implements Individual<GTy
 		if(this.fitness < that.getFitness())
 			return -1;
 		return 0;
+	}
+
+	@Override
+	public int getAge() {
+		return age;
+	}
+	
+	public void incrementAge() {
+		age++;
 	}
 }

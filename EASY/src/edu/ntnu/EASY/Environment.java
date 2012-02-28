@@ -30,4 +30,5 @@ public class Environment {
 	public int rank;
 	public int tournamentSize;
 	public double e;
+	public int maxAge;
 }

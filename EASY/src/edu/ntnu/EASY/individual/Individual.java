@@ -29,4 +29,8 @@ public interface Individual<GType,PType> extends Comparable<Individual<?, PType>
 	public void growUp();
 	
 	public double updateFitness(FitnessCalculator<PType> fitCalc);
+
+	public int getAge();
+
+	public void incrementAge();
 }

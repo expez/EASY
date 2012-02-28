@@ -131,7 +131,7 @@ public class Main {
 		if(adultSelect.equalsIgnoreCase("FullGenerationalReplacement")){
 			adultSelector = new FullGenerationalReplacement<int[]>(env.elitism);
 		} else if (adultSelect.equalsIgnoreCase("GenerationalMixing")){
-			adultSelector = new GenerationalMixing<int[]>(env.numAdults);
+			adultSelector = new GenerationalMixing<int[]>(env.numAdults, env.maxAge);
 		} else if (adultSelect.equalsIgnoreCase("Overproduction")){
 			adultSelector = new Overproduction<int[]>(env.numAdults,env.elitism);
 		} else {

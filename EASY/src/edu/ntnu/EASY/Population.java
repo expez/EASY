@@ -27,18 +27,18 @@ import edu.ntnu.EASY.individual.Individual;
 public class Population<GType, PType> implements Iterable<Individual<GType, PType>>{
 	
 	private FitnessCalculator<PType> fitCalc;
-	private List<Individual<GType, PType>> population;
+	private List<Individual<GType, PType>> individuals;
 	
 	public Population(FitnessCalculator<PType> fitCalc) {
 		this.fitCalc = fitCalc;
-		this.population = new LinkedList<Individual<GType, PType>>();
+		this.individuals = new LinkedList<Individual<GType, PType>>();
 	}
 	
 	public Population(Population<GType, PType> population) {
-		this.population = new LinkedList<Individual<GType, PType>>();
+		this.individuals = new LinkedList<Individual<GType, PType>>();
 		this.fitCalc = population.fitCalc;
 		for (Individual<GType, PType> individual : population) {
-			this.population.add(individual);
+			this.individuals.add(individual);
 		}
 	}
 	
@@ -53,39 +53,39 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 	}
 	
 	public Population(List<Individual<GType,PType>> individuals) {
-		this.population = new LinkedList<Individual<GType, PType>>(individuals);
+		this.individuals = new LinkedList<Individual<GType, PType>>(individuals);
 	}
 	
 	public void add(Individual<GType, PType> individual ){
-		population.add(individual);
+		individuals.add(individual);
 	}
 
 	public void addAll(Population<GType, PType> individuals){
 		for(Individual<GType,PType> individual : individuals)
-			population.add(individual);
+			this.individuals.add(individual);
 	}
 	
 	public Individual<GType, PType> get(int index) {
-		return population.get(index);
+		return individuals.get(index);
 	}
 	
 	public int size() {
-		return population.size();
+		return individuals.size();
 	}
 	
 	public Iterator<Individual<GType, PType>> iterator() {
-		return population.iterator();
+		return individuals.iterator();
 	}
 
 	public void drop(int n) {
-		Collections.sort(population);
+		Collections.sort(individuals);
 		for(int i = 0; i < n; i++){
-			population.remove(0);
+			individuals.remove(0);
 		}
 	}
 	
 	public void drop(Individual<GType, PType> ind) {
-		population.remove(ind);
+		individuals.remove(ind);
 	}
 	
 	public void sort(){
@@ -93,9 +93,9 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 	}
 	
 	public void sort(boolean desc){
-		Collections.sort(population);
+		Collections.sort(individuals);
 		if(desc)
-			Collections.reverse(population);
+			Collections.reverse(individuals);
 	}
 	
 	public Population<GType, PType> copy() {
@@ -103,29 +103,41 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 	}
 	
 	public void clear() {
-		population.clear();
+		individuals.clear();
 	}
 	
 	public void shuffle() {
-		Collections.shuffle(population);
+		Collections.shuffle(individuals);
 	}
 
 	public Population<GType, PType> getSubset(int size) {
 		Population<GType, PType> copy = copy();
 		while( size < copy.size() ) {
-			copy.population.remove(0);
+			copy.individuals.remove(0);
 		}
 		return copy;
 	}
 	
 	public void updateFitness(){
 		fitCalc.setPopulation(this);
-		for(Individual<GType,PType> individual : population){
+		for(Individual<GType,PType> individual : individuals){
 			individual.updateFitness(fitCalc);
 		}
 	}
 
 	public FitnessCalculator<PType> getFitnessCalculator() {
 		return fitCalc;
+	}
+
+	public void incrementAge() {
+		for (Individual<GType, PType> ind : individuals) {
+			ind.incrementAge();
+		}
+		
+	}
+
+	public void remove(int i) {
+		individuals.remove(i);
+		
 	}
 }
