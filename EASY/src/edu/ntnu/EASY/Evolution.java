@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 
 import edu.ntnu.EASY.incubator.Incubator;
+import edu.ntnu.EASY.incubator.Replicator;
 import edu.ntnu.EASY.individual.Individual;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
@@ -67,6 +68,9 @@ public class Evolution<GType, PType> {
 				child.growUp();
 			}
 			population = adultSelector.select(population,children);
+			population.incrementAge();
+			while(population.size() < env.populationSize)
+				population.add(incubator.randomIndividual());
 		}
 	}
 }

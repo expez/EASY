@@ -44,23 +44,23 @@ public class Neuron {
 		env.populationSize = 100;
 		env.maxGenerations = 1000;
 		env.fitnessThreshold = 2.0;
-		env.mutationRate = 0.05;
-		env.crossoverRate = 0.05;
-		env.numChildren = 4;
-		env.numParents = 2;
-		env.elitism = 5;
-		env.e = 0.3;
-		env.rank = 10;
+		env.mutationRate = 0.01;
+		env.crossoverRate = 0.01;
+		env.numChildren = 100;
+		env.numParents = 100;
+		env.elitism = 1;
+		env.e = 0.6;
+		env.rank = 6;
+		env.maxAge = 10;
 	}
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
-		FitnessCalculator<double[]> fitCalc = new WaveformFitnessCalculator(target);
-		AdultSelector<double[]> adultSelector = new GenerationalMixing<double[]>(env.populationSize);
-		ParentSelector<double[]> parentSelector = new StochasticTournamentSelector<double[]>(env.rank,env.numParents, env.e);
+		FitnessCalculator<double[]> fitCalc = new SpikeIntervalFitnessCalculator(target);
+		AdultSelector<double[]> adultSelector = new GenerationalMixing<double[]>(env.populationSize, env.maxAge);
+		ParentSelector<double[]> parentSelector = new TournamentSelector<double[]>(env.rank, env.numParents);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
-	
 		NeuronReport report = new NeuronReport(env.maxGenerations);
 		evo.runEvolution(env, report);
 		return report;

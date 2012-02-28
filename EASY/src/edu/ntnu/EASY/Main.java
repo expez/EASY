@@ -147,6 +147,7 @@ public class Main {
 			System.exit(1);
 		}
 		
+<<<<<<< HEAD
 		AdultSelector<double[]> adultSelector = null;
 		int adult = Integer.parseInt(cl.getOptionValue('A',"1"));
 		switch(adult){

@@ -19,7 +19,7 @@ public class SpikeIntervalFitnessCalculator extends DistanceMetricCalculator{
 		int spikeTimeDelta;
 		int targetSpikeTimeDelta;
 		double distance = 0;
-		for (int i = 1; i < length - 1; i++) {
+		for (int i = 1; i < length; i++) {
 			//Get difference in spiketimes for the two spike trains.
 			spikeTimeDelta = spikeTimes.get(i) - spikeTimes.get(i - 1);
 			targetSpikeTimeDelta = targetSpikeTimes[i] - targetSpikeTimes[i - 1];

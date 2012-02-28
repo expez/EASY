@@ -2,6 +2,7 @@ package edu.ntnu.EASY.neuron;
 
 import edu.ntnu.EASY.incubator.AbstractIncubator;
 import edu.ntnu.EASY.incubator.Replicator;
+import edu.ntnu.EASY.individual.AbstractIndividual;
 import edu.ntnu.EASY.individual.Individual;
 
 public class NeuronIncubator extends AbstractIncubator<double[], double[]> {
@@ -20,7 +21,7 @@ public class NeuronIncubator extends AbstractIncubator<double[], double[]> {
 		double[] childsGenome;
 		childsGenome = replicator.combine(mom.getGenome(), dad.getGenome());
 		childsGenome = replicator.mutate(childsGenome);
-		NeuronIndividual child = new NeuronIndividual(childsGenome);
+		AbstractIndividual<double[], double[]> child = new NeuronIndividual(childsGenome);
 		return child;
 	}
 
