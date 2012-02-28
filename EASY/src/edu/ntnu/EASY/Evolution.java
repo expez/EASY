@@ -16,10 +16,16 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.individual.Individual;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
+import edu.ntnu.EASY.util.Util;
 
 public class Evolution<GType, PType> {
 

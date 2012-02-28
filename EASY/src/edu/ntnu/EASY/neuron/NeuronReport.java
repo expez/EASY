@@ -1,18 +1,29 @@
 package edu.ntnu.EASY.neuron;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
 
 import edu.ntnu.EASY.Population;
 import edu.ntnu.EASY.Report;
 import edu.ntnu.EASY.individual.Individual;
+import edu.ntnu.EASY.util.Util;
 
 public final class NeuronReport implements Report<double[],double[]>{
 
 	private Entry[] entries;
 	
+	private PrintWriter pw;
+	
 	public NeuronReport(int generations){
 		entries = new Entry[generations + 1];
+		try {
+			pw = new PrintWriter(new FileWriter("genomes.log"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -28,9 +39,12 @@ public final class NeuronReport implements Report<double[],double[]>{
 				bestGenome = individual.getGenome();
 				bestPhenome = individual.getPhenome();
 			}
+			pw.printf("%s ",Util.arrayToString("%.2f",individual.getGenome()));
 		}
+		pw.println();
 		System.out.printf("%d/%d - %f%n",generation,entries.length,bestFitness);
-		entries[generation] = new Entry(bestGenome,bestPhenome,bestFitness,average / population.size());		
+		entries[generation] = new Entry(bestGenome,bestPhenome,bestFitness,average / population.size());
+		pw.flush();
 	}
 
 	@Override

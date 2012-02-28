@@ -29,6 +29,7 @@ import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
 import edu.ntnu.EASY.selection.adult.GenerationalMixing;
 import edu.ntnu.EASY.selection.adult.Overproduction;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
+import edu.ntnu.EASY.selection.parent.SigmaScaledSelector;
 import edu.ntnu.EASY.selection.parent.StochasticTournamentSelector;
 import edu.ntnu.EASY.selection.parent.TournamentSelector;
 import edu.ntnu.EASY.util.Util;
@@ -41,21 +42,21 @@ public class Neuron {
 	public Neuron(){
 		env = new Environment();
 		env.populationSize = 100;
-		env.maxGenerations = 10000;
+		env.maxGenerations = 1000;
 		env.fitnessThreshold = 2.0;
-		env.mutationRate = 0.01;
-		env.crossoverRate = 0.10;
-		env.numChildren = 100;
-		env.numParents = 33;
+		env.mutationRate = 0.05;
+		env.crossoverRate = 0.05;
+		env.numChildren = 4;
+		env.numParents = 2;
 		env.elitism = 5;
 		env.e = 0.3;
-		env.rank = 6;
+		env.rank = 10;
 	}
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
-		FitnessCalculator<double[]> fitCalc = new SpikeTimeFitnessCalculator(target);
+		FitnessCalculator<double[]> fitCalc = new WaveformFitnessCalculator(target);
 		AdultSelector<double[]> adultSelector = new GenerationalMixing<double[]>(env.populationSize);
-		ParentSelector<double[]> parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, 0.6);
+		ParentSelector<double[]> parentSelector = new StochasticTournamentSelector<double[]>(env.rank,env.numParents, env.e);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
@@ -67,7 +68,7 @@ public class Neuron {
 	
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
-		double[] target = Util.readTargetSpikeTrain("training/izzy-train2.dat");
+		double[] target = Util.readTargetSpikeTrain("training/izzy-train3.dat");
 		PrintStream ps = new PrintStream(new FileOutputStream("file.out"));
 		NeuronReport neuronReport = neuron.runNeuronEvolution(target); 
 		neuronReport.writeToStream(ps);
