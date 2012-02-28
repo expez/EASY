@@ -62,9 +62,9 @@ public abstract class DistanceMetricCalculator implements FitnessCalculator<doub
 	 * @param L
 	 * @return
 	 */
-	protected double calculatePenalty(int spikesTimes, int L) {
-		int N = Math.max(spikesTimes,targetSpikeTimes.length);
-		double M = Math.min(spikesTimes,targetSpikeTimes.length);
+	protected double calculatePenalty(int spikeTimes, int L) {
+		int N = Math.max(spikeTimes,targetSpikeTimes.length);
+		double M = Math.min(spikeTimes,targetSpikeTimes.length);
 		if(M == 0) {
 			M = 0.001;
 		}

@@ -26,9 +26,12 @@ public class SpikeIntervalFitnessCalculator extends DistanceMetricCalculator{
 			//Square and sum absolute distance.
 			distance += Math.pow( spikeTimeDelta - targetSpikeTimeDelta, 2);
 		}
-		distance -= calculatePenalty(spikeTimes.size(),phenome.length);		
 		//Sqrt to normalize.
-		distance = Math.sqrt(distance) / (length - 1);
+		distance = Math.sqrt(distance);
+		//add penalty
+		distance += calculatePenalty(spikeTimes.size(),phenome.length);		
+		//normalize
+		distance /= (length - 1);
 		//Turn into fitness value in interval [0,1]
 		return 1 / (1 + distance);
 	}

@@ -36,39 +36,6 @@ import com.panayotis.gnuplot.terminal.GNUPlotTerminal;
  */
 public class Plot {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        double[][] tab1 = new double[5][2];
-        tab1[0][0] = 0.0000;
-        tab1[0][1] = 2.0000;
-        tab1[1][0] = 1.0000;
-        tab1[1][1] = 5.0000;
-        tab1[2][0] = 2.0000;
-        tab1[2][1] = 6.0000;
-        tab1[3][0] = 3.0000;
-        tab1[3][1] = 8.0000;
-        tab1[4][0] = 4.0000;
-        tab1[4][1] = 10.0000;
-        
-        double[][] tab2 = new double[5][2];
-        tab2[0][0] = 0.0000;
-        tab2[0][1] = 3.0000;
-        tab2[1][0] = 1.0000;
-        tab2[1][1] = 5.0000;
-        tab2[2][0] = 2.0000;
-        tab2[2][1] = 2.0000;
-        tab2[3][0] = 3.0000;
-        tab2[3][1] = 4.0000;
-        tab2[4][0] = 100.0000;
-        tab2[4][1] = 11.0000;
-
-        Plot plot = Plot.newPlot("Plot").setAxis("x","Gens").setAxis("y","wee").with("s1",tab1).with("s2",tab2).make();
-        plot.writeToFile("lol");
-        plot.plot();
-    }
-    
     JavaPlot plot;
     
     private Plot(JavaPlot plot){
@@ -117,6 +84,14 @@ public class Plot {
     		return this;
     	}
     	
+		public PlotBuilder with(String title, double[] dataset){
+    		double[][] ds = new double[dataset.length][2];
+            for(int i = 0; i < ds.length; i++){
+            	ds[i][0] = i;            	
+            	ds[i][1] = dataset[i];
+            }
+    		return with(title,ds);
+    	}
     	
     	public PlotBuilder with(String title, double[][] dataset){
             DataSetPlot ds = new DataSetPlot(dataset);

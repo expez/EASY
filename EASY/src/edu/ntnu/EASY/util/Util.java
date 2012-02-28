@@ -70,10 +70,16 @@ public class Util {
 	public static double[] readTargetSpikeTrain( String filename ) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(filename));
 		String trainingData = reader.readLine();
-		String[] tokens = trainingData.split("\\s+");
+		String[] tokens = trainingData.trim().split("\\s+");
 		double[] spikeTrain = new double[tokens.length];
-		for (int i = 0; i < tokens.length; i++) {
-			spikeTrain[i] = Double.valueOf(tokens[i]);
+		int i = 0;
+		try{	
+			for (i = 0; i < tokens.length; i++) {
+				spikeTrain[i] = Double.valueOf(tokens[i]);
+			}
+		} catch (Exception e){
+			System.out.printf("Shenanigans! %d [%s]%n",i,tokens[i]);
+			System.exit(1);
 		}
 		return spikeTrain;
 	}

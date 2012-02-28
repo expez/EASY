@@ -43,14 +43,18 @@ public class SigmaScaledSelector<PType> implements ParentSelector<PType> {
 		double fitness;
 		double meanFitness = totalFitness / population.size();
 		double sigmaFitness;
-		double fitnessVariance = Util.getFitnessVariance(population, meanFitness);
+		double fitnessVariance = Math.sqrt(Util.getFitnessVariance(population, meanFitness));
 		
+		if(fitnessVariance == 0){
+			fitnessVariance = 0.00001;
+		}
 		//Put each endpoint into a linked list.
 		for (int adultIndex = 0; adultIndex < population.size(); adultIndex++) {
 			fitness = population.get( adultIndex ).getFitness();
 			sigmaFitness = 1 + ( ( fitness - meanFitness ) / ( 2 * fitnessVariance) ); 
 			intervals[adultIndex] = sigmaFitness + previousEndpoint;
 			previousEndpoint += sigmaFitness;
+			System.out.println(sigmaFitness);
 		}
 		
 		//Normalize the sigma values so the intervals are in the range [0,1]

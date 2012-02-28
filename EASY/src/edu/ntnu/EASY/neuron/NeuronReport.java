@@ -20,35 +20,44 @@ public final class NeuronReport implements Report<double[],double[]>{
 		double average = 0.0;
 		double bestFitness = population.get(0).getFitness();
 		double[] bestGenome = population.get(0).getGenome();
+		double[] bestPhenome = population.get(0).getPhenome();
 		for(Individual<double[], double[]> individual : population){
 			average += individual.getFitness();
 			if(individual.getFitness() > bestFitness){
 				bestFitness = individual.getFitness();
 				bestGenome = individual.getGenome();
-				bestGenome = individual.getPhenome();
+				bestPhenome = individual.getPhenome();
 			}
 		}
-		System.out.printf("%d/%d%n",generation,entries.length);
-		entries[generation] = new Entry(bestGenome,average / population.size());		
+		System.out.printf("%d/%d - %.2f%n",generation,entries.length,bestFitness);
+		entries[generation] = new Entry(bestGenome,bestPhenome,average / population.size());		
 	}
 
 	@Override
 	public void writeToStream(PrintStream out) {
 		for (int i = 1; i < entries.length; i++) {
-			System.out.printf("%4d | %.3f | %s%n",i,entries[i].averageFitness,Arrays.toString(entries[i].bestGenome));
+			out.printf("%4d | %.3f | %s%n",i,entries[i].averageFitness,Arrays.toString(entries[i].bestGenome));
 		}
+	}
+
+	public double[] getBestPhenome() {
+		return entries[entries.length - 1].bestPhenome;
 	}
 	
 	public static class Entry {
 		
 		private double[] bestGenome;
+		private double[] bestPhenome;
 		private double averageFitness;
 		
-		Entry(double[] bestGenome, double averageFitness){
+		Entry(double[] bestGenome,double[] bestPhenome, double averageFitness){
 			this.bestGenome = bestGenome;
+			this.bestPhenome = bestPhenome;
 			this.averageFitness = averageFitness;
 		}
 		
 	}
+
+
 
 }

@@ -39,7 +39,9 @@ public class FitnessProportionateSelector<PType> implements ParentSelector<PType
 		for (Individual<GType, PType> individual : population) {
 			totalFitness += individual.getFitness();
 		}
-		
+		if(totalFitness == 0){
+			totalFitness = 1;
+		}
 		//Sort the input list in ascending order.
 		population.sort();
 		

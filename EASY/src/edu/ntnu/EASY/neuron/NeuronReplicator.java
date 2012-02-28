@@ -41,7 +41,8 @@ public class NeuronReplicator implements Replicator<double[]>{
 	@Override
 	public double[] mutate(double[] genome) {
 		for(int i = 0; i < GENOME_LENGTH; i++){
-			genome[i] += mutationRate > RNG.nextDouble() ? 0.05*RNG.nextGaussian() : 0;
+			double scale = 0.05 * (PARAMETERS[i][MAX] - PARAMETERS[i][MIN]); 
+			genome[i] += mutationRate > RNG.nextDouble() ? scale*RNG.nextGaussian() : 0;
 			genome[i] = Math.max(genome[i],PARAMETERS[i][MIN]);
 			genome[i] = Math.min(genome[i],PARAMETERS[i][MAX]);
 		}
