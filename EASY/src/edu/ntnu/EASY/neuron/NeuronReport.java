@@ -1,4 +1,4 @@
-package edu.ntnu.EASY.neuronModel;
+package edu.ntnu.EASY.neuron;
 
 import java.io.PrintStream;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package edu.ntnu.EASY.neuronModel;
+package edu.ntnu.EASY.neuron;
 
 /**
  * Fitness calculator using the waveform distance metric to calculate fitness. 
