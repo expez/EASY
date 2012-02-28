@@ -16,9 +16,7 @@ public class NeuronIncubator extends AbstractIncubator<double[], double[]> {
 	}
 
 	@Override
-	protected Individual<double[], double[]> makeChild(
-			Individual<double[], double[]> mom,
-			Individual<double[], double[]> dad) {
+	protected Individual<double[], double[]> makeChild(Individual<double[], double[]> mom, Individual<double[], double[]> dad) {
 		double[] childsGenome;
 		childsGenome = replicator.combine(mom.getGenome(), dad.getGenome());
 		childsGenome = replicator.mutate(childsGenome);
