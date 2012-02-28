@@ -28,6 +28,10 @@ public class SpikeTimeFitnessCalculator extends DistanceMetricCalculator{
 		//We have to find the shortest list to iterate over.
 		int shortestListLength= Math.min(spikeList.size(),targetSpikeTimes.length);
 		
+		if(shortestListLength == 0){
+			shortestListLength = 1;
+		}
+		
 		double distance = 0;
 		for (int spikeTime = 1; spikeTime < shortestListLength; spikeTime++) {
 			distance += Math.pow( spikeList.get(spikeTime) - targetSpikeTimes[spikeTime], 2);
