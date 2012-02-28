@@ -40,24 +40,21 @@ public class Neuron {
 	public Neuron(){
 		env = new Environment();
 		env.populationSize = 1000;
-		env.maxGenerations = 5000;
+		env.maxGenerations = 1000;
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.01;
 		env.crossoverRate = 0.01;
-		env.numChildren = 2000;
-		env.numParents = 50;
+		env.numChildren = 1000;
+		env.numParents = 333;
 		env.elitism = 5;
-		env.rank = 10;
 		env.e = 0.3;
+		env.rank = 6;
 	}
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
-		AggreagateFitnessCalculator<double[]> fitCalc = new AggreagateFitnessCalculator<double[]>();
-		fitCalc.addCalculator(new SpikeIntervalFitnessCalculator(target))
-						.addCalculator(new SpikeTimeFitnessCalculator(target))
-						.addCalculator(new WaveformFitnessCalculator(target));
-		AdultSelector<double[]> adultSelector = new Overproduction<double[]>(env.populationSize,env.elitism);
-		ParentSelector<double[]> parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, env.e);
+		FitnessCalculator<double[]> fitCalc = new WaveformFitnessCalculator(target);
+		AdultSelector<double[]> adultSelector = new Overproduction<double[]>(env.populationSize, env.elitism);
+		ParentSelector<double[]> parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, 0.6);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
@@ -70,8 +67,10 @@ public class Neuron {
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
 		double[] target = Util.readTargetSpikeTrain("training/izzy-train2.dat");
-		PrintStream ps = new PrintStream(new FileOutputStream("out.file"));
+		PrintStream ps = new PrintStream(new FileOutputStream("file.out"));
 		NeuronReport neuronReport = neuron.runNeuronEvolution(target); 
+		neuronReport.writeToStream(ps);
+		
 		double[] bestPhenome = neuronReport.getBestPhenome();
 		Plot.newPlot("Neuron")
 			.setAxis("x","ms")
