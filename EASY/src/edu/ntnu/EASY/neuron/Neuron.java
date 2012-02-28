@@ -48,7 +48,7 @@ public class Neuron {
 	}
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
-		FitnessCalculator<double[]> fitCalc = new SpikeIntervalFitnessCalculator(target);
+		FitnessCalculator<double[]> fitCalc = new WaveformFitnessCalculator(target);
 		AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
 		ParentSelector<double[]> parentSelector = new FitnessProportionateSelector<double[]>(env.numParents);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
@@ -62,7 +62,7 @@ public class Neuron {
 	
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
-		double[] target = Util.readTargetSpikeTrain("training/izzy-train1.dat");
+		double[] target = Util.readTargetSpikeTrain("training/izzy-train2.dat");
 		PrintStream ps = new PrintStream(new FileOutputStream("out.file"));
 		double[] bestPhenome = neuron.runNeuronEvolution(target).getBestPhenome();
 		Plot.newPlot("Neuron")
