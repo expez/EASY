@@ -8,9 +8,9 @@ import java.util.List;
  * This distance measure uses the difference between spike times to compare two spiketimes.
  *
  */
-public class NeuronFitnessCalcalculatorSTDM extends AbstractNeuronFitnessCalculator{
+public class SpikeTimeFitnessCalculator extends DistanceMetricCalculator{
 	
-	public NeuronFitnessCalcalculatorSTDM(double[] target) {
+	public SpikeTimeFitnessCalculator(double[] target) {
 		super(target);
 	}
 

@@ -6,7 +6,7 @@ import java.util.List;
 import edu.ntnu.EASY.FitnessCalculator;
 import edu.ntnu.EASY.Population;
 
-public abstract class AbstractNeuronFitnessCalculator implements FitnessCalculator<double[]> {
+public abstract class DistanceMetricCalculator implements FitnessCalculator<double[]> {
 	
 	//A neuron is said to be spiking when it's voltage is above this value.
 	static final int ACTIVATION_THRESHOLD = 0;
@@ -16,7 +16,7 @@ public abstract class AbstractNeuronFitnessCalculator implements FitnessCalculat
 	protected double[] target;
 	protected int[] targetSpikeTimes;
 	
-	public AbstractNeuronFitnessCalculator(double[] target ) {
+	public DistanceMetricCalculator(double[] target ) {
 		this.target = target;
 		List<Integer> spikeList = getSpikeTimes(target);
 		targetSpikeTimes = new int[spikeList.size()];

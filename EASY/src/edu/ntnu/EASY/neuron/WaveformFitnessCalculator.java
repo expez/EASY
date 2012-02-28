@@ -6,9 +6,9 @@ package edu.ntnu.EASY.neuron;
  * points in the spike train.
  *
  */
-public class NeuronFitnessCalculatorWDM extends AbstractNeuronFitnessCalculator {
+public class WaveformFitnessCalculator extends DistanceMetricCalculator {
 
-	public NeuronFitnessCalculatorWDM(double[] target) {
+	public WaveformFitnessCalculator(double[] target) {
 		super(target);
 	}
 

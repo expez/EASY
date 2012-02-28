@@ -6,9 +6,9 @@ import java.util.List;
  * Fitness calculator using the Spike Interval Distance Metric to calculate fitness. 
  * A spike interval is simply the gaps between successive spike times.
  */
-public class NeuronFitnessCalculatorSIDM extends AbstractNeuronFitnessCalculator{
+public class SpikeIntervalFitnessCalculator extends DistanceMetricCalculator{
 
-	public NeuronFitnessCalculatorSIDM(double[] target) {
+	public SpikeIntervalFitnessCalculator(double[] target) {
 		super(target);
 	}
 
