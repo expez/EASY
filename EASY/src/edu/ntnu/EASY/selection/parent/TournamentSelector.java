@@ -49,7 +49,7 @@ public class TournamentSelector<PType> implements ParentSelector<PType>{
 			//sort, descending order
 			tournamentRoster.sort(true);
 			parents.add(tournamentRoster.get(0));
-			adultsCopy.drop(tournamentRoster.get(0));
+			adultsCopy.remove(tournamentRoster.get(0));
 		}
 		return parents;
 	}
