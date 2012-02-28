@@ -43,7 +43,11 @@ public class Plot {
     }
     
 	public void plot(){
-		plot.plot();
+		(new Thread(){
+			public void run(){
+				plot.plot();
+			}
+		}).start();
 	}
 	
 	public void writeToFile(String filename){

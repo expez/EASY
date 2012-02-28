@@ -26,10 +26,6 @@ import edu.ntnu.EASY.FitnessCalculator;
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
-import edu.ntnu.EASY.selection.adult.GenerationalMixing;
-import edu.ntnu.EASY.selection.parent.FitnessProportionateSelector;
-import edu.ntnu.EASY.selection.parent.ParentSelector;
-import edu.ntnu.EASY.selection.parent.StochasticTournamentSelector;
 import edu.ntnu.EASY.selection.parent.TournamentSelector;
 import edu.ntnu.EASY.util.Util;
 import edu.ntnu.plotting.Plot;
@@ -40,7 +36,7 @@ public class Neuron {
 	
 	public Neuron(){
 		env = new Environment();
-		env.populationSize = 100;
+		env.populationSize = 1000;
 		env.maxGenerations = 10000;
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.01;
@@ -52,9 +48,9 @@ public class Neuron {
 	}
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
-		FitnessCalculator<double[]> fitCalc = new WaveformFitnessCalculator(target);
-		AdultSelector<double[]> adultSelector = new GenerationalMixing<double[]>(env.elitism);
-		ParentSelector<double[]> parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, 0.6);
+		FitnessCalculator<double[]> fitCalc = new SpikeIntervalFitnessCalculator(target);
+		AdultSelector<double[]> adultSelector = new Overproduction<double[]>(env.populationSize);
+		ParentSelector<double[]> parentSelector = new TournamentSelector<double[]>(env.rank, env.numParents);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
@@ -67,12 +63,28 @@ public class Neuron {
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
 		double[] target = Util.readTargetSpikeTrain("training/izzy-train2.dat");
+<<<<<<< HEAD
 		double[] bestPhenome = neuron.runNeuronEvolution(target).getBestPhenome();
+=======
+		PrintStream ps = new PrintStream(new FileOutputStream("out.file"));
+		NeuronReport neuronReport = neuron.runNeuronEvolution(target); 
+		double[] bestPhenome = neuronReport.getBestPhenome();
+>>>>>>> branch 'master' of git@github.com:Expez/EASY
 		Plot.newPlot("Neuron")
 			.setAxis("x","ms")
 			.setAxis("y","activation")
 			.with("bestPhenome",bestPhenome)
 			.with("target",target)
+			.make().plot();
+		
+		double[] averageFitness = neuronReport.getAverageFitness();
+		double[] bestFitness = neuronReport.getBestFitness();
+
+		Plot.newPlot("Fitness")
+			.setAxis("x","generation")
+			.setAxis("y","fitness")
+			.with("average",averageFitness)
+			.with("best",bestFitness)
 			.make().plot();
 	}
 }
