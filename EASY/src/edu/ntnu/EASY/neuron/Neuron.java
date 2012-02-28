@@ -28,6 +28,8 @@ import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
 import edu.ntnu.EASY.selection.parent.FitnessProportionateSelector;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
+import edu.ntnu.EASY.selection.parent.StochasticTournamentSelector;
+import edu.ntnu.EASY.selection.parent.TournamentSelector;
 import edu.ntnu.EASY.util.Util;
 import edu.ntnu.plotting.Plot;
 
@@ -38,19 +40,20 @@ public class Neuron {
 	public Neuron(){
 		env = new Environment();
 		env.populationSize = 100;
-		env.maxGenerations = 10000;
+		env.maxGenerations = 1000;
 		env.fitnessThreshold = 2.0;
-		env.mutationRate = 0.05;
+		env.mutationRate = 0.01;
 		env.crossoverRate = 0.01;
 		env.numChildren = 100;
 		env.numParents = 20;
-		env.elitism = 3;
+		env.elitism = 5;
+		env.rank = 5;
 	}
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
-		FitnessCalculator<double[]> fitCalc = new SpikeIntervalFitnessCalculator(target);
+		FitnessCalculator<double[]> fitCalc = new WaveformFitnessCalculator(target);
 		AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
-		ParentSelector<double[]> parentSelector = new FitnessProportionateSelector<double[]>(env.numParents);
+		ParentSelector<double[]> parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, 0.3);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 

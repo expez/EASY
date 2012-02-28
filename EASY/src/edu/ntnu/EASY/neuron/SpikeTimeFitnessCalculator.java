@@ -17,13 +17,9 @@ public class SpikeTimeFitnessCalculator extends DistanceMetricCalculator{
 	@Override
 	public double calculate(double[] phenome) {
 		List<Integer> spikeTimes = getSpikeTimes(phenome);
-		double distance = calculateDistance(spikeTimes, targetSpikeTimes);
-<<<<<<< HEAD
-		distance += calculatePenalty(spikeTimes.size(), phenome.length); 
-=======
-		distance -= calculatePenalty(spikeTimes.size(), phenome.length); 
->>>>>>> branch 'master' of git@github.com:Expez/EASY
-		return 1 / (1 + distance);		
+		double delta = calculateDistance(spikeTimes, targetSpikeTimes);
+		delta -= calculatePenalty(spikeTimes.size(), phenome.length); 
+		return 1 / (1 + delta);		
 	}
 	
 	private double calculateDistance(List<Integer> spikeList, int[] targetSpikeTimes) {
@@ -31,19 +27,10 @@ public class SpikeTimeFitnessCalculator extends DistanceMetricCalculator{
 		//We have to find the shortest list to iterate over.
 		int shortestListLength= Math.min(spikeList.size(),targetSpikeTimes.length);
 		
-		if(shortestListLength == 0)
-			shortestListLength = 1;
-		
-		double distance = 0;
-		for (int spikeTime = 1; spikeTime < shortestListLength; spikeTime++) {
-			distance += Math.pow( spikeList.get(spikeTime) - targetSpikeTimes[spikeTime], 2);
+		double sum = 0;
+		for (int spikeTime = 0; spikeTime < shortestListLength; spikeTime++) {
+			sum += Math.pow( spikeList.get(spikeTime) + targetSpikeTimes[spikeTime], 2);
 		}
-		distance = Math.sqrt(distance) / shortestListLength;
-		
-<<<<<<< HEAD
-		return distance;
-=======
-		return 1 / (1 + distance);
->>>>>>> branch 'master' of git@github.com:Expez/EASY
+		return Math.sqrt(sum) / shortestListLength;
 	}
 }

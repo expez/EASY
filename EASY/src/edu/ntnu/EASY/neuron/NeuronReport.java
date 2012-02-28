@@ -29,7 +29,7 @@ public final class NeuronReport implements Report<double[],double[]>{
 				bestPhenome = individual.getPhenome();
 			}
 		}
-		System.out.printf("%d/%d - %.2f%n",generation,entries.length,bestFitness);
+		System.out.printf("%d/%d - %.4f%n",generation,entries.length,bestFitness);
 		entries[generation] = new Entry(bestGenome,bestPhenome,average / population.size());		
 	}
 
