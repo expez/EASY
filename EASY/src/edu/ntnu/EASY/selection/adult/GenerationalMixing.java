@@ -17,27 +17,31 @@ You should have received a copy of the GNU General Public License
 package edu.ntnu.EASY.selection.adult;
 
 import edu.ntnu.EASY.Population;
-import edu.ntnu.EASY.individual.Individual;
 
 public class GenerationalMixing<PType> implements AdultSelector<PType> {
 
 	private int numAdults;
 	private int maxAge;
+	private int elitism;
 	
-	public GenerationalMixing(int numAdults, int maxAge){
+	public GenerationalMixing(int numAdults, int maxAge, int elitism){
 		this.numAdults = numAdults;
 		this.maxAge = maxAge;
+		this.elitism = elitism;
 	}
 
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults,	Population<GType, PType> children) {
 		int i = 0;
+		adults.sort(true);
+		Population<GType, PType> elites = new Population<GType, PType>(adults.getSubset(elitism));
 		while(i < adults.size()) {
 			if(maxAge <= adults.get(i).getAge())
 				adults.remove(i);
 			else
 				i++;
 		}
+		adults.addAll(elites);
 		adults.addAll(children);
 		adults.updateFitness();
 		adults.sort();

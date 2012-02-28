@@ -55,7 +55,7 @@ public class Neuron {
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
 		FitnessCalculator<double[]> fitCalc = new SpikeIntervalFitnessCalculator(target);
-		AdultSelector<double[]> adultSelector = new GenerationalMixing<double[]>(env.populationSize, env.maxAge);
+		AdultSelector<double[]> adultSelector = new GenerationalMixing<double[]>(env.populationSize, env.maxAge, env.elitism);
 		ParentSelector<double[]> parentSelector = new TournamentSelector<double[]>(env.rank, env.numParents);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
