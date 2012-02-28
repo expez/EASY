@@ -66,7 +66,7 @@ public class Neuron {
 	
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
-		double[] target = Util.readTargetSpikeTrain("training/izzy-train1.dat");
+		double[] target = Util.readTargetSpikeTrain("training/izzy-train2.dat");
 		PrintStream ps = new PrintStream(new FileOutputStream("out.file"));
 		double[] bestPhenome = neuron.runNeuronEvolution(target).getBestPhenome();
 		Plot.newPlot("Neuron")

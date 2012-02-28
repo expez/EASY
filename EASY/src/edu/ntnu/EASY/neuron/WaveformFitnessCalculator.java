@@ -21,7 +21,7 @@ public class WaveformFitnessCalculator extends DistanceMetricCalculator {
 			delta += Math.pow(phenome[i] - target[i], 2);
 		}
 		//Normalize
-		delta = Math.sqrt(delta);
+		delta = Math.sqrt(delta) / phenome.length;
 		// Turn into fitness value in interval [0,1].
 		return 1 / (1 + delta);
 	}
