@@ -50,7 +50,6 @@ public final class NeuronReport implements Report<double[],double[]>{
 		for(int i = 1; i < tab.length; i++){
 			tab[i] = entries[i].averageFitness;
 		}
-		System.out.println("average leave");
 		return tab;
 	}
 
@@ -59,7 +58,6 @@ public final class NeuronReport implements Report<double[],double[]>{
 		for(int i = 1; i < tab.length; i++){
 			tab[i] = entries[i].bestFitness;
 		}
-		System.out.println("best leave");
 		return tab;
 	}
 	

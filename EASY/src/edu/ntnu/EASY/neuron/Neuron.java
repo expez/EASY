@@ -25,6 +25,7 @@ import edu.ntnu.EASY.Evolution;
 import edu.ntnu.EASY.FitnessCalculator;
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
+import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
 import edu.ntnu.EASY.selection.adult.Overproduction;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
 import edu.ntnu.EASY.selection.parent.StochasticTournamentSelector;
@@ -39,11 +40,11 @@ public class Neuron {
 	public Neuron(){
 		env = new Environment();
 		env.populationSize = 1000;
-		env.maxGenerations = 10000;
+		env.maxGenerations = 5000;
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.01;
 		env.crossoverRate = 0.01;
-		env.numChildren = 5000;
+		env.numChildren = 2000;
 		env.numParents = 50;
 		env.elitism = 5;
 		env.rank = 10;
@@ -51,8 +52,11 @@ public class Neuron {
 	}
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
-		FitnessCalculator<double[]> fitCalc = new SpikeIntervalFitnessCalculator(target);
-		AdultSelector<double[]> adultSelector = new Overproduction<double[]>(env.populationSize, env.elitism);
+		AggreagateFitnessCalculator<double[]> fitCalc = new AggreagateFitnessCalculator<double[]>();
+		fitCalc.addCalculator(new SpikeIntervalFitnessCalculator(target))
+						.addCalculator(new SpikeTimeFitnessCalculator(target))
+						.addCalculator(new WaveformFitnessCalculator(target));
+		AdultSelector<double[]> adultSelector = new Overproduction<double[]>(env.populationSize,env.elitism);
 		ParentSelector<double[]> parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, env.e);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);

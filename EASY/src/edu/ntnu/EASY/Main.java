@@ -133,7 +133,7 @@ public class Main {
 		} else if (adultSelect.equalsIgnoreCase("GenerationalMixing")){
 			adultSelector = new GenerationalMixing<int[]>(env.numAdults);
 		} else if (adultSelect.equalsIgnoreCase("Overproduction")){
-			adultSelector = new Overproduction<int[]>(env.numAdults);
+			adultSelector = new Overproduction<int[]>(env.numAdults,env.elitism);
 		} else {
 			System.out.printf("No such parent selector: %s%n",adultSelect);
 			hf.printHelp(USAGE,options);

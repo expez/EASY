@@ -29,4 +29,5 @@ public class Environment {
 	public int numAdults;
 	public int rank;
 	public int tournamentSize;
+	public double e;
 }
