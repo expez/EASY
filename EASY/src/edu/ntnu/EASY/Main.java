@@ -16,8 +16,10 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import org.apache.commons.cli.BasicParser;
@@ -27,13 +29,15 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import java.io.File;
-
 import edu.ntnu.EASY.blotto.Blotto;
 import edu.ntnu.EASY.blotto.BlottoReport;
-import edu.ntnu.EASY.incubator.BitvectorIncubator;
-import edu.ntnu.EASY.incubator.BitvectorReplicator;
 import edu.ntnu.EASY.incubator.Incubator;
+import edu.ntnu.EASY.neuron.NeuronIncubator;
+import edu.ntnu.EASY.neuron.NeuronReplicator;
+import edu.ntnu.EASY.neuron.NeuronReport;
+import edu.ntnu.EASY.neuron.SpikeIntervalFitnessCalculator;
+import edu.ntnu.EASY.neuron.SpikeTimeFitnessCalculator;
+import edu.ntnu.EASY.neuron.WaveformFitnessCalculator;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
 import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
 import edu.ntnu.EASY.selection.adult.GenerationalMixing;
@@ -43,31 +47,46 @@ import edu.ntnu.EASY.selection.parent.FitnessProportionateSelector;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
 import edu.ntnu.EASY.selection.parent.RankSelector;
 import edu.ntnu.EASY.selection.parent.SigmaScaledSelector;
+import edu.ntnu.EASY.selection.parent.StochasticTournamentSelector;
 import edu.ntnu.EASY.selection.parent.TournamentSelector;
+import edu.ntnu.EASY.util.Util;
+import edu.ntnu.plotting.Plot;
 
 public class Main {
 
 	private static final Options options = new Options();
 	private static final String USAGE = "java -jar easy.jar [pgtmckoePA]\n" +
-											"ParentSelectors: Boltzman, FitnessProportionate, Rank, SigmaScaled, Tournament \n" +
-											"AdultSelectors: FullGenerationalReplacement, GenerationalMixing, Overproducion.";
-	
+											"ParentSelectors:\n" +
+											"\t(1) Boltzman (1)\n" +
+											"\t(2) FitnessProportionate\n" +
+											"\t(3) Rank\n" +
+											"\t(3) SigmaScaled\n" +
+											"\t(4) Tournament\n" +
+											"\t(5) StochasticTournament\n\n" +
+											"AdultSelectors:\n" +
+											"\t(1) FullGenerationalReplacement\n" +
+											"\t(2) GenerationalMixing\n" +
+											"\t(3) Overproduction\n\n" +
+											"FitnessCalculators:\n" +
+											"\t(1) SpikeTimeDistanceMetric\n" +
+											"\t(2) SpikeIntervalDistanceMetric\n" +
+											"\t(3) WaveformDistanceMetric\n";
+											
 	static {
 		options.addOption("p","population",true,"The population size of the system")
 				.addOption("g","generations",true,"How many generations to simulate")
-				.addOption("t","threshold",true,"The fitness threshold to stop at")
+				.addOption("t","target",true,"The target spike train")
 				.addOption("m","mutation",true,"The mutation rate of the system.")
 				.addOption("c","crossover",true,"The crossover rate of the system.")
 				.addOption("b","children",true,"Number of children produced every cycle.")
 				.addOption("f","parents",true,"Number of parents selected for mating")
 				.addOption("e","elitsm",true,"How many of the fittest individuals that skip selection")
-				.addOption("l","length",true,"Length of the genome, number of bits")
 				.addOption("P","parent-select",true,"Which parent selection strategy to use.")
 				.addOption("A","adult-select",true,"Which adult selection strategy to use.")
+				.addOption("C","calculator",true,"What fitness calculator to use")
 				.addOption("?",false,"Print help")
 				.addOption("h","help",false,"Print help")
-				.addOption("B","blotto",false,"Run blotto, no other options needed :I")
-				.addOption("o","output-file",true,"Name of the outputfile")
+				.addOption("o","output-files",true,"Prefix for the outputfiles (*-fit.png, *-train.png, *.log)")
 				.addOption("r","rank",true,"The rank used is selection.");
 	}
 	
@@ -89,66 +108,132 @@ public class Main {
     		System.exit(0);
     	}
     	
-    	if(cl.hasOption('B')){
-    		blotto();
-    		System.exit(0);
-    	}
-    	
     	Environment env = new Environment();
     	
-		env.populationSize = Integer.parseInt(cl.getOptionValue('p',"60"));
-		env.maxGenerations = Integer.parseInt(cl.getOptionValue('g',"100"));
-		env.fitnessThreshold = Double.parseDouble(cl.getOptionValue('t',"1.1"));
+		env.populationSize = Integer.parseInt(cl.getOptionValue('p',"200"));
+		env.maxGenerations = Integer.parseInt(cl.getOptionValue('g',"1000"));
+		env.fitnessThreshold = 2.0;
 		env.mutationRate = Double.parseDouble(cl.getOptionValue('m',"0.01"));
 		env.crossoverRate = Double.parseDouble(cl.getOptionValue('c',"0.01"));
-		env.numChildren = Integer.parseInt(cl.getOptionValue('b',"57"));
-		env.numParents = Integer.parseInt(cl.getOptionValue('f',"29"));
+		env.numChildren = Integer.parseInt(cl.getOptionValue('b',"200"));
+		env.numParents = Integer.parseInt(cl.getOptionValue('f',"20"));
 		env.rank = Integer.parseInt(cl.getOptionValue('r',"10"));
 		env.elitism = Integer.parseInt(cl.getOptionValue('e',"3"));
     	
-		int length = Integer.parseInt(cl.getOptionValue('l',"40"));
-		
-		String parentSelect = cl.getOptionValue('P',"FitnessProportionate");
-		ParentSelector<int[]> parentSelector = null;
-		if(parentSelect.equalsIgnoreCase("Boltzman")){
-			parentSelector = new BoltzmanSelector<int[]>(env.numParents);
-		} else if(parentSelect.equalsIgnoreCase("FitnessProportionate")){
-			parentSelector = new FitnessProportionateSelector<int[]>(env.numParents);
-		} else if(parentSelect.equalsIgnoreCase("Rank")){
-			parentSelector = new RankSelector<int[]>(env.rank);
-		} else if(parentSelect.equalsIgnoreCase("SigmaScaled")){
-			parentSelector = new SigmaScaledSelector<int[]>(env.numParents);
-		} else if(parentSelect.equalsIgnoreCase("Tournament")){
-			parentSelector = new TournamentSelector<int[]>(env.rank, env.numParents);
-		} else {
-			System.out.printf("No such parent selector: %s%n",parentSelect);
+		ParentSelector<double[]> parentSelector = null;
+		int parent = Integer.parseInt(cl.getOptionValue('P',"1"));
+		switch(parent){
+		case 1:
+			parentSelector = new BoltzmanSelector<double[]>(env.numParents);
+			break;
+		case 2:
+			parentSelector = new FitnessProportionateSelector<double[]>(env.numParents);
+			break;
+		case 3:
+			parentSelector = new RankSelector<double[]>(env.rank);
+			break;
+		case 4:
+			parentSelector = new SigmaScaledSelector<double[]>(env.numParents);
+			break;
+		case 5:
+			parentSelector = new TournamentSelector<double[]>(env.rank, env.numParents);
+			break;
+		case 6:
+			parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents,0.3);
+			break;
+		default:
+			System.out.printf("No such parent selector: %d%n",parent);
 			hf.printHelp(USAGE,options);
 			System.exit(1);
 		}
 		
-		String adultSelect = cl.getOptionValue('A',"FullGenerationalReplacement");
-		AdultSelector<int[]> adultSelector = null;
-		if(adultSelect.equalsIgnoreCase("FullGenerationalReplacement")){
-			adultSelector = new FullGenerationalReplacement<int[]>(env.elitism);
-		} else if (adultSelect.equalsIgnoreCase("GenerationalMixing")){
-			adultSelector = new GenerationalMixing<int[]>(env.numAdults, env.maxAge);
-		} else if (adultSelect.equalsIgnoreCase("Overproduction")){
-			adultSelector = new Overproduction<int[]>(env.numAdults,env.elitism);
-		} else {
-			System.out.printf("No such parent selector: %s%n",adultSelect);
+<<<<<<< HEAD
+		AdultSelector<double[]> adultSelector = null;
+		int adult = Integer.parseInt(cl.getOptionValue('A',"1"));
+		switch(adult){
+		case 1:
+			adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
+			break;
+		case 2:
+			adultSelector = new GenerationalMixing<double[]>(env.numAdults);
+			break;
+		case 3:
+			adultSelector = new Overproduction<double[]>(env.numAdults,env.elitism);
+			break;
+		default:
+			System.out.printf("No such adult selector: %d%n",adult);
+			hf.printHelp(USAGE,options);
+			System.exit(1);
+		}
+
+		String targetFile = cl.getOptionValue('t',"target.dat");
+			
+		double[] target = null;
+		try {
+			target = Util.readTargetSpikeTrain(targetFile);
+		} catch (IOException e) {
+			System.out.printf("Couldn't read target file: %s%n",targetFile);
+			hf.printHelp(USAGE,options);
+			System.exit(1);
+		}
+
+		FitnessCalculator<double[]> fitCalc = null;
+		int calc = Integer.parseInt(cl.getOptionValue('C',"1"));
+		switch(calc){
+		case 1:
+			fitCalc = new SpikeTimeFitnessCalculator(target);
+			break;
+		case 2:
+			fitCalc = new SpikeIntervalFitnessCalculator(target);
+			break;
+		case 3:
+			fitCalc = new WaveformFitnessCalculator(target);
+			break;
+		default:
+			System.out.printf("No such fitness calculator: %d%n",calc);
 			hf.printHelp(USAGE,options);
 			System.exit(1);
 		}
 		
-		FitnessCalculator<int[]> fitCalc = IntegerArrayFitnessCalculators.ONE_MAX_FITNESS;
+		String output = cl.getOptionValue('o',"neuron");
 		
-		Incubator<int[],int[]> incubator = new BitvectorIncubator(new BitvectorReplicator(length, env.mutationRate,env.crossoverRate), env.numChildren);	
-		Evolution<int[],int[]> evo = new Evolution<int[], int[]>(fitCalc, adultSelector, parentSelector, incubator);
+		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		
-		String filename = cl.getOptionValue('o',"one-max.plot");
+		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
+
 		
-		Report<int[],int[]> report = new BasicReport(filename);
+		NeuronReport report = new NeuronReport(env.maxGenerations);
 		evo.runEvolution(env, report);
+		
+		try {
+			PrintStream ps = new PrintStream(new FileOutputStream(output + ".log"));
+			report.writeToStream(ps);
+		} catch (FileNotFoundException e) {
+			System.out.printf("Could not write to %s.log%n",output);
+		}
+		
+		double[] bestPhenome = report.getBestPhenome();
+		Plot train = Plot.newPlot("Neuron")
+			.setAxis("x","ms")
+			.setAxis("y","activation")
+			.with("bestPhenome",bestPhenome)
+			.with("target",target)
+			.make();
+		
+		double[] averageFitness = report.getAverageFitness();
+		double[] bestFitness = report.getBestFitness();
+
+		Plot fitness = Plot.newPlot("Fitness")
+			.setAxis("x","generation")
+			.setAxis("y","fitness")
+			.with("average",averageFitness)
+			.with("best",bestFitness)
+			.make();
+		
+		train.plot();
+		fitness.plot();
+		train.writeToFile(output + "-train");
+		fitness.writeToFile(output + "-fitness");
     }
     
     public static void blotto(){

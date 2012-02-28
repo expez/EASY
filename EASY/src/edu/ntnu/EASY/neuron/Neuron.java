@@ -29,6 +29,7 @@ import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
 import edu.ntnu.EASY.selection.adult.GenerationalMixing;
 import edu.ntnu.EASY.selection.adult.Overproduction;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
+import edu.ntnu.EASY.selection.parent.SigmaScaledSelector;
 import edu.ntnu.EASY.selection.parent.StochasticTournamentSelector;
 import edu.ntnu.EASY.selection.parent.TournamentSelector;
 import edu.ntnu.EASY.util.Util;
@@ -40,7 +41,7 @@ public class Neuron {
 	
 	public Neuron(){
 		env = new Environment();
-		env.populationSize = 1000;
+		env.populationSize = 100;
 		env.maxGenerations = 1000;
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.01;
@@ -67,7 +68,7 @@ public class Neuron {
 	
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
-		double[] target = Util.readTargetSpikeTrain("training/izzy-train1.dat");
+		double[] target = Util.readTargetSpikeTrain("training/izzy-train3.dat");
 		PrintStream ps = new PrintStream(new FileOutputStream("file.out"));
 		NeuronReport neuronReport = neuron.runNeuronEvolution(target); 
 		neuronReport.writeToStream(ps);
