@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ntnu.EASY.neuronModel.NeuronIndividual;
+import edu.ntnu.EASY.neuron.NeuronIndividual;
 
 public class NeuronIndividualTest {
 

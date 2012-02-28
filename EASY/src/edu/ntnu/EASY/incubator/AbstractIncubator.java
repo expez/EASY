@@ -1,9 +1,7 @@
-package edu.ntnu.EASY.blotto;
+package edu.ntnu.EASY.incubator;
 
 import static edu.ntnu.EASY.util.Util.RNG;
 import edu.ntnu.EASY.Population;
-import edu.ntnu.EASY.incubator.Incubator;
-import edu.ntnu.EASY.incubator.Replicator;
 import edu.ntnu.EASY.individual.Individual;
 
 public abstract class AbstractIncubator<GType, PType> implements Incubator<GType, PType>{

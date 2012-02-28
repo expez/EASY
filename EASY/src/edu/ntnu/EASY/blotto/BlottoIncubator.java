@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
     along with EASY.  If not, see <http://www.gnu.org/licenses/>.*/
 package edu.ntnu.EASY.blotto;
 
+import edu.ntnu.EASY.incubator.AbstractIncubator;
 import edu.ntnu.EASY.incubator.Replicator;
 import edu.ntnu.EASY.individual.Individual;
 

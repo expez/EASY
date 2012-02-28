@@ -1,4 +1,4 @@
-package edu.ntnu.EASY.neuronModel;
+package edu.ntnu.EASY.neuron;
 
 import static edu.ntnu.EASY.util.Util.RNG;
 import edu.ntnu.EASY.incubator.Replicator;
@@ -12,15 +12,15 @@ public class NeuronReplicator implements Replicator<double[]>{
 	 * • d ∈ [0.1, 10]     (genome[3])
 	 * • k ∈ [0.01, 1.0]   (genome[4])
 	 */
+	public static final int A = 0;
+	public static final int B = 1;
+	public static final int C = 2;
+	public static final int D = 3;
+	public static final int K = 4;
+	public static final int MIN = 0;
+	public static final int MAX = 1;
 	
 	private static final int GENOME_LENGTH = 5;
-	private static final int A = 0;
-	private static final int B = 1;
-	private static final int C = 2;
-	private static final int D = 3;
-	private static final int K = 4;
-	private static final int MIN = 0;
-	private static final int MAX = 1;
 	
 	
 	private static final double[][] PARAMETERS = {  /*	   |   MIN ,  MAX  | */
