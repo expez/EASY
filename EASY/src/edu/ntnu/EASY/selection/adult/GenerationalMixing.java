@@ -23,6 +23,9 @@ public class GenerationalMixing<PType> implements AdultSelector<PType> {
 	private int numAdults;
 
 	
+	/**
+	 * @param numAdults
+	 */
 	public GenerationalMixing(int numAdults){
 		this.numAdults = numAdults;
 	}

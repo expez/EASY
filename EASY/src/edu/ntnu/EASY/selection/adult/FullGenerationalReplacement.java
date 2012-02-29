@@ -25,16 +25,6 @@ public class FullGenerationalReplacement<PType> implements AdultSelector<PType> 
 
     }
 
-	/**
-     Returns the combination of childrens and adults who may enter the
-     next generation.
-
-     @param Adults the adults from the previous generation.
-
-     @param Children the children created during the last generation.
-     
-     @Return A population of individuals fit to enter the next generation.
-     */
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults, Population<GType, PType> children) {
 		return children;
