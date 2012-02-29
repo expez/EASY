@@ -49,7 +49,7 @@ public class TournamentSelector<PType> implements ParentSelector<PType>{
 			tournamentRoster.clear();
 			adultsCopy.shuffle();
 			//Add rank individuals to tournamentRoster.
-			tournamentRoster.addAll(adultsCopy.getSubset(rank));
+			tournamentRoster.addAll(adultsCopy.copySubset(rank));
 			//sort, descending order
 			tournamentRoster.sort(true);
 			parents.add(tournamentRoster.get(0));

@@ -147,7 +147,6 @@ public class Main {
 			System.exit(1);
 		}
 		
-<<<<<<< HEAD
 		AdultSelector<double[]> adultSelector = null;
 		int adult = Integer.parseInt(cl.getOptionValue('A',"1"));
 		switch(adult){
@@ -155,7 +154,7 @@ public class Main {
 			adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
 			break;
 		case 2:
-			adultSelector = new GenerationalMixing<double[]>(env.numAdults);
+			adultSelector = new GenerationalMixing<double[]>(env.numAdults, 10, env.elitism);
 			break;
 		case 3:
 			adultSelector = new Overproduction<double[]>(env.numAdults,env.elitism);
