@@ -21,13 +21,10 @@ import edu.ntnu.EASY.Population;
 public class GenerationalMixing<PType> implements AdultSelector<PType> {
 
 	private int numAdults;
-	private int maxAge;
-	private int elitism;
+
 	
 	public GenerationalMixing(int numAdults, int maxAge, int elitism){
 		this.numAdults = numAdults;
-		this.maxAge = maxAge;
-		this.elitism = elitism;
 	}
 
 	@Override
