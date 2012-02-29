@@ -23,6 +23,10 @@ public class TournamentSelector<PType> implements ParentSelector<PType>{
 	private int rank;
 	private int numParents;
 
+	/**
+	 * @param rank
+	 * @param numParents
+	 */
 	public TournamentSelector(int rank, int numParents) {
 		this.rank = rank;
 		this.numParents = numParents;

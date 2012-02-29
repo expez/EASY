@@ -43,16 +43,17 @@ public class Neuron {
 	public Neuron(){
 		env = new Environment();
 		env.populationSize = 500;
-		env.maxGenerations = 2000;
+		env.maxGenerations = 1000;
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.01;
 		env.crossoverRate = 0.01;
-		env.numChildren = 250;
-		env.numParents = 125;
+		env.numChildren = 1000;
+		env.numParents = 250;
 		env.elitism = 1;
 		env.e = 0.6;
-		env.rank = 8;
-		env.maxAge = 50;
+		env.rank = 5;
+		env.maxAge = 100;
+		env.numAdults = 200;
 	}
 	
 	private FitnessCalculator<double[]> fitCalc;
@@ -61,8 +62,8 @@ public class Neuron {
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
 
-		fitCalc = new SpikeIntervalFitnessCalculator(target);
-		adultSelector = new FullGenerationalReplacement<double[]>();
+		fitCalc = new WaveformFitnessCalculator(target);
+		adultSelector = new Overproduction<double[]>(env.numAdults);
 		parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, env.e);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
@@ -91,7 +92,7 @@ public class Neuron {
 	
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
-		String train = "training/izzy-train1.dat";
+		String train = "training/izzy-train4.dat";
 		String dir = String.format("runs/%d",System.currentTimeMillis());
 		double[] target = Util.readTargetSpikeTrain(train);
 		new File(dir).mkdirs();

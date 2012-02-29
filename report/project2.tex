@@ -1,5 +1,6 @@
 \documentclass[a4paper]{article}
 \usepackage{amsmath}
+\usepackage{graphicx}
 \begin{titlepage}
   \title{Report project 2 IT3708}
   \author{Lars Andersen \\
@@ -44,9 +45,9 @@ Otherwise, we've made quite a few bugfixes as well. These bugs weren't apparent 
 
 We're using the same type of genotype as we used to solve the Blotto problem: a vector of doubles. In this case the vector has a length of 5 and contains all the parameters for the Itzhikevich neuron model.
 
-We're using a random sample from a gaussian of mean 0 in order to mutate the values. Because the parameters for the neuron model have different ranges we're scaling the amplitude of the Gaussian distribution to match this. We're also limiting the amplitude of the changes to 5\%. The end result is that each model parameter can change by a factor of 5\%, maximally, per generation.
+We're using a random sample from a gaussian of mean 0 in order to mutate the values. Because the parameters for the neuron model have different ranges we're scaling the amplitude of the Gaussian distribution to match this.
 
-We're using Random.nextGaussian(), from the Java standard library to do this. This function doesn't allow you to set the variance. Being unable to set the variance caused us some problems because values near $\pm$1 are too likely to occur. Our solution to limit the amplitude of the Gaussian is satisfactory, but it would've been prettier if we implemented our own Gaussian and set the variance ourselves.
+We're using Random.nextGaussian(), from the Java standard library to do this. This function doesn't allow you to set the variance. Being unable to set the variance caused us some problems because values above $\pm$1 are too likely to occur. Our solution to limit the amplitude of the Gaussian is satisfactory, but it would've been prettier if we implemented our own Gaussian and set the variance ourselves. At first values outside the range (when the scaled Gaussian returned values above $\pm$1) were mapped to $MAX$ and $MIN$, but we later changed this to simply generate another number. The latter approach is definitely better, and it doesn't happen often enough to limit performance.
 
 \subsection{Fitness functions}
 \label{sec:fitfuncs}
@@ -60,5 +61,169 @@ The different fitness functions are:
 
 \noindent where $F_m$ is the fitness value using distance measure $m$ to produce distance $d_m$. Using \eqref{eq:1} is a natural way to map a distance measure to a fitness value in the interval $[0,1]$. When we're using the spike interval distance measure and spike time distance measure, to calculate distance, we're also applying the recommended penalty, comparing the number of spikes in the two spike trains. This penalty is added to the distance, prior to normalization.
 
+\section{Results}
+\label{sec:results}
 
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{SpikeTime-izzy1-fitness-plot.png}
+  \caption{Fitness Izzy-train1 using Spike time distance measure.}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{SpikeTime-izzy1-trains-plot.png}
+  \caption{Spike trains for izz1 using spike time distance measure.}
+\end{figure}
+
+\newpage
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{SpikeInterval-izzy1-fitness-plot.png}
+  \caption{Fitness Izzy-train1 using spike time interval distance measure.}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{SpikeInterval-izzy1-trains-plot.png}
+  \caption{}
+\end{figure}
+
+\newpage
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Fitness plot for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Spike trains for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Fitness plot for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Spike trains for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Fitness plot for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Spike trains for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Fitness plot for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Spike trains for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Fitness plot for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Spike trains for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Fitness plot for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Spike trains for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Fitness plot for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Spike trains for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Fitness plot for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Spike trains for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Fitness plot for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Spike trains for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Fitness plot for}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[width=\textwidth]{}
+  \caption{Spike trains for}
+\end{figure}
+
+\section{Discussion}
+\label{sec:discussion}
+
+The results we achieved are far from satisfying. The system seems to work, but our diagnosis--which we made rather early on--is that it gets stuck in local maxima in the search space. What we experienced in most of our runs was that the \textit{average} and \textit{max} fitness quickly converge and then never moved. This means a single solution dominated completely and we were unable to leave the local maxima and move on to the global maximum value.We consistently arrived at the same solutions, the parameters were nearly identical, and the plot of the spike trains looked identical.
+
+Our solution was to add \textit{age-based filtering}. That way--we reasoned--we could kill off the stale solutions. We combined this with elitism of course, to make sure we didn't lose the progress we'd made thus far. Our hope was that we would use elitism and the creation of new children for \textit{exploitation} and use age-based filtering, and replacement with random individuals, for \textit{exploration} in order to  overcome our issues with getting stuck in local maxima.
+
+The results were mixed, there was some improvement, but far from what we expected. It definitely looks a bit weird when we plot the average fitness and don't see much improvement, but we've experimented with a \textbf{maxAge} as low as 10. This means that each solution only survives for 10 generations, unless it gets caught by \textit{elitism}, and then replaced by another randomly generated solution.
+
+Our next guess was that perhaps the similar solutions were dominating completely during parent selection. To remedy this we implemented a stochastic version of tournament selection where the probability that the best individual, on the tournament roster, gets picked is $p$, the second best is $p*(1-p)^2$ the third one $p*(1-p)^3$ etc. We used $p = 0.6$ for most of our runs. The effect of this change was also positive, but not monumental.
+
+The use of \textit{age-based filtering} of course only applies when using \textit{generational mixing} as the adult selection mechanism. Even when we used \textit{age-based filtering} and turned off \textit{elitism} were we unable to escape from the local maxima; the children created from this solution were quickly able to reproduce and mutate to recreate the solution we were hoping to discard.
+
+We've been through the entire system--some of it several times--during these last two days, but we've been unable to find any bugs or mistakes which would explain our inability to get a perfect match with the target spike trains. Nonetheless, this constant scrutiny of the systems, and of the evolutionary metaphor used, has been a great learning experience. We've probably learned quite a bit more than if the system just spat out the 12 graphs during the first 150 generations of the first 12 runs.
 \end{document}
