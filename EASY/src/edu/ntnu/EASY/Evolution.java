@@ -68,8 +68,7 @@ public class Evolution<GType, PType> {
 				child.growUp();
 			}
 			//Grab the best individuals before filtering.
-			population.sort(true);
-			Population<GType, PType> elites = new Population<GType, PType>(population.removeSubset(env.elitism));
+			Population<GType, PType> elites = getElites(population, children, env.elitism);
 
 			population = adultSelector.select(population,children);
 			applyAgeFilter(env, population);
@@ -81,7 +80,6 @@ public class Evolution<GType, PType> {
 	private void applyAgeFilter(Environment env, Population<GType, PType> population) {
 		//Check if age based filtering is used.
 		if(0 < env.maxAge) {
-			
 			population.incrementAge();
 			
 			
@@ -102,5 +100,12 @@ public class Evolution<GType, PType> {
 				population.add(incubator.randomIndividual());
 			}
 		}
+	}
+	private Population<GType, PType> getElites(Population<GType, PType> previousGen, Population<GType, PType> children, int elitism) {
+		Population<GType, PType> population = new Population<GType, PType>(previousGen);
+		population.addAll(children);
+		population.sort(true);
+		Population<GType, PType> elites = new Population<GType, PType>(population.removeSubset(elitism));
+		return elites;
 	}
 }
