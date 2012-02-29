@@ -110,12 +110,20 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 	 * @param Size of list to return
 	 * @return Returns a population of the first size individuals from the current population.
 	 */
-	public Population<GType, PType> getSubset(int size) {
+	public Population<GType, PType> copySubset(int size) {
 		Population<GType, PType> copy = copy();
 		while( size < copy.size() ) {
 			copy.individuals.remove(copy.size() - 1 );
 		}
 		return copy;
+	}
+	
+	public Population<GType, PType> removeSubset(int size) {
+		Population<GType, PType> subset = new Population<GType,PType>(fitCalc);
+		while(subset.size() < size) {
+			subset.add(individuals.remove(0));
+		}
+		return subset;
 	}
 	
 	public void updateFitness(){

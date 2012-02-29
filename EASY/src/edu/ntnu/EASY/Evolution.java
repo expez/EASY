@@ -67,8 +67,14 @@ public class Evolution<GType, PType> {
 			for(Individual<GType,PType> child : children){
 				child.growUp();
 			}
+			//Grab the best individuals before filtering.
+			population.sort(true);
+			Population<GType, PType> elites = new Population<GType, PType>(population.removeSubset(env.elitism));
+
 			population = adultSelector.select(population,children);
 			applyAgeFilter(env, population);
+		
+			population.addAll(elites);
 		}
 	}
 	
@@ -79,9 +85,6 @@ public class Evolution<GType, PType> {
 			population.incrementAge();
 			
 			
-			//Grab the best individuals before filtering.
-			population.sort(true);
-			Population<GType, PType> elites = new Population<GType, PType>(population.getSubset(env.elitism));
 			
 			//Kill off those that are too old.
 			int i = 0;
@@ -93,7 +96,6 @@ public class Evolution<GType, PType> {
 					i++;
 			}
 			
-			population.addAll(elites);
 			
 			//Re-populate with random individuals.
 			while(population.size() < env.populationSize) {
