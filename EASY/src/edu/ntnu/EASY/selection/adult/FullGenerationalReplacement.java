@@ -20,32 +20,13 @@ import edu.ntnu.EASY.Population;
 
 public class FullGenerationalReplacement<PType> implements AdultSelector<PType> {
     
-	
-    private int elitism;
     
-    public FullGenerationalReplacement(int elitism){
-    	this.elitism = elitism;
+    public FullGenerationalReplacement(){
+
     }
 
-	/**
-     Returns the combination of childrens and adults who may enter the
-     next generation.
-
-     @param Adults the adults from the previous generation.
-
-     @param Children the children created during the last generation.
-     
-     @Return A population of individuals fit to enter the next generation.
-     */
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults, Population<GType, PType> children) {
-		adults.sort(true);
-		children.updateFitness();
-		children.sort();
-		children.drop(elitism);
-		for(int i = 0; i < elitism; i++){
-			children.add(adults.get(i));
-		}
 		return children;
 	}
 }

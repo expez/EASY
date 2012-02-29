@@ -152,4 +152,8 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 	public void remove(Individual<GType, PType> ind) {
 		individuals.remove(ind);
 	}
+	
+	public boolean contains( Individual<GType, PType> ind) {
+		return individuals.contains(ind);
+	}
 }

@@ -21,11 +21,9 @@ import edu.ntnu.EASY.Population;
 public class Overproduction<PType> implements AdultSelector<PType> {
 
 	private int numAdults;
-	private int elitism;
 	
-	public Overproduction(int numAdults, int elitism) {
+	public Overproduction(int numAdults) {
 		this.numAdults = numAdults;
-		this.elitism = elitism;
 	}
 	
 	/**
@@ -40,11 +38,6 @@ public class Overproduction<PType> implements AdultSelector<PType> {
 		children.updateFitness();
 		children.sort();
 		children.drop(children.size() - numAdults);
-		//sort descending order
-		adults.sort(true);
-		for(int i = 0; i < elitism; i++){
-			children.add(adults.get(i));
-		}
 		return children;
 	}
 }

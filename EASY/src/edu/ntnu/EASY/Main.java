@@ -151,13 +151,13 @@ public class Main {
 		int adult = Integer.parseInt(cl.getOptionValue('A',"1"));
 		switch(adult){
 		case 1:
-			adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
+			adultSelector = new FullGenerationalReplacement<double[]>();
 			break;
 		case 2:
-			adultSelector = new GenerationalMixing<double[]>(env.numAdults, 10, env.elitism);
+			adultSelector = new GenerationalMixing<double[]>(env.numAdults);
 			break;
 		case 3:
-			adultSelector = new Overproduction<double[]>(env.numAdults,env.elitism);
+			adultSelector = new Overproduction<double[]>(env.numAdults);
 			break;
 		default:
 			System.out.printf("No such adult selector: %d%n",adult);

@@ -42,26 +42,28 @@ public class Neuron {
 	
 	public Neuron(){
 		env = new Environment();
-		env.populationSize = 1000;
-		env.maxGenerations = 10000;
+		env.populationSize = 500;
+		env.maxGenerations = 1000;
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.01;
 		env.crossoverRate = 0.01;
-		env.numChildren = 100;
-		env.numParents = 200;
-		env.elitism = 0;
+		env.numChildren = 1000;
+		env.numParents = 250;
+		env.elitism = 1;
 		env.e = 0.6;
-		env.rank = 6;
-		env.maxAge = 10;
+		env.rank = 5;
+		env.maxAge = 100;
+		env.numAdults = 200;
 	}
 	
 	private FitnessCalculator<double[]> fitCalc;
-	AdultSelector<double[]> adultSelector;
-	ParentSelector<double[]> parentSelector;
+	private AdultSelector<double[]> adultSelector;
+	private ParentSelector<double[]> parentSelector;
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
-		fitCalc = new SpikeIntervalFitnessCalculator(target);
-		adultSelector = new GenerationalMixing<double[]>(env.populationSize, env.maxAge, env.elitism);
+
+		fitCalc = new WaveformFitnessCalculator(target);
+		adultSelector = new Overproduction<double[]>(env.numAdults);
 		parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, env.e);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
@@ -90,16 +92,16 @@ public class Neuron {
 	
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
-		String train = "izzy-train4.dat";
+		String train = "training/izzy-train4.dat";
 		String dir = String.format("runs/%d",System.currentTimeMillis());
-		double[] target = Util.readTargetSpikeTrain("training/" + train);
+		double[] target = Util.readTargetSpikeTrain(train);
 		new File(dir).mkdirs();
 		long start = System.currentTimeMillis();
 		NeuronReport neuronReport = neuron.runNeuronEvolution(target); 
 		long stop = System.currentTimeMillis();
 		
 		double[] bestPhenome = neuronReport.getBestPhenome();
-		Plot trains = Plot.newPlot("Trains")
+		Plot trains = Plot.newPlot("Neuron")
 			.setAxis("x","ms")
 			.setAxis("y","activation")
 			.with("bestPhenome",bestPhenome)
