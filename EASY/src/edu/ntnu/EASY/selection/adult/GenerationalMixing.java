@@ -32,16 +32,6 @@ public class GenerationalMixing<PType> implements AdultSelector<PType> {
 
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults,	Population<GType, PType> children) {
-		int i = 0;
-		adults.sort(true);
-		Population<GType, PType> elites = new Population<GType, PType>(adults.getSubset(elitism));
-		while(i < adults.size()) {
-			if(maxAge <= adults.get(i).getAge())
-				adults.remove(i);
-			else
-				i++;
-		}
-		adults.addAll(elites);
 		adults.addAll(children);
 		adults.updateFitness();
 		adults.sort();
