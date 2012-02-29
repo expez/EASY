@@ -106,6 +106,10 @@ public class Population<GType, PType> implements Iterable<Individual<GType, PTyp
 		Collections.shuffle(individuals);
 	}
 
+	/**
+	 * @param Size of list to return
+	 * @return Returns a population of the first size individuals from the current population.
+	 */
 	public Population<GType, PType> getSubset(int size) {
 		Population<GType, PType> copy = copy();
 		while( size < copy.size() ) {
