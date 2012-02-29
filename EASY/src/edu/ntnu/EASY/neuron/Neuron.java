@@ -41,22 +41,22 @@ public class Neuron {
 	
 	public Neuron(){
 		env = new Environment();
-		env.populationSize = 100;
-		env.maxGenerations = 1000;
+		env.populationSize = 500;
+		env.maxGenerations = 2000;
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.01;
 		env.crossoverRate = 0.01;
 		env.numChildren = 100;
-		env.numParents = 100;
+		env.numParents = 50;
 		env.elitism = 1;
 		env.e = 0.6;
-		env.rank = 6;
-		env.maxAge = 10;
+		env.rank = 8;
+		env.maxAge = 50;
 	}
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
 		FitnessCalculator<double[]> fitCalc = new SpikeIntervalFitnessCalculator(target);
-		AdultSelector<double[]> adultSelector = new GenerationalMixing<double[]>(env.populationSize, env.maxAge, env.elitism);
+		AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
 		ParentSelector<double[]> parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, env.e);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
@@ -68,7 +68,7 @@ public class Neuron {
 	
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
-		double[] target = Util.readTargetSpikeTrain("training/izzy-train3.dat");
+		double[] target = Util.readTargetSpikeTrain("training/izzy-train1.dat");
 		PrintStream ps = new PrintStream(new FileOutputStream("file.out"));
 		NeuronReport neuronReport = neuron.runNeuronEvolution(target); 
 		neuronReport.writeToStream(ps);
