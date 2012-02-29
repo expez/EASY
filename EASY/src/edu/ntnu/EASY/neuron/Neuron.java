@@ -43,13 +43,13 @@ public class Neuron {
 	public Neuron(){
 		env = new Environment();
 		env.populationSize = 1000;
-		env.maxGenerations = 1000;
+		env.maxGenerations = 10000;
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.01;
 		env.crossoverRate = 0.01;
-		env.numChildren = 50;
-		env.numParents = 10;
-		env.elitism = 1;
+		env.numChildren = 100;
+		env.numParents = 200;
+		env.elitism = 0;
 		env.e = 0.6;
 		env.rank = 6;
 		env.maxAge = 10;
@@ -90,7 +90,7 @@ public class Neuron {
 	
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
-		String train = "izzy-train1.dat";
+		String train = "izzy-train4.dat";
 		String dir = String.format("runs/%d",System.currentTimeMillis());
 		double[] target = Util.readTargetSpikeTrain("training/" + train);
 		new File(dir).mkdirs();
