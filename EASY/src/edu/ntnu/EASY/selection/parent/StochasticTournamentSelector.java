@@ -36,8 +36,8 @@ public class StochasticTournamentSelector<PType> implements ParentSelector<PType
 		Population<GType, PType> parents = new Population<GType, PType>(adults.getFitnessCalculator());
 		double random;
 		while(parents.size() < numParents) {
-			//If we have used up all adults
 			if(adultsCopy.size() < rank) {
+				//To make sure we don't run out of adults!
 				adultsCopy.addAll(adults);
 			}
 			tournamentRoster.clear();
