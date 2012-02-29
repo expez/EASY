@@ -47,8 +47,8 @@ public class Neuron {
 		env.fitnessThreshold = 2.0;
 		env.mutationRate = 0.01;
 		env.crossoverRate = 0.01;
-		env.numChildren = 100;
-		env.numParents = 50;
+		env.numChildren = 250;
+		env.numParents = 125;
 		env.elitism = 1;
 		env.e = 0.6;
 		env.rank = 8;
@@ -56,14 +56,14 @@ public class Neuron {
 	}
 	
 	private FitnessCalculator<double[]> fitCalc;
-	AdultSelector<double[]> adultSelector;
-	ParentSelector<double[]> parentSelector;
+	private AdultSelector<double[]> adultSelector;
+	private ParentSelector<double[]> parentSelector;
 	
 	public NeuronReport runNeuronEvolution(double[] target) {
 
-		FitnessCalculator<double[]> fitCalc = new SpikeIntervalFitnessCalculator(target);
-		AdultSelector<double[]> adultSelector = new FullGenerationalReplacement<double[]>(env.elitism);
-		ParentSelector<double[]> parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, env.e);
+		fitCalc = new SpikeIntervalFitnessCalculator(target);
+		adultSelector = new FullGenerationalReplacement<double[]>();
+		parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents, env.e);
 		Incubator<double[], double[]> incubator = new NeuronIncubator(new NeuronReplicator(env.mutationRate,env.crossoverRate), env.numChildren);	
 		Evolution<double[],double[]> evo = new Evolution<double[], double[]>(fitCalc, adultSelector, parentSelector, incubator);
 
@@ -91,7 +91,7 @@ public class Neuron {
 	
 	public static void main(String[] args) throws IOException {
 		Neuron neuron = new Neuron();
-		String train = "izzy-train1.dat";
+		String train = "training/izzy-train1.dat";
 		String dir = String.format("runs/%d",System.currentTimeMillis());
 		double[] target = Util.readTargetSpikeTrain(train);
 		new File(dir).mkdirs();

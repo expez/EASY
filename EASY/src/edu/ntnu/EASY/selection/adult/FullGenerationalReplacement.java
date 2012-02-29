@@ -20,11 +20,9 @@ import edu.ntnu.EASY.Population;
 
 public class FullGenerationalReplacement<PType> implements AdultSelector<PType> {
     
-	
-    private int elitism;
     
-    public FullGenerationalReplacement(int elitism){
-    	this.elitism = elitism;
+    public FullGenerationalReplacement(){
+
     }
 
 	/**
@@ -39,13 +37,6 @@ public class FullGenerationalReplacement<PType> implements AdultSelector<PType> 
      */
 	@Override
 	public <GType> Population<GType, PType> select(Population<GType, PType> adults, Population<GType, PType> children) {
-		adults.sort(true);
-		children.updateFitness();
-		children.sort();
-		children.drop(elitism);
-		for(int i = 0; i < elitism; i++){
-			children.add(adults.get(i));
-		}
 		return children;
 	}
 }
