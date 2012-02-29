@@ -42,6 +42,10 @@ public class TournamentSelector<PType> implements ParentSelector<PType>{
 		Population<GType, PType> parents = new Population<GType, PType>(adults.getFitnessCalculator());
 		
 		while(parents.size() < numParents) {
+			if(adultsCopy.size() < rank) {
+				//To make sure we don't run out of adults!
+				adultsCopy.addAll(adults);
+			}
 			tournamentRoster.clear();
 			adultsCopy.shuffle();
 			//Add rank individuals to tournamentRoster.

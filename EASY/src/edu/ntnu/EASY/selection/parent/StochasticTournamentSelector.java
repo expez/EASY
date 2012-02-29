@@ -35,8 +35,11 @@ public class StochasticTournamentSelector<PType> implements ParentSelector<PType
 		Population<GType, PType> tournamentRoster = new Population<GType, PType>(adults.getFitnessCalculator());
 		Population<GType, PType> parents = new Population<GType, PType>(adults.getFitnessCalculator());
 		double random;
-		//TODO: If numParents has to be quite a bit lower than numAdults or this won't work. Add a fix.
 		while(parents.size() < numParents) {
+			//If we have used up all adults
+			if(adultsCopy.size() < rank) {
+				adultsCopy.addAll(adults);
+			}
 			tournamentRoster.clear();
 			adultsCopy.shuffle();
 			//Add rank individuals to tournamentRoster.
