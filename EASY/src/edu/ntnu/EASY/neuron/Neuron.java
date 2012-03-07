@@ -26,13 +26,9 @@ import edu.ntnu.EASY.Evolution;
 import edu.ntnu.EASY.FitnessCalculator;
 import edu.ntnu.EASY.incubator.Incubator;
 import edu.ntnu.EASY.selection.adult.AdultSelector;
-import edu.ntnu.EASY.selection.adult.FullGenerationalReplacement;
-import edu.ntnu.EASY.selection.adult.GenerationalMixing;
 import edu.ntnu.EASY.selection.adult.Overproduction;
 import edu.ntnu.EASY.selection.parent.ParentSelector;
-import edu.ntnu.EASY.selection.parent.SigmaScaledSelector;
 import edu.ntnu.EASY.selection.parent.StochasticTournamentSelector;
-import edu.ntnu.EASY.selection.parent.TournamentSelector;
 import edu.ntnu.EASY.util.Util;
 import edu.ntnu.plotting.Plot;
 

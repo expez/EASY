@@ -57,12 +57,12 @@ public class Main {
 	private static final Options options = new Options();
 	private static final String USAGE = "java -jar easy.jar [pgtmckoePA]\n" +
 											"ParentSelectors:\n" +
-											"\t(1) Boltzman (1)\n" +
-											"\t(2) FitnessProportionate\n" +
-											"\t(3) Rank\n" +
+											"\t(1) FitnessProportionate\n" +
+											"\t(2) Rank\n" +
 											"\t(3) SigmaScaled\n" +
 											"\t(4) Tournament\n" +
 											"\t(5) StochasticTournament\n\n" +
+											"\t(6) Boltzman (Not implemented)\n" +
 											"AdultSelectors:\n" +
 											"\t(1) FullGenerationalReplacement\n" +
 											"\t(2) GenerationalMixing\n" +
@@ -124,22 +124,22 @@ public class Main {
 		int parent = Integer.parseInt(cl.getOptionValue('P',"1"));
 		switch(parent){
 		case 1:
-			parentSelector = new BoltzmanSelector<double[]>(env.numParents);
-			break;
-		case 2:
 			parentSelector = new FitnessProportionateSelector<double[]>(env.numParents);
 			break;
-		case 3:
+		case 2:
 			parentSelector = new RankSelector<double[]>(env.rank);
 			break;
-		case 4:
+		case 3:
 			parentSelector = new SigmaScaledSelector<double[]>(env.numParents);
 			break;
-		case 5:
+		case 4:
 			parentSelector = new TournamentSelector<double[]>(env.rank, env.numParents);
 			break;
-		case 6:
+		case 5:
 			parentSelector = new StochasticTournamentSelector<double[]>(env.rank, env.numParents,0.3);
+			break;
+		case 6:
+			parentSelector = new BoltzmanSelector<double[]>(env.numParents);
 			break;
 		default:
 			System.out.printf("No such parent selector: %d%n",parent);
