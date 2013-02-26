@@ -1,10 +1,1 @@
-EASY is an Evolutionary Algorithm System created for the course IT3708
-at the Norwegian University of Technology and Science, NTNU, in the
-spring of 2012.
-
-This project uses Ivy for dependency management and Ant for build
-management.
-
-To run the project call the "run" target, by issuing the command "Ant
-run".  Some other Ant targets are compile, test, and jar. The "jar" target
-creates a .jar file for the project.
+EASY is an Evolutionary Algorithm System.
